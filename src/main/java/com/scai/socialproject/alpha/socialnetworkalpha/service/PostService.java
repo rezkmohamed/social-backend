@@ -1,0 +1,18 @@
+package com.scai.socialproject.alpha.socialnetworkalpha.service;
+
+import java.util.List;
+
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
+
+public interface PostService {
+	public List<PostDTO> findAllPosts();
+	
+	public PostDTO findPostById(String idPost);
+	
+	public void savePost(Post post);
+	
+	public void updatePost(Post post);
+	
+	public void deletePostById(String idPost);
+}
