@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
 
@@ -72,5 +73,25 @@ public class CrudProfileImpl implements CrudProfile {
 		return profile;
 	}
 
+	@Override
+	public User getUserAuth(String email, String pass) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Profile> query = session
+				.createQuery("from Profile where email=:email AND password=:password");
+		query.setParameter("email", email); query.setParameter("password", pass);
+		Profile profile = query.getSingleResult();
+		if(profile == null) {
+			return null;
+		}
+		User user = DTOutils.profileToUser(profile);
+		
+		return user;
+	}
+
+	
+	
+	
+	
+	
 
 }

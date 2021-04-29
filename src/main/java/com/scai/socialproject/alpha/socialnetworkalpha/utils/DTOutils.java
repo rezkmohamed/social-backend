@@ -8,6 +8,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
@@ -40,6 +41,10 @@ public class DTOutils {
 	public static ProfileDTO profileToDTO(Profile profile) {
 		ProfileDTO ris = DTOFromProfile(profile);
 		return ris;
+	}
+	
+	public static User profileToUser(Profile profile) {
+		return new User(profile.getIdProfile(), profile.getEmail(), profile.getPassword());
 	}
 	
 	//POST UTILS
