@@ -1,5 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.util.List;
+
 public class ProfileDTO {
 	private String id;
 	private String name;
@@ -7,6 +9,7 @@ public class ProfileDTO {
 	private String bio;
 	private String proPic;
 	private String email;
+	private List<PostDTO> posts;
 	
 	public ProfileDTO() {}
 
@@ -68,6 +71,14 @@ public class ProfileDTO {
 		this.email = email;
 	}
 	
+	public List<PostDTO> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<PostDTO> posts) {
+		this.posts = posts;
+	}
+
 	@Override
 	public String toString() {
 		return "ProfileDTO [id=" + id + ", name=" + name + ", nickname=" + nickname + ", bio=" + bio + ", proPic="

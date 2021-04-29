@@ -1,11 +1,18 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.util.List;
+
 public class PostDTO {
-	public String idPost;
-	public String urlImg;
-	public String description;
-	public String date;
-	public String idProfile;
+	private String idPost;
+	private String urlImg;
+	private String description;
+	private String date;
+	private String idProfile;
+	private int commentsCounter;
+	private int likesCounter;
+	private List<CommentDTO> comments;
+	private List<LikeDTO> likes;
+	
 	
 	public PostDTO() {}
 
@@ -56,6 +63,38 @@ public class PostDTO {
 
 	public void setIdProfile(String idProfile) {
 		this.idProfile = idProfile;
+	}
+	
+	public int getCommentsCounter() {
+		return commentsCounter;
+	}
+
+	public void setCommentsCounter(int commentsCounter) {
+		this.commentsCounter = commentsCounter;
+	}
+
+	public int getLikesCounter() {
+		return likesCounter;
+	}
+
+	public void setLikesCounter(int likesCounter) {
+		this.likesCounter = likesCounter;
+	}
+
+	public List<CommentDTO> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentDTO> comments) {
+		this.comments = comments;
+	}
+
+	public List<LikeDTO> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<LikeDTO> likes) {
+		this.likes = likes;
 	}
 
 	@Override

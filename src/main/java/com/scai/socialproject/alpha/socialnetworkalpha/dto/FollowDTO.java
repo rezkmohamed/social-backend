@@ -1,10 +1,10 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
 public class FollowDTO {
-	public String idFollow;
-	public String date;
-	public String idFollower;
-	public String idFollowed;
+	private String idFollow;
+	private String date;
+	private String idFollower;
+	private String idFollowed;
 	
 	public FollowDTO() {}
 

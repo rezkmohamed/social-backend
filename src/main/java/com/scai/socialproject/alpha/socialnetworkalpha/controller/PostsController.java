@@ -2,6 +2,7 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
+import com.scai.socialproject.alpha.socialnetworkalpha.service.CommentService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.LikeService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
 
@@ -20,10 +22,13 @@ import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
 public class PostsController {
 	private PostService postService;
 	private LikeService likeService;
+	private CommentService commentService;
 	
-	public PostsController(PostService postService, LikeService likeService) {
+	@Autowired
+	public PostsController(PostService postService, LikeService likeService, CommentService commentService) {
 		this.postService = postService;
 		this.likeService = likeService;
+		this.commentService = commentService;
 	}
 	
 	//OK!

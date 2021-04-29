@@ -1,10 +1,10 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
 public class LikeDTO {
-	public String idLike;
-	public String date;
-	public String idPost;
-	public String idProfile;
+	private String idLike;
+	private String date;
+	private String idPost;
+	private String idProfile;
 	
 	public LikeDTO() {}
 
