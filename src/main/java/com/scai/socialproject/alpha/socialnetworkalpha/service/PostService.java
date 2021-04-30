@@ -10,6 +10,8 @@ public interface PostService {
 	
 	public PostDTO findPostById(String idPost);
 	
+	public List<PostDTO> findPostsProfilePage(String idProfile);
+	
 	public void savePost(Post post);
 	
 	public void updatePost(Post post);

@@ -8,6 +8,8 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 public interface CrudPost {
 	public List<PostDTO> findAllPosts();
 	
+	public List<PostDTO> findPostsProfilePage(String idProfile);
+	
 	public PostDTO findPostById(String idPost);
 	
 	public void savePost(Post post);

@@ -1,11 +1,14 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.util.List;
+
 public class CommentDTO {
 	private String idComment;
 	private String comment;
 	private String date;
 	private String idPost;
 	private String idProfile;
+	private List<CommentLikeDTO> commentlikes;
 	
 	public CommentDTO() {}
 
@@ -56,6 +59,14 @@ public class CommentDTO {
 
 	public void setIdProfile(String idProfile) {
 		this.idProfile = idProfile;
+	}
+
+	public List<CommentLikeDTO> getCommentlikes() {
+		return commentlikes;
+	}
+
+	public void setCommentlikes(List<CommentLikeDTO> commentlikes) {
+		this.commentlikes = commentlikes;
 	}
 
 	@Override

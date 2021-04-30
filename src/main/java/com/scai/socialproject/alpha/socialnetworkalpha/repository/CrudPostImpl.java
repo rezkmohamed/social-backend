@@ -62,5 +62,25 @@ public class CrudPostImpl implements CrudPost {
 		query.setParameter("idPost", idPost);
 		query.executeUpdate();
 	}
+	
+
+	@Override
+	public List<PostDTO> findPostsProfilePage(String idProfile) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Post> query = session.createQuery("from Post where id_profile=:idProfile");
+		query.setParameter("idProfile", idProfile);
+		List<Post> posts = query.getResultList();
+		List<PostDTO> postsDTO = DTOutils.postToDTO(posts);
+		for(PostDTO postDTO : postsDTO) {
+			Query query2 = session.createQuery("SELECT COUNT(*) FROM Comment WHERE id_post=:idPost");
+			query2.setParameter("idPost", postDTO.getIdPost());
+			postDTO.setCommentsCounter((int) query2.uniqueResult());
+			Query query3 = session.createQuery("SELECT COUNT(*) FROM Like WHERE id_post=:idPost");
+			query3.setParameter("idPost", postDTO.getIdPost());
+			postDTO.setLikesCounter((int)query3.uniqueResult());
+		}
+		
+		return postsDTO;
+	}
 
 }

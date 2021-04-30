@@ -10,6 +10,8 @@ public class ProfileDTO {
 	private String proPic;
 	private String email;
 	private List<PostDTO> posts;
+	private List<FollowDTO> followers;
+	private List<FollowDTO> following;
 	
 	public ProfileDTO() {}
 
@@ -77,6 +79,22 @@ public class ProfileDTO {
 
 	public void setPosts(List<PostDTO> posts) {
 		this.posts = posts;
+	}
+
+	public List<FollowDTO> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<FollowDTO> followers) {
+		this.followers = followers;
+	}
+
+	public List<FollowDTO> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<FollowDTO> following) {
+		this.following = following;
 	}
 
 	@Override

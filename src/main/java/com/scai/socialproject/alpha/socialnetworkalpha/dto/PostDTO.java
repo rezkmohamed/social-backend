@@ -13,7 +13,6 @@ public class PostDTO {
 	private List<CommentDTO> comments;
 	private List<LikeDTO> likes;
 	
-	
 	public PostDTO() {}
 
 	public PostDTO(String idPost, String urlImg, String description, String date, String idProfile) {

@@ -49,4 +49,11 @@ public class PostServiceImpl implements PostService {
 	public void deletePostById(String idPost) {
 		postRepo.deletePostById(idPost);
 	}
+
+
+	@Override
+	@Transactional
+	public List<PostDTO> findPostsProfilePage(String idProfile) {
+		return postRepo.findPostsProfilePage(idProfile);
+	}
 }
