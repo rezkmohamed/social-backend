@@ -42,7 +42,7 @@ public class ProfilesController {
 		return profileService.findAllProfiles();
 	}
 	
-	
+	//OK
 	@GetMapping("/{idProfile}")
 	public ProfileDTO findProfileById(@PathVariable String idProfile) {
 		ProfileDTO profile = profileService.findProfileById(idProfile);

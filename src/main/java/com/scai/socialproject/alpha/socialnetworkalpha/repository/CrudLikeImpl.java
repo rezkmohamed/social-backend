@@ -51,9 +51,9 @@ public class CrudLikeImpl implements CrudLike {
 		Session session = entityManager.unwrap(Session.class);
 		session.save(like);
 	}
-
+	
 	@Override
-	public void addLike(String idPost, String idProfile) {
+	public LikeDTO addLike(String idPost, String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
 		Post post = session.get(Post.class, idPost);
 		Profile profile = session.get(Profile.class, idProfile);
@@ -61,6 +61,7 @@ public class CrudLikeImpl implements CrudLike {
 		newLike.setPost(post); newLike.setProfileLiker(profile);
 		newLike.setDate("31/03/1999");
 		session.save(newLike);
+		return DTOutils.likeToDTO(newLike);
 	}
 
 	@Override
@@ -70,14 +71,29 @@ public class CrudLikeImpl implements CrudLike {
 		query.setParameter("idLike", idLike);
 		query.executeUpdate();		
 	}
-
+	
 	@Override
 	public void deleteLike(String idPost, String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
+		
 		Query query = session
-			.createQuery("delete from Like where id_post=:idPost AND id_profile_liker=:idProfile");
+			.createQuery("delete from Like where id_post=:idPost and id_profile_liker=:idProfile");
 		query.setParameter("idPost", idPost); query.setParameter("idProfile", idProfile);
-		query.executeUpdate();		
+		query.executeUpdate();
+		
+		/*Query<Like> query = session
+				.createQuery("from Like where id_post=:idPost and id_profile_liker=:idProfile");
+		query.setParameter("idPost", idPost);
+		query.setParameter("idProfile", idProfile);
+		Like like = query.uniqueResult();
+		if(like == null) {
+			System.out.println("like not found");
+			return;
+		}
+		System.out.println("like found");
+		String idLike = like.getId();
+		this.deleteLike(idLike);
+		*/
 	}
 
 }

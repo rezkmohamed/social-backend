@@ -12,7 +12,7 @@ public interface LikeService {
 	
 	public void addLike(Like like);
 	
-	public void addLike(String idPost, String idProfile);
+	public LikeDTO addLike(String idPost, String idProfile);
 	
 	public void deleteLike(String idLike);
 	
