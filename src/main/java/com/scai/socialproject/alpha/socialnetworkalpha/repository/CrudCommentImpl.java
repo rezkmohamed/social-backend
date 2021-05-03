@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
 
 @Repository
@@ -28,8 +29,25 @@ public class CrudCommentImpl implements CrudComment{
 		Query<Comment> query = session.createQuery("from Comment");
 		List<Comment> comments = query.getResultList();
 		List<CommentDTO> commentsDTO = DTOutils.commentToDTO(comments);
+		findCommentLikes(session, commentsDTO);
 		
 		return commentsDTO;
+	}
+
+	private void findCommentLikes(Session session, List<CommentDTO> commentsDTO) {
+		for(CommentDTO commentDTO : commentsDTO) {
+			Query<CommentLike> query2 = session
+					.createQuery("from CommentLike where id_comment=:idComment");
+			query2.setParameter("idComment", commentDTO.getIdComment());
+			List<CommentLike> commentLikes = query2.getResultList();
+			if(commentLikes != null) {
+				commentDTO.setCommentLikesCounter(commentLikes.size());
+				commentDTO.setCommentlikes(commentLikes);
+			}
+			else {
+				commentDTO.setCommentLikesCounter(0);
+			}
+		}
 	}
 
 	@Override
@@ -39,6 +57,8 @@ public class CrudCommentImpl implements CrudComment{
 		query.setParameter("idPost", idPost);
 		List<Comment> comments = query.getResultList();
 		List<CommentDTO> commentsDTO = DTOutils.commentToDTO(comments);
+		findCommentLikes(session, commentsDTO);
+
 				
 		return commentsDTO;
 	}

@@ -2,13 +2,17 @@ package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
 import java.util.List;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+
 public class CommentDTO {
 	private String idComment;
 	private String comment;
 	private String date;
 	private String idPost;
 	private String idProfile;
-	private List<CommentLikeDTO> commentlikes;
+	private List<CommentLikeDTO> commentLikes;
+	private int commentLikesCounter;
 	
 	public CommentDTO() {}
 
@@ -61,12 +65,20 @@ public class CommentDTO {
 		this.idProfile = idProfile;
 	}
 
-	public List<CommentLikeDTO> getCommentlikes() {
-		return commentlikes;
+	public List<CommentLikeDTO> getCommentLikes() {
+		return commentLikes;
 	}
 
-	public void setCommentlikes(List<CommentLikeDTO> commentlikes) {
-		this.commentlikes = commentlikes;
+	public void setCommentlikes(List<CommentLike> commentLikes) {
+		this.commentLikes = DTOutils.commentLikeToDTO(commentLikes);
+	}
+
+	public int getCommentLikesCounter() {
+		return commentLikesCounter;
+	}
+
+	public void setCommentLikesCounter(int commentLikesCounter) {
+		this.commentLikesCounter = commentLikesCounter;
 	}
 
 	@Override

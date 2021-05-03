@@ -87,18 +87,14 @@ public class CrudPostImpl implements CrudPost {
 		List<Post> posts = query.getResultList();
 		List<PostDTO> postsDTO = DTOutils.postToDTO(posts);
 		for(PostDTO postDTO : postsDTO) {
-			System.out.println(postDTO);			
-			//FIXME
 			Query<Comment> query2 = session.createQuery("from Comment where id_post=:idPost");
 			query2.setParameter("idPost", postDTO.getIdPost());
 			List<Comment> comments = query2.getResultList();
 			if(comments != null) {
 				postDTO.setCommentsCounter(comments.size());
-				System.out.println("Comments: " + postDTO.getCommentsCounter());
 			}
 			else {
 				postDTO.setCommentsCounter(0);
-				System.out.println("Comments: zero");
 			}
 			
 			Query<Like> query3 = session.createQuery("from Like where id_post=:idPost");

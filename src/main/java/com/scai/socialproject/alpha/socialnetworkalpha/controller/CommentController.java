@@ -18,15 +18,15 @@ public class CommentController {
 	private CommentService commentService;
 	private CommentLikeService commentLikeService;
 	
-	
 	@Autowired
 	public CommentController(CommentService commentService, CommentLikeService commentLikeService) {
 		this.commentService = commentService;
 	}
 	
-	@GetMapping("/{idPost}") // works fine
+	//OK
+	@GetMapping("/{idPost}")
 	public List<CommentDTO> findCommentsForPost(@PathVariable String idPost){
 		return commentService.findAllComments(idPost);
 	}
-		
+	
 }
