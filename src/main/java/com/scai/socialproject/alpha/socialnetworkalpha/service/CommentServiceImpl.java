@@ -33,8 +33,8 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional
-	public void addComment(Comment comment) {
-		commentRepo.addComment(comment);
+	public CommentDTO addComment(CommentDTO commentDTO) {
+		return commentRepo.addComment(commentDTO);
 	}
 
 	@Override

@@ -12,6 +12,8 @@ import org.hibernate.query.Query;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
 
 @Repository
@@ -64,9 +66,20 @@ public class CrudCommentImpl implements CrudComment{
 	}
 	
 	@Override
-	public void addComment(Comment comment) {
+	public CommentDTO addComment(CommentDTO commentDTO) {
 		Session session = entityManager.unwrap(Session.class);
+		Comment comment = new Comment(commentDTO.getComment(), commentDTO.getDate());
+		Query<Post> queryPost = session.createQuery("from Post where id_post=:idPost");
+		queryPost.setParameter("idPost", commentDTO.getIdPost());
+		Post post = queryPost.getSingleResult();
+		comment.setPost(post);
+		Query<Profile> queryProfile = session.createQuery("from Profile where id_profile=:idProfile");
+		queryProfile.setParameter("idProfile", commentDTO.getIdProfile());
+		Profile profile = queryProfile.getSingleResult();
+		comment.setWriter(profile);
 		session.save(comment);
+		
+		return commentDTO;
 	}
 	
 	@Override

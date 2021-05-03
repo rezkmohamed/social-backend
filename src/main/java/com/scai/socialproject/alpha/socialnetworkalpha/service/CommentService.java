@@ -10,7 +10,7 @@ public interface CommentService {
 	
 	public List<CommentDTO> findAllComments(String idPost);
 	
-	public void addComment(Comment comment);
+	public CommentDTO addComment(CommentDTO commentDTO);
 	
 	public void deleteComment(String idPost, String idProfile);
 }
