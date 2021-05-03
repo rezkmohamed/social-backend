@@ -134,6 +134,7 @@ public class DTOutils {
 		List<CommentDTO> ris = new ArrayList<>();
 		for(Comment comment : comments) {
 			CommentDTO tmp = DTOFromComment(comment);
+			ris.add(tmp);
 		}
 		
 		return ris;

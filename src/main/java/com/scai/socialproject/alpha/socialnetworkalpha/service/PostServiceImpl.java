@@ -56,4 +56,11 @@ public class PostServiceImpl implements PostService {
 	public List<PostDTO> findPostsProfilePage(String idProfile) {
 		return postRepo.findPostsProfilePage(idProfile);
 	}
+
+
+	@Override
+	@Transactional
+	public void savePost(PostDTO postDTO) {
+		postRepo.savePost(postDTO);
+	}
 }

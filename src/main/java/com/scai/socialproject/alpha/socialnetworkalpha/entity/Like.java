@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="like")
+@Table(name="likes")
 public class Like {
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -52,7 +52,6 @@ public class Like {
 		this.date = date;
 	}
 
-	@JsonIgnore
 	public Post getPost() {
 		return post;
 	}
@@ -61,7 +60,6 @@ public class Like {
 		this.post = post;
 	}
 
-	@JsonIgnore
 	public Profile getProfileLiker() {
 		return profileLiker;
 	}

@@ -17,6 +17,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.FollowService;
+import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
 
@@ -24,12 +25,15 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
 @RequestMapping("/profiles")
 public class ProfilesController {
 	private ProfileService profileService;
-	private FollowService followService;
+	private PostService postService;
+ 	private FollowService followService;
 	
 	@Autowired
-	public ProfilesController(ProfileService profileService, FollowService followService) {
+	public ProfilesController(ProfileService profileService, FollowService followService,
+							  PostService postService) {
 		this.profileService = profileService;
 		this.followService = followService;
+		this.postService = postService;
 	}
 	
 	//OK!
@@ -38,10 +42,12 @@ public class ProfilesController {
 		return profileService.findAllProfiles();
 	}
 	
-	//OK!
+	
 	@GetMapping("/{idProfile}")
 	public ProfileDTO findProfileById(@PathVariable String idProfile) {
-		return profileService.findProfileById(idProfile);
+		ProfileDTO profile = profileService.findProfileById(idProfile);
+		profile.setPosts(postService.findPostsProfilePage(idProfile));
+		return profile;
 	}
 	
 	@PostMapping("")

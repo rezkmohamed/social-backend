@@ -87,11 +87,6 @@ public class CrudProfileImpl implements CrudProfile {
 		
 		return user;
 	}
-
-	
-	
-	
-	
 	
 
 }

@@ -47,10 +47,13 @@ public class PostsController {
 		return post;
 	}
 	
+	
+	
+	//OK!
 	@PostMapping("")
-	public Post addPost(@RequestBody Post post) {
-		postService.savePost(post);
-		return post;
+	public PostDTO addPost(@RequestBody PostDTO postDTO) {
+		postService.savePost(postDTO);
+		return postDTO;
 	}
 	
 	//OK!
@@ -63,7 +66,5 @@ public class PostsController {
 		}
 		throw new RuntimeException("ERROR - POST WITH ID: " + idPost + " NOT FOUND");
 	}
-	
-	
 	
 }

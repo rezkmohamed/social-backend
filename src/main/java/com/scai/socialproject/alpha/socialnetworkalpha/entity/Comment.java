@@ -7,10 +7,9 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="comment")
+@Table(name="comments", schema = "social_clone")
 public class Comment {
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -30,8 +29,8 @@ public class Comment {
 	private Post post;
 	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
-                        CascadeType.REFRESH, CascadeType.DETACH})
-	@JoinColumn(name="id_profile")
+                        CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
+	@JoinColumn(name="id_writer")
 	private Profile writer;
 	
 	@OneToMany(mappedBy="comment",
@@ -71,7 +70,6 @@ public class Comment {
 		this.date = date;
 	}
 	
-	@JsonIgnore
 	public Post getPost() {
 		return post;
 	}
@@ -80,7 +78,6 @@ public class Comment {
 		this.post = post;
 	}
 	
-	@JsonIgnore
 	public Profile getWriter() {
 		return writer;
 	}
@@ -89,7 +86,6 @@ public class Comment {
 		this.writer = writer;
 	}
 	
-	@JsonIgnore
 	public List<CommentLike> getCommentLikes() {
 		return commentLikes;
 	}

@@ -4,13 +4,17 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.aspectj.weaver.NewParentTypeMunger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
 
 @Repository
@@ -47,6 +51,17 @@ public class CrudPostImpl implements CrudPost {
 		Session session = entityManager.unwrap(Session.class);
 		session.save(post);
 	}
+	
+	@Override
+	public void savePost(PostDTO postDTO) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Profile> query = session.createQuery("from Profile where id_profile=:idProfile");
+		query.setParameter("idProfile", postDTO.getIdProfile());
+		Profile profile = query.getSingleResult();
+		Post post = new Post(postDTO.getUrlImg(), postDTO.getDescription(), postDTO.getDate());
+		post.setProfile(profile);
+		session.save(post);
+	}
 
 	@Override
 	public void updatePost(Post post) {
@@ -72,12 +87,29 @@ public class CrudPostImpl implements CrudPost {
 		List<Post> posts = query.getResultList();
 		List<PostDTO> postsDTO = DTOutils.postToDTO(posts);
 		for(PostDTO postDTO : postsDTO) {
-			Query query2 = session.createQuery("SELECT COUNT(*) FROM Comment WHERE id_post=:idPost");
+			System.out.println(postDTO);			
+			//FIXME
+			Query<Comment> query2 = session.createQuery("from Comment where id_post=:idPost");
 			query2.setParameter("idPost", postDTO.getIdPost());
-			postDTO.setCommentsCounter((int) query2.uniqueResult());
-			Query query3 = session.createQuery("SELECT COUNT(*) FROM Like WHERE id_post=:idPost");
+			List<Comment> comments = query2.getResultList();
+			if(comments != null) {
+				postDTO.setCommentsCounter(comments.size());
+				System.out.println("Comments: " + postDTO.getCommentsCounter());
+			}
+			else {
+				postDTO.setCommentsCounter(0);
+				System.out.println("Comments: zero");
+			}
+			
+			Query<Like> query3 = session.createQuery("from Like where id_post=:idPost");
 			query3.setParameter("idPost", postDTO.getIdPost());
-			postDTO.setLikesCounter((int)query3.uniqueResult());
+			List<Like> likes = query3.getResultList();
+			if(likes != null) {
+				postDTO.setLikesCounter(likes.size());
+			}
+			else {
+				postDTO.setLikesCounter(0);
+			}
 		}
 		
 		return postsDTO;

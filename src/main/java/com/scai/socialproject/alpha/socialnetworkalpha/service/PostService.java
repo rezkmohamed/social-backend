@@ -14,6 +14,8 @@ public interface PostService {
 	
 	public void savePost(Post post);
 	
+	public void savePost(PostDTO postDTO);
+	
 	public void updatePost(Post post);
 	
 	public void deletePostById(String idPost);
