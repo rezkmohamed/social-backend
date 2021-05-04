@@ -39,8 +39,14 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional
-	public void deleteComment(String idPost, String idProfile) {
-		commentRepo.deleteComment(idPost, idProfile);
+	public void deleteComment(String idComment) {
+		commentRepo.deleteComment(idComment);
+	}
+
+	@Override
+	@Transactional
+	public CommentDTO updateComment(CommentDTO commentDTO) {
+		return commentRepo.updateComment(commentDTO);
 	}
 
 }

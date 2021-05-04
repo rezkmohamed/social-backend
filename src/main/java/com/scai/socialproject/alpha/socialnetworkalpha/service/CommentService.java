@@ -12,5 +12,7 @@ public interface CommentService {
 	
 	public CommentDTO addComment(CommentDTO commentDTO);
 	
-	public void deleteComment(String idPost, String idProfile);
+	public CommentDTO updateComment(CommentDTO commentDTO);
+
+	public void deleteComment(String idComment);
 }

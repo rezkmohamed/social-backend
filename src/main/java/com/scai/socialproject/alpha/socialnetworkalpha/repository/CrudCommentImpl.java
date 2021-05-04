@@ -83,13 +83,25 @@ public class CrudCommentImpl implements CrudComment{
 	}
 	
 	@Override
-	public void deleteComment(String idPost, String idProfile) {
+	public void deleteComment(String idComment) {
 		Session session = entityManager.unwrap(Session.class);
 		Query query = session
-				.createQuery("delete from Comment where id_post=:idPost AND id_writer=:idProfile");
-		query.setParameter("idPost", idPost); query.setParameter("idProfile", idProfile);
+				.createQuery("delete from Comment where id_comment=:idComment");
+		query.setParameter("idComment", idComment);
 		query.executeUpdate();		
 		
+	}
+
+	@Override
+	public CommentDTO updateComment(CommentDTO commentDTO) {
+		Session session = entityManager.unwrap(Session.class);
+		Query query = session
+				.createQuery("update Comment set comment = :commentText where id_comment = :idComment");
+		query.setParameter("commentText", commentDTO.getComment());
+		query.setParameter("idComment", commentDTO.getIdComment());
+		query.executeUpdate();
+		
+		return commentDTO;
 	}
 
 	
