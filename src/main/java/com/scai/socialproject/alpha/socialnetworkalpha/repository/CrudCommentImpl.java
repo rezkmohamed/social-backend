@@ -103,7 +103,4 @@ public class CrudCommentImpl implements CrudComment{
 		
 		return commentDTO;
 	}
-
-	
-	
 }

@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Jwts;
 
+@Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class AuthFilter extends OncePerRequestFilter {
 
@@ -26,7 +28,9 @@ public class AuthFilter extends OncePerRequestFilter {
 			return;
 		}
 		
-		if ("/login".equalsIgnoreCase(request.getRequestURI()) || "/register".equalsIgnoreCase(request.getRequestURI()) || "/resetpassword".equalsIgnoreCase(request.getRequestURI())) {
+		if ("/login".equalsIgnoreCase(request.getRequestURI()) ||
+				"/register".equalsIgnoreCase(request.getRequestURI()) ||
+				"/resetpassword".equalsIgnoreCase(request.getRequestURI())) {
 			filterChain.doFilter(request, response);
 			return;
 		}
