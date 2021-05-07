@@ -15,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Jwts;
 
-@Component
+//@Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class AuthFilter extends OncePerRequestFilter {
 

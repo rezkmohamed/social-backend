@@ -63,4 +63,11 @@ public class PostServiceImpl implements PostService {
 	public void savePost(PostDTO postDTO) {
 		postRepo.savePost(postDTO);
 	}
+
+
+	@Override
+	@Transactional
+	public List<PostDTO> getHomepage(String idProfile) {
+		return postRepo.getHomepage(idProfile);
+	}
 }

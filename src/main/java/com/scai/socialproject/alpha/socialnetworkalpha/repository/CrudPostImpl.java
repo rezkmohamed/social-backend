@@ -111,4 +111,22 @@ public class CrudPostImpl implements CrudPost {
 		return postsDTO;
 	}
 
+
+	@Override
+	public List<PostDTO> getHomepage(String idProfile) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Post> query = session.createQuery("from Post where id_profile <> :idProfile");
+		query.setParameter("idProfile", idProfile);
+		List<Post> posts = query.getResultList();
+		List<PostDTO> postsDTO = DTOutils.postToDTO(posts);
+		for(PostDTO postDTO : postsDTO) {
+			Query<Profile> query2 = session.createQuery("from Profile where id_profile = :idProfile");
+			query2.setParameter("idProfile", postDTO.getIdProfile());
+			Profile profile = query2.getSingleResult();
+			postDTO.setProfile(DTOutils.profileToDTO(profile));
+		}
+				
+		return postsDTO;
+	}
+
 }

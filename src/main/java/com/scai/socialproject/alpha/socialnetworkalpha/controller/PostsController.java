@@ -39,6 +39,13 @@ public class PostsController {
 		return postService.findAllPosts();
 	}
 	
+	
+	//OK!
+	@GetMapping("/homepage/{id}")
+	public List<PostDTO> getHomepage(@PathVariable String id){
+		return postService.getHomepage(id);
+	}
+	
 	//OK!
 	@GetMapping("/{idPost}")
 	public PostDTO findPostById(@PathVariable String idPost) {

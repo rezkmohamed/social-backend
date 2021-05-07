@@ -8,6 +8,7 @@ public class PostDTO {
 	private String description;
 	private String date;
 	private String idProfile;
+	private ProfileDTO profile;
 	private int commentsCounter;
 	private int likesCounter;
 	private List<CommentDTO> comments;
@@ -94,6 +95,14 @@ public class PostDTO {
 
 	public void setLikes(List<LikeDTO> likes) {
 		this.likes = likes;
+	}
+	
+	public ProfileDTO getProfile() {
+		return profile;
+	}
+
+	public void setProfile(ProfileDTO profile) {
+		this.profile = profile;
 	}
 
 	@Override

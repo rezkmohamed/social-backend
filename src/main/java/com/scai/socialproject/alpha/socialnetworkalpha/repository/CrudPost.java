@@ -10,6 +10,8 @@ public interface CrudPost {
 	
 	public List<PostDTO> findPostsProfilePage(String idProfile);
 	
+	public List<PostDTO> getHomepage(String idProfile);
+	
 	public PostDTO findPostById(String idPost);
 	
 	public void savePost(Post post);
