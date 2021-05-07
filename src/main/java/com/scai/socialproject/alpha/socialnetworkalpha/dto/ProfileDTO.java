@@ -11,7 +11,9 @@ public class ProfileDTO {
 	private String email;
 	private List<PostDTO> posts;
 	private List<FollowDTO> followers;
+	private int followersCounter;
 	private List<FollowDTO> following;
+	private int followingCounter;
 	
 	public ProfileDTO() {}
 
@@ -95,6 +97,22 @@ public class ProfileDTO {
 
 	public void setFollowing(List<FollowDTO> following) {
 		this.following = following;
+	}
+	
+	public int getFollowersCounter() {
+		return followersCounter;
+	}
+
+	public void setFollowersCounter(int followersCounter) {
+		this.followersCounter = followersCounter;
+	}
+
+	public int getFollowingCounter() {
+		return followingCounter;
+	}
+
+	public void setFollowingCounter(int followingCounter) {
+		this.followingCounter = followingCounter;
 	}
 
 	@Override
