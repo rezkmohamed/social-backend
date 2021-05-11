@@ -11,6 +11,8 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 public interface CrudProfile {
 	public List<ProfileDTO> findAllProfiles();
 	
+	public List<ProfileDTO> findProfilesLikesPost(String idPost);
+	
 	public ProfileDTO findProfileById(String idProfile);
 	
 	public Profile findProfile(String idProfile);

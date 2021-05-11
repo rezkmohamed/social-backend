@@ -13,8 +13,8 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 
-@RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RestController
 public class AuthController {
 	private ProfileService profileService;
 

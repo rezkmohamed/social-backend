@@ -85,4 +85,10 @@ public class ProfileServiceImpl implements ProfileService {
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
+	@Override
+	@Transactional
+	public List<ProfileDTO> findProfilesLikesPost(String idPost) {	
+		return profileRepo.findProfilesLikesPost(idPost);
+	}
+
 }

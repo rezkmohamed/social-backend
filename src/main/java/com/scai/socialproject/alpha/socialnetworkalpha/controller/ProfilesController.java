@@ -44,6 +44,13 @@ public class ProfilesController {
 		return profileService.findAllProfiles();
 	}
 	
+	
+	//FIXME
+	@GetMapping("/likes/{idPost}")
+	public List<ProfileDTO> findProfilesLikesForPost(@PathVariable String idPost){
+		return profileService.findProfilesLikesPost(idPost);
+	}
+	
 	//OK
 	@GetMapping("/{idProfile}")
 	public ProfileDTO findProfileById(@PathVariable String idProfile) {

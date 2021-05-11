@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.LikeService;
 
