@@ -13,6 +13,10 @@ public interface ProfileService {
 	
 	public List<ProfileDTO> findProfilesLikesPost(String idPost);
 	
+	public List<ProfileDTO> findFollowersProfile(String idProfile);
+	
+	public List<ProfileDTO> findFollowingProfile(String idProfile);
+	
 	public ProfileDTO findProfileById(String idProfile);
 	
 	public Profile findProfile(String idProfile);

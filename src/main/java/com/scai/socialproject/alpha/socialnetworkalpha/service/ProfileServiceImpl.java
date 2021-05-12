@@ -91,4 +91,16 @@ public class ProfileServiceImpl implements ProfileService {
 		return profileRepo.findProfilesLikesPost(idPost);
 	}
 
+	@Override
+	@Transactional
+	public List<ProfileDTO> findFollowersProfile(String idProfile) {
+		return profileRepo.findFollowersProfile(idProfile);
+	}
+
+	@Override
+	@Transactional
+	public List<ProfileDTO> findFollowingProfile(String idProfile) {
+		return profileRepo.findFollowingProfile(idProfile);
+	}
+
 }

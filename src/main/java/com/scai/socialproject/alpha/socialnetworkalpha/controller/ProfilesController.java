@@ -77,6 +77,17 @@ public class ProfilesController {
 		return "SUCCESS - PROFILE DELETED WITH ID: " + idProfile;
 	}
 	
+	@GetMapping("/{idProfile}/followers")
+	public List<ProfileDTO> findFollowersForProfile(@PathVariable("idProfile") String idProfile){
+		return profileService.findFollowersProfile(idProfile);
+	}
+	
+	@GetMapping("/{idProfile}/following")
+	public List<ProfileDTO> findFollowingForProfile(@PathVariable("idProfile") String idProfile){
+		return profileService.findFollowingProfile(idProfile);
+	}
+	
+	/*
 	//OK
 	@GetMapping("/{idProfile}/followers")
 	public List<FollowDTO> findFollowersForProfile(@PathVariable("idProfile") String idProfile){
@@ -88,6 +99,7 @@ public class ProfilesController {
 		return followService.findFollowingForProfile(idProfile);
 	}
 	
+	*/
 	//OK
 	@DeleteMapping("/{idFollower}/unfollow/{idFollowed}")
 	public void deleteFollowByIdFollower(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed) {
