@@ -103,4 +103,10 @@ public class ProfileServiceImpl implements ProfileService {
 		return profileRepo.findFollowingProfile(idProfile);
 	}
 
+	@Override
+	@Transactional
+	public List<ProfileDTO> searchProfilesByName(String profileName) {
+		return profileRepo.searchProfilesByName(profileName);
+	}
+
 }

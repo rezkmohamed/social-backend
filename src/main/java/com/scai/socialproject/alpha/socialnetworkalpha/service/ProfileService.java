@@ -17,6 +17,8 @@ public interface ProfileService {
 	
 	public List<ProfileDTO> findFollowingProfile(String idProfile);
 	
+	public List<ProfileDTO> searchProfilesByName(String profileName);
+	
 	public ProfileDTO findProfileById(String idProfile);
 	
 	public Profile findProfile(String idProfile);

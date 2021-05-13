@@ -174,6 +174,19 @@ public class CrudProfileImpl implements CrudProfile {
 		
 		return responseToListProfiles(rows);
 	}
+
+	@Override
+	public List<ProfileDTO> searchProfilesByName(String profileName) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Profile> query = 
+				session
+				.createQuery("from Profile where nickname like :string");
+		query.setParameter("string", '%'+profileName+'%');
+		List<Profile> profiles = query.getResultList();
+		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);		
+		
+		return profilesDTO;
+	}
 	
 
 }

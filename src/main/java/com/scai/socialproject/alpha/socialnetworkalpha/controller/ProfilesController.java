@@ -44,8 +44,7 @@ public class ProfilesController {
 		return profileService.findAllProfiles();
 	}
 	
-	
-	//FIXME
+	//OK!
 	@GetMapping("/likes/{idPost}")
 	public List<ProfileDTO> findProfilesLikesForPost(@PathVariable String idPost){
 		return profileService.findProfilesLikesPost(idPost);
@@ -85,6 +84,20 @@ public class ProfilesController {
 	@GetMapping("/{idProfile}/following")
 	public List<ProfileDTO> findFollowingForProfile(@PathVariable("idProfile") String idProfile){
 		return profileService.findFollowingProfile(idProfile);
+	}
+	
+	
+	/**
+	 * METHOD TO BE IMPLEMENTED
+	 * @param profileName
+	 * @return
+	 */
+	
+	
+	//FIXME
+	@GetMapping("/search/{profileName}")
+	public List<ProfileDTO> searchProfilesByName(@PathVariable String profileName){
+		return profileService.searchProfilesByName(profileName);
 	}
 	
 	/*
