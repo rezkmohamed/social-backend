@@ -49,8 +49,8 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public void updateProfile(Profile profile) {
-		profileRepo.updateProfile(profile);
+	public void updateProfile(ProfileDTO profileDTO) {
+		profileRepo.updateProfile(profileDTO);
 	}
 
 	@Override

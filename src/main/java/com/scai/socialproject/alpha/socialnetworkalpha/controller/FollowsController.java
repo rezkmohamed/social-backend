@@ -31,5 +31,4 @@ public class FollowsController {
 	public List<FollowDTO> findAllFollowers(){
 		return followService.findAllFollowers();
 	}
-	
 }

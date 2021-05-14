@@ -68,8 +68,12 @@ public class CrudProfileImpl implements CrudProfile {
 	}
 	
 	@Override
-	public void updateProfile(Profile profile) {
+	public void updateProfile(ProfileDTO profileDTO) {
 		Session session = entityManager.unwrap(Session.class);
+		Profile profile = session.get(Profile.class, profileDTO.getId());
+		profile.setName(profileDTO.getName()); profile.setNickname(profileDTO.getNickname());
+		profile.setBio(profileDTO.getBio()); profile.setProPic(profileDTO.getProPic());
+		profile.setEmail(profileDTO.getEmail());
 		session.update(profile);
 	}
 	

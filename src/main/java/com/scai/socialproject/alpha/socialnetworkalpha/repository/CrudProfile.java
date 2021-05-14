@@ -25,7 +25,7 @@ public interface CrudProfile {
 	
 	public void saveProfile(Profile profile);
 	
-	public void updateProfile(Profile profile);
+	public void updateProfile(ProfileDTO profileDTO);
 	
 	public void deleteProfileById(String idProfile);
 	
