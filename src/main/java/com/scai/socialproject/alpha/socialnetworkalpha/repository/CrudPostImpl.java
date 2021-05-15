@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
@@ -42,6 +43,9 @@ public class CrudPostImpl implements CrudPost {
 		Session session = entityManager.unwrap(Session.class);
 		Post post = session.get(Post.class, idPost);
 		PostDTO postDTO = DTOutils.postToDTO(post);
+		Profile profile = session.get(Profile.class, postDTO.getIdProfile());
+		ProfileDTO profileDTO = DTOutils.profileToDTO(profile);
+		postDTO.setProfile(profileDTO);
 		
 		return postDTO;
 	}
