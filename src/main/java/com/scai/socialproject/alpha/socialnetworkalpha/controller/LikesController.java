@@ -39,6 +39,11 @@ public class LikesController {
 		return likeService.findLikesForPost(idPost);
 	}
 	
+	@GetMapping("/{idProfile}/{idPost}")
+	public LikeDTO getLike(@PathVariable String idProfile, @PathVariable String idPost) {
+		return likeService.getLikeByLikerAndPost(idProfile, idPost);
+	}
+	
 	@PostMapping("")
 	public Like addLike(Like like) {
 		likeService.addLike(like);

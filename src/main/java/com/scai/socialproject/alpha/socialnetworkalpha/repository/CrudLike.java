@@ -10,6 +10,8 @@ public interface CrudLike {
 	
 	public List<LikeDTO> findLikesForPost(String idPost);
 	
+	public LikeDTO getLikeByLikerAndPost(String idProfile, String idPost);
+	
 	public void addLike(Like like);
 	
 	public LikeDTO addLike(String idPost, String idProfile);

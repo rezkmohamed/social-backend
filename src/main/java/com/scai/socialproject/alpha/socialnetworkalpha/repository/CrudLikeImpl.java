@@ -81,19 +81,22 @@ public class CrudLikeImpl implements CrudLike {
 		query.setParameter("idPost", idPost); query.setParameter("idProfile", idProfile);
 		query.executeUpdate();
 		
-		/*Query<Like> query = session
-				.createQuery("from Like where id_post=:idPost and id_profile_liker=:idProfile");
-		query.setParameter("idPost", idPost);
-		query.setParameter("idProfile", idProfile);
-		Like like = query.uniqueResult();
+	}
+
+	@Override
+	public LikeDTO getLikeByLikerAndPost(String idProfile, String idPost) {
+		Session session = entityManager.unwrap(Session.class);
+		
+		Query<Like> query = session
+				.createQuery("from Like where id_profile_liker = :idProfile AND id_post = :idPost");
+		query.setParameter("idProfile", idProfile); query.setParameter("idPost", idPost);
+		Like like = query.getSingleResult();
 		if(like == null) {
-			System.out.println("like not found");
-			return;
+			return null;
 		}
-		System.out.println("like found");
-		String idLike = like.getId();
-		this.deleteLike(idLike);
-		*/
+		LikeDTO likeDTO = DTOutils.likeToDTO(like);
+		
+		return likeDTO;
 	}
 
 }

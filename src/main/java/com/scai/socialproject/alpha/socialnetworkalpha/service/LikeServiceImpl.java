@@ -56,4 +56,10 @@ public class LikeServiceImpl implements LikeService {
 		likeRepo.deleteLike(idPost, idProfile);
 	}
 
+	@Override
+	@Transactional
+	public LikeDTO getLikeByLikerAndPost(String idProfile, String idPost) {
+		return likeRepo.getLikeByLikerAndPost(idProfile, idPost);
+	}
+
 }
