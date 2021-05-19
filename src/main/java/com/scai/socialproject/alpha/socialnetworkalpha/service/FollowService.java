@@ -20,9 +20,13 @@ public interface FollowService {
 	 */
 	public List<FollowDTO> findFollowingForProfile(String idProfile);
 	
+	public FollowDTO getFollow(String idFollower, String idFollowed);
+	
 	public FollowDTO findFollowById(String id);
 	
 	public void saveFollow(Follow follow);
+	
+	public FollowDTO addFollow(String idFollower, String idFollowed);
 	
 	public void deleteFollowById(String idFollow);
 	

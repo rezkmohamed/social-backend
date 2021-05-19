@@ -61,4 +61,15 @@ public class FollowServiceImpl implements FollowService {
 		followRepo.deleteFollow(idFollower, idFollowed);
 	}
 
+	@Override
+	@Transactional
+	public FollowDTO addFollow(String idFollower, String idFollowed) {
+		return followRepo.addFollow(idFollower, idFollowed);
+	}
+
+	@Override
+	@Transactional
+	public FollowDTO getFollow(String idFollower, String idFollowed) {
+		return followRepo.getFollow(idFollower, idFollowed);
+	}
 }

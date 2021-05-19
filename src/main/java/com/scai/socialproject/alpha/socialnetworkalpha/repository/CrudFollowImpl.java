@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
 
 import org.hibernate.query.Query;
@@ -88,5 +89,32 @@ public class CrudFollowImpl implements CrudFollow {
 		query.setParameter("idFollower", idFollower).setParameter("idFollowed", idFollowed);
 		query.executeUpdate();
 		}
+
+	@Override
+	public FollowDTO addFollow(String idFollower, String idFollowed) {
+		Session session = entityManager.unwrap(Session.class);
+		Profile follower = session.get(Profile.class, idFollower);
+		Profile followed = session.get(Profile.class, idFollowed);
+		
+		Follow follow = new Follow();
+		follow.setFollower(follower); follow.setFollowed(followed);
+		session.save(follow);
+		
+		return DTOutils.followToDTO(follow);
+	}
+
+	@Override
+	public FollowDTO getFollow(String idFollower, String idFollowed) {
+		Session session = entityManager.unwrap(Session.class);
+		try {
+			Query<Follow> query = session.createQuery("from Follow where id_follower = :idFollower AND id_followed = :idFollowed");
+			Follow follow = query.getSingleResult();
+			return DTOutils.followToDTO(follow);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return null;
+	}
 
 }

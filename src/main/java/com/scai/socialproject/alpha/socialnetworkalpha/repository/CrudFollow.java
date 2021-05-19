@@ -20,11 +20,15 @@ public interface CrudFollow {
 	 */
 	public List<FollowDTO> findFollowingForProfile(String idProfile);
 	
+	public FollowDTO getFollow(String idFollower, String idFollowed);
+	
 	public FollowDTO findFollowById(String id);
 	
 	public void saveFollow(Follow follow);
 	
 	public void deleteFollowById(String idFollow);
+	
+	public FollowDTO addFollow(String idFollower, String idFollowed);
 	
 	public void deleteFollow(String idFollower, String idFollowed);
 }

@@ -111,6 +111,12 @@ public class ProfilesController {
 	}
 	
 	*/
+	
+	@PostMapping("/{idFollower}/follow/{idFollowed}")
+	public FollowDTO addFollow(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed) {
+		return followService.addFollow(idFollower, idFollowed);
+	}
+	
 	//OK
 	@DeleteMapping("/{idFollower}/unfollow/{idFollowed}")
 	public void deleteFollowByIdFollower(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed) {

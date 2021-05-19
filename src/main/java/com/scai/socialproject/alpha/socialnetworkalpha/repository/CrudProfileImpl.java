@@ -37,26 +37,21 @@ public class CrudProfileImpl implements CrudProfile {
 		return profilesDTO;
 	}
 
-	
-	/*
-	 * FIXME:
-	 * AGGIUNGERE COUNTER DI FOLLOWERS E DI FOLLOWING.
-	 */
 	@Override
 	public ProfileDTO findProfileById(String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
 		Profile profile = session.get(Profile.class, idProfile);
 		ProfileDTO profileDTO = DTOutils.profileToDTO(profile);
 		
-		Query<Integer> query = session.createQuery("select count(*) from Follow where id_followed = :idProfile");
+		Query<Long> query = session.createQuery("select count(*) from Follow where id_followed = :idProfile");
 		query.setParameter("idProfile", idProfile);
-		int followers = query.getFirstResult();
-		profileDTO.setFollowersCounter(followers);
+		Long followers = query.uniqueResult();
+		profileDTO.setFollowersCounter(followers.intValue());
 		
-		Query<Integer> query2 = session.createQuery("select count(*) from Follow where id_follower = :idProfile");
+		Query<Long> query2 = session.createQuery("select count(*) from Follow where id_follower = :idProfile");
 		query2.setParameter("idProfile", idProfile);
-		int following = query.getFirstResult();
-		profileDTO.setFollowingCounter(following);
+		Long following = query.uniqueResult();
+		profileDTO.setFollowingCounter(following.intValue());
 		
 		return profileDTO;
 	}

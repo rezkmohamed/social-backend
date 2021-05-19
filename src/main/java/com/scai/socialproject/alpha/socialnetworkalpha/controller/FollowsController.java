@@ -31,4 +31,9 @@ public class FollowsController {
 	public List<FollowDTO> findAllFollowers(){
 		return followService.findAllFollowers();
 	}
+	
+	@GetMapping("/get/{idFollower}/{idFollowed}")
+	public FollowDTO getFollow(@PathVariable String idFollower, @PathVariable String idFollowed) {
+		return followService.getFollow(idFollower, idFollowed);
+	}
 }
