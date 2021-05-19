@@ -90,13 +90,18 @@ public class CrudLikeImpl implements CrudLike {
 		Query<Like> query = session
 				.createQuery("from Like where id_profile_liker = :idProfile AND id_post = :idPost");
 		query.setParameter("idProfile", idProfile); query.setParameter("idPost", idPost);
-		Like like = query.getSingleResult();
-		if(like == null) {
-			return null;
+		try {
+			Like like = query.getSingleResult();
+			if(like == null) {
+				return null;
+			}
+			LikeDTO likeDTO = DTOutils.likeToDTO(like);
+			return likeDTO;
+		} catch (Exception e) {
 		}
-		LikeDTO likeDTO = DTOutils.likeToDTO(like);
+	
 		
-		return likeDTO;
+		return null;
 	}
 
 }

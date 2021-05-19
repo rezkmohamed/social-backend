@@ -132,13 +132,24 @@ public class CrudPostImpl implements CrudPost {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Post> query = session.createQuery("from Post where id_profile <> :idProfile");
 		query.setParameter("idProfile", idProfile);
+		
 		List<Post> posts = query.getResultList();
 		List<PostDTO> postsDTO = DTOutils.postToDTO(posts);
+		
 		for(PostDTO postDTO : postsDTO) {
 			Query<Profile> query2 = session.createQuery("from Profile where id_profile = :idProfile");
 			query2.setParameter("idProfile", postDTO.getIdProfile());
 			Profile profile = query2.getSingleResult();
 			postDTO.setProfile(DTOutils.profileToDTO(profile));
+			
+			Query<Like> query3 = session
+					.createQuery("from Like where id_post = :idPost");
+			query3.setParameter("idPost", postDTO.getIdPost());
+			List<Like> likes = query3.getResultList();
+			List<LikeDTO> likesDTO = DTOutils.likeToDTO(likes);
+			postDTO.setLikes(likesDTO);
+			postDTO.setLikesCounter(likesDTO.size());
+			
 		}
 				
 		return postsDTO;
