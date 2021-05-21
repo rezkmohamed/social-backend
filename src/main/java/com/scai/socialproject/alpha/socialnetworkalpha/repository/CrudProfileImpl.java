@@ -1,5 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.repository;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +11,12 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
 
@@ -42,16 +47,41 @@ public class CrudProfileImpl implements CrudProfile {
 		Session session = entityManager.unwrap(Session.class);
 		Profile profile = session.get(Profile.class, idProfile);
 		ProfileDTO profileDTO = DTOutils.profileToDTO(profile);
-		
-		Query<Long> query = session.createQuery("select count(*) from Follow where id_followed = :idProfile");
+		/*
+		Query<BigInteger> query = session.createSQLQuery("select count(*) from social_clone.follow "
+				+ "where social_clone.follow.id_followed = :idProfile");
 		query.setParameter("idProfile", idProfile);
-		Long followers = query.uniqueResult();
-		profileDTO.setFollowersCounter(followers.intValue());
+		int followers = query.uniqueResult().intValue();
+		profileDTO.setFollowersCounter(followers);
 		
-		Query<Long> query2 = session.createQuery("select count(*) from Follow where id_follower = :idProfile");
+		Query<BigInteger> query2 = session.createSQLQuery("select count(*) from social_clone.follow "
+				+ "where social_clone.follow.id_follower = :idProfile");
 		query2.setParameter("idProfile", idProfile);
-		Long following = query.uniqueResult();
-		profileDTO.setFollowingCounter(following.intValue());
+		int following = query.uniqueResult().intValue();
+		profileDTO.setFollowingCounter(following);
+		*/
+		
+		Query<Follow> queryFollowers = session.createQuery("from Follow where id_followed = :idProfile");
+		queryFollowers.setParameter("idProfile", idProfile);
+		List<Follow> followers = queryFollowers.getResultList();
+		if(followers != null) {
+			List<FollowDTO> followersDTO = DTOutils.followToDTO(followers);
+			profileDTO.setFollowers(followersDTO);
+			profileDTO.setFollowersCounter(followersDTO.size());
+		} else {
+			profileDTO.setFollowersCounter(0);
+		}
+		
+		Query<Follow> queryFollowing = session.createQuery("from Follow where id_follower = :idProfile");
+		queryFollowing.setParameter("idProfile", idProfile);
+		List<Follow> following = queryFollowing.getResultList();
+		if(following != null) {
+			List<FollowDTO> followingDTO = DTOutils.followToDTO(following);
+			profileDTO.setFollowing(followingDTO);
+			profileDTO.setFollowingCounter(followingDTO.size());
+		} else {
+			profileDTO.setFollowingCounter(0);
+		}
 		
 		return profileDTO;
 	}
@@ -93,9 +123,10 @@ public class CrudProfileImpl implements CrudProfile {
 	public User getUserAuth(String email, String pass) {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Profile> query = session
-				.createQuery("from Profile where email=:email AND password=:password");
+				.createQuery("from Profile where email= :email AND password = :password");
 		query.setParameter("email", email); query.setParameter("password", pass);
 		Profile profile = query.getSingleResult();
+		System.out.println(profile);
 		if(profile == null) {
 			return null;
 		}
@@ -132,15 +163,21 @@ public class CrudProfileImpl implements CrudProfile {
 	@Override
 	public List<ProfileDTO> findProfilesLikesPost(String idPost) {
 		Session session = entityManager.unwrap(Session.class);
-		Query query = session.createSQLQuery("select social_clone.profile.id_profile, social_clone.profile.name, social_clone.profile.nickname, social_clone.profile.bio, "
-				+ "social_clone.profile.profile_pic, social_clone.profile.email "
-				+ "from social_clone.profile where "
-				+ "social_clone.profile.id_profile in "
-				+ "( select id_profile_liker from social_clone.likes where "
-				+ "social_clone.likes.id_post = :idPost)");
-		query.setParameter("idPost", idPost);
-		List<Object[]> rows = query.list();
-		return responseToListProfiles(rows);
+//		Query query = session.createSQLQuery("select social_clone.profile.id_profile, social_clone.profile.name, social_clone.profile.nickname, social_clone.profile.bio, "
+//				+ "social_clone.profile.profile_pic, social_clone.profile.email "
+//				+ "from social_clone.profile where "
+//				+ "social_clone.profile.id_profile IN "
+//				+ "( select id_profile_liker from social_clone.likes where "
+//				+ "social_clone.likes.id_post = :idPost)");
+//		query.setParameter("idPost", idPost);
+//		List<Object[]> rows = query.list();
+//		return responseToListProfiles(rows);
+		Post p = session.get(Post.class, idPost);
+		p.getLikes();
+		for(Like l : p.getLikes()) {
+			System.out.println(l.getProfileLiker().getName());
+		}
+		return null;
 	}
 
 	@Override
