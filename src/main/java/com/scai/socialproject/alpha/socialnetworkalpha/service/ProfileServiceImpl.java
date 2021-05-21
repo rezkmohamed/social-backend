@@ -18,6 +18,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import javassist.tools.web.BadHttpRequest;
 
 
 @Service
@@ -43,8 +44,8 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public void saveProfile(Profile profile) {
-		profileRepo.saveProfile(profile);
+	public ResponseEntity<ProfileDTO> saveProfile(Profile profile) {
+		return profileRepo.saveProfile(profile);
 	}
 
 	@Override

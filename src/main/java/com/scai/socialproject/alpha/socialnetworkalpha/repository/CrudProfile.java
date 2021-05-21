@@ -8,6 +8,8 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 
+import javassist.tools.web.BadHttpRequest;
+
 public interface CrudProfile {
 	public List<ProfileDTO> findAllProfiles();
 	
@@ -23,7 +25,7 @@ public interface CrudProfile {
 	
 	public Profile findProfile(String idProfile);
 	
-	public void saveProfile(Profile profile);
+	public ResponseEntity<ProfileDTO> saveProfile(Profile profile);
 	
 	public void updateProfile(ProfileDTO profileDTO);
 	

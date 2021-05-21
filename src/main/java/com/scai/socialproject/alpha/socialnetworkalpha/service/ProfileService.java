@@ -19,13 +19,11 @@ public interface ProfileService {
 	
 	public List<ProfileDTO> searchProfilesByName(String profileName);
 	
-	
-	
 	public ProfileDTO findProfileById(String idProfile);
 	
 	public Profile findProfile(String idProfile);
 	
-	public void saveProfile(Profile profile);
+	public ResponseEntity<ProfileDTO> saveProfile(Profile profile);
 	
 	public void updateProfile(ProfileDTO profileDTO);
 	

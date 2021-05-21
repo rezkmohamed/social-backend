@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
@@ -19,6 +21,8 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+
+import javassist.tools.web.BadHttpRequest;
 
 import org.hibernate.query.Query;
 
@@ -87,9 +91,17 @@ public class CrudProfileImpl implements CrudProfile {
 	}
 
 	@Override
-	public void saveProfile(Profile profile) {
+	public ResponseEntity<ProfileDTO> saveProfile(Profile profile){
 		Session session = entityManager.unwrap(Session.class);
+		List<ProfileDTO> allProfiles = this.findAllProfiles();
+		for(ProfileDTO profileDTO : allProfiles) {
+			if(profileDTO.getEmail().equalsIgnoreCase(profile.getEmail())) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+		}
+		
 		session.save(profile);
+		return new ResponseEntity(DTOutils.profileToDTO(profile), HttpStatus.OK);
 	}
 	
 	@Override

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
@@ -31,10 +32,8 @@ public class AuthController {
 	}
 	
 	@PostMapping("/register")
-	public void register(@RequestBody Profile profile) {
-		if(profile != null) {
-			profileService.saveProfile(profile);
-		}
+	public ResponseEntity<ProfileDTO> register(@RequestBody Profile profile) {
+		return profileService.saveProfile(profile);
 	}
 	
 	@GetMapping("/testing-auth")
