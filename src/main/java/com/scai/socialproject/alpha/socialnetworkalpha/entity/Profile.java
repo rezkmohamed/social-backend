@@ -58,12 +58,12 @@ public class Profile {
 			   cascade= CascadeType.ALL)
 	private List<Post> posts;
 	
-	@OneToMany(mappedBy="follower",
+	@OneToMany(mappedBy="followed",
 			   cascade=CascadeType.ALL,
 			   fetch=FetchType.LAZY)
 	private List<Follow> followers;
 	
-	@OneToMany(mappedBy="followed",
+	@OneToMany(mappedBy="follower",
 			   cascade=CascadeType.ALL,
 			   fetch=FetchType.LAZY)
 	private List<Follow> following;

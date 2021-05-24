@@ -146,81 +146,58 @@ public class CrudProfileImpl implements CrudProfile {
 		
 		return user;
 	}
-	
-	private List<ProfileDTO> responseToListProfiles(List<Object[]> rows) {
-		List<ProfileDTO> profiles = new ArrayList<>();
-		for(Object[] row : rows) {
-			ProfileDTO profileDTO = new ProfileDTO();
-			profileDTO.setId(row[0].toString());
-			if(row[1] != null) {
-				profileDTO.setName(row[1].toString());
-			}
-			if(row[2] != null) {
-				profileDTO.setNickname(row[2].toString());
-			}
-			if(row[3] != null) {
-				profileDTO.setBio(row[3].toString());
-			}
-			if(row[4] != null) {
-				profileDTO.setProPic(row[4].toString());
-			}
-			profileDTO.setEmail(row[5].toString());
-			profiles.add(profileDTO);
-		}
-		
-		
-		return profiles;
-	}
 
+	//OK!
 	@Override
 	public List<ProfileDTO> findProfilesLikesPost(String idPost) {
 		Session session = entityManager.unwrap(Session.class);
-//		Query query = session.createSQLQuery("select social_clone.profile.id_profile, social_clone.profile.name, social_clone.profile.nickname, social_clone.profile.bio, "
-//				+ "social_clone.profile.profile_pic, social_clone.profile.email "
-//				+ "from social_clone.profile where "
-//				+ "social_clone.profile.id_profile IN "
-//				+ "( select id_profile_liker from social_clone.likes where "
-//				+ "social_clone.likes.id_post = :idPost)");
-//		query.setParameter("idPost", idPost);
-//		List<Object[]> rows = query.list();
-//		return responseToListProfiles(rows);
+
+		List<Profile> profiles = new ArrayList<>();
 		Post p = session.get(Post.class, idPost);
 		p.getLikes();
 		for(Like l : p.getLikes()) {
-			System.out.println(l.getProfileLiker().getName());
+			//System.out.println(l.getProfileLiker().getName());
+			profiles.add(l.getProfileLiker());
 		}
-		return null;
+		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);
+		return profilesDTO;
 	}
 
+	//OK!
 	@Override
 	public List<ProfileDTO> findFollowersProfile(String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
-		Query query = session.createSQLQuery("select social_clone.profile.id_profile, "
-				+ "social_clone.profile.name, social_clone.profile.nickname, "
-				+ "social_clone.profile.bio, social_clone.profile.profile_pic, social_clone.profile.email "
-				+ "from social_clone.profile where social_clone.profile.id_profile in "
-				+ "(select id_follower from social_clone.follow "
-				+ "where social_clone.follow.id_followed = :idProfile)");
-		query.setParameter("idProfile", idProfile);
-		List<Object[]> rows = query.list();
+		List<Profile> profiles = new ArrayList<>();
+		Profile profile = session.get(Profile.class, idProfile);
+		profile.getFollowers();
+		System.out.println("FOLLOWERS DI " + profile.getName());
+		for(Follow f : profile.getFollowers()) {
+			Profile p = f.getFollower();
+			System.out.println(p.getIdProfile());
+			profiles.add(p);
+		}
+		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);
 		
-		return responseToListProfiles(rows);
+		return profilesDTO;
 	}
 
 
+	//OK!
 	@Override
 	public List<ProfileDTO> findFollowingProfile(String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
-		Query query = session.createSQLQuery("select social_clone.profile.id_profile, "
-				+ "social_clone.profile.name, social_clone.profile.nickname, "
-				+ "social_clone.profile.bio, social_clone.profile.profile_pic, social_clone.profile.email "
-				+ "from social_clone.profile where social_clone.profile.id_profile in "
-				+ "(select id_followed from social_clone.follow "
-				+ "where social_clone.follow.id_follower = :idProfile)");
-		query.setParameter("idProfile", idProfile);
-		List<Object[]> rows = query.list();
-		
-		return responseToListProfiles(rows);
+		List<Profile> profiles = new ArrayList<>();
+		Profile profile = session.get(Profile.class, idProfile);
+		System.out.println("FOLLOWING DI " + profile.getName());
+		for(Follow f : profile.getFollowing()) {
+			Profile p = f.getFollowed();
+			System.out.println(p.getIdProfile());
+			profiles.add(p);
+		}
+
+		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);
+
+		return profilesDTO;
 	}
 
 	@Override
