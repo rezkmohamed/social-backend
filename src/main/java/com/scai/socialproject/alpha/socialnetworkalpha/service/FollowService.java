@@ -2,6 +2,8 @@ package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 
@@ -20,7 +22,7 @@ public interface FollowService {
 	 */
 	public List<FollowDTO> findFollowingForProfile(String idProfile);
 	
-	public FollowDTO getFollow(String idFollower, String idFollowed);
+	public ResponseEntity<FollowDTO> getFollow(String idFollower, String idFollowed);
 	
 	public FollowDTO findFollowById(String id);
 	

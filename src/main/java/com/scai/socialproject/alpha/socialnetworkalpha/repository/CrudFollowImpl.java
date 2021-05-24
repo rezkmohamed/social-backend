@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
@@ -104,17 +106,18 @@ public class CrudFollowImpl implements CrudFollow {
 	}
 
 	@Override
-	public FollowDTO getFollow(String idFollower, String idFollowed) {
+	public ResponseEntity<FollowDTO> getFollow(String idFollower, String idFollowed) {
 		Session session = entityManager.unwrap(Session.class);
-		try {
-			Query<Follow> query = session.createQuery("from Follow where id_follower = :idFollower AND id_followed = :idFollowed");
-			Follow follow = query.getSingleResult();
-			return DTOutils.followToDTO(follow);
-		} catch (Exception e) {
-			// TODO: handle exception
+		
+		Query<Follow> query = session.createQuery("from Follow where id_follower = :idFollower AND id_followed = :idFollowed");
+		query.setParameter("idFollower", idFollower); 
+		query.setParameter("idFollowed", idFollowed);
+		Follow follow = query.getSingleResult();
+		if(follow == null) {
+			return new ResponseEntity<FollowDTO>(HttpStatus.NOT_FOUND);
 		}
 		
-		return null;
+		return new ResponseEntity(DTOutils.followToDTO(follow), HttpStatus.OK);
 	}
 
 }

@@ -2,6 +2,8 @@ package com.scai.socialproject.alpha.socialnetworkalpha.repository;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 
@@ -20,7 +22,7 @@ public interface CrudFollow {
 	 */
 	public List<FollowDTO> findFollowingForProfile(String idProfile);
 	
-	public FollowDTO getFollow(String idFollower, String idFollowed);
+	public ResponseEntity<FollowDTO> getFollow(String idFollower, String idFollowed);
 	
 	public FollowDTO findFollowById(String id);
 	
