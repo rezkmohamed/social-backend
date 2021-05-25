@@ -14,7 +14,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
-import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOCommentUtils;
 
 @Repository
 public class CrudCommentImpl implements CrudComment{
@@ -30,7 +30,7 @@ public class CrudCommentImpl implements CrudComment{
 		Session session = entityManager.unwrap(Session.class);
 		Query<Comment> query = session.createQuery("from Comment");
 		List<Comment> comments = query.getResultList();
-		List<CommentDTO> commentsDTO = DTOutils.commentToDTO(comments);
+		List<CommentDTO> commentsDTO = DTOCommentUtils.commentToDTO(comments);
 		findCommentLikes(session, commentsDTO);
 		
 		return commentsDTO;
@@ -58,7 +58,7 @@ public class CrudCommentImpl implements CrudComment{
 		Query<Comment> query = session.createQuery("from Comment where id_post=:idPost");
 		query.setParameter("idPost", idPost);
 		List<Comment> comments = query.getResultList();
-		List<CommentDTO> commentsDTO = DTOutils.commentToDTO(comments);
+		List<CommentDTO> commentsDTO = DTOCommentUtils.commentToDTO(comments);
 		findCommentLikes(session, commentsDTO);
 
 				

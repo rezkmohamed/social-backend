@@ -32,5 +32,5 @@ public interface FollowService {
 	
 	public void deleteFollowById(String idFollow);
 	
-	public void deleteFollow(String idFollower, String idFollowed);
+	public ResponseEntity<String> deleteFollow(String idFollower, String idFollowed);
 }

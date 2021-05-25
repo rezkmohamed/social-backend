@@ -13,7 +13,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
-import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOLikeUtils;
 
 @Repository
 public class CrudLikeImpl implements CrudLike {
@@ -30,7 +30,7 @@ public class CrudLikeImpl implements CrudLike {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Like> query = session.createQuery("from Like", Like.class);
 		List<Like> likes = query.getResultList();
-		List<LikeDTO> likesDTO = DTOutils.likeToDTO(likes);
+		List<LikeDTO> likesDTO = DTOLikeUtils.likeToDTO(likes);
 		
 		return likesDTO;
 	}
@@ -41,7 +41,7 @@ public class CrudLikeImpl implements CrudLike {
 		Query<Like> query = session.createQuery("from Like where id_post=:idPost");
 		query.setParameter("idPost", idPost);
 		List<Like> likes = query.getResultList();
-		List<LikeDTO> likesDTO = DTOutils.likeToDTO(likes);
+		List<LikeDTO> likesDTO = DTOLikeUtils.likeToDTO(likes);
 		
 		return likesDTO;
 	}
@@ -61,7 +61,7 @@ public class CrudLikeImpl implements CrudLike {
 		newLike.setPost(post); newLike.setProfileLiker(profile);
 		newLike.setDate("31/03/1999");
 		session.save(newLike);
-		return DTOutils.likeToDTO(newLike);
+		return DTOLikeUtils.likeToDTO(newLike);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class CrudLikeImpl implements CrudLike {
 			if(like == null) {
 				return null;
 			}
-			LikeDTO likeDTO = DTOutils.likeToDTO(like);
+			LikeDTO likeDTO = DTOLikeUtils.likeToDTO(like);
 			return likeDTO;
 		} catch (Exception e) {
 		}

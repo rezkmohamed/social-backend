@@ -3,7 +3,7 @@ package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 import java.util.List;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
-import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOCommentsLikeUtils;
 
 public class CommentDTO {
 	private String idComment;
@@ -11,6 +11,7 @@ public class CommentDTO {
 	private String date;
 	private String idPost;
 	private String idProfile;
+	private String nicknameProfile;
 	private List<CommentLikeDTO> commentLikes;
 	private int commentLikesCounter;
 	
@@ -23,6 +24,17 @@ public class CommentDTO {
 		this.date = date;
 		this.idPost = idPost;
 		this.idProfile = idProfile;
+	}
+	
+	public CommentDTO(String idComment, String comment, String date, String idPost, String idProfile,
+			String nicknameProfile) {
+		super();
+		this.idComment = idComment;
+		this.comment = comment;
+		this.date = date;
+		this.idPost = idPost;
+		this.idProfile = idProfile;
+		this.nicknameProfile = nicknameProfile;
 	}
 
 	public String getIdComment() {
@@ -70,7 +82,7 @@ public class CommentDTO {
 	}
 
 	public void setCommentlikes(List<CommentLike> commentLikes) {
-		this.commentLikes = DTOutils.commentLikeToDTO(commentLikes);
+		this.commentLikes = DTOCommentsLikeUtils.commentLikeToDTO(commentLikes);
 	}
 
 	public int getCommentLikesCounter() {
@@ -79,6 +91,18 @@ public class CommentDTO {
 
 	public void setCommentLikesCounter(int commentLikesCounter) {
 		this.commentLikesCounter = commentLikesCounter;
+	}
+	
+	public String getNicknameProfile() {
+		return nicknameProfile;
+	}
+
+	public void setNicknameProfile(String nicknameProfile) {
+		this.nicknameProfile = nicknameProfile;
+	}
+
+	public void setCommentLikes(List<CommentLikeDTO> commentLikes) {
+		this.commentLikes = commentLikes;
 	}
 
 	@Override

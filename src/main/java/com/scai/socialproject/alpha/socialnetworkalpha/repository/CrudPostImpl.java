@@ -18,7 +18,10 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
-import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOCommentUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOLikeUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOPostUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
 
 @Repository
 public class CrudPostImpl implements CrudPost {
@@ -35,7 +38,7 @@ public class CrudPostImpl implements CrudPost {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Post> query = session.createQuery("from Post", Post.class);
 		List<Post> posts = query.getResultList(); 
-		List<PostDTO> postsDTO = DTOutils.postToDTO(posts);
+		List<PostDTO> postsDTO = DTOPostUtils.postToDTO(posts);
 		
 		return postsDTO;
 	}
@@ -44,22 +47,7 @@ public class CrudPostImpl implements CrudPost {
 	public PostDTO findPostById(String idPost) {
 		Session session = entityManager.unwrap(Session.class);
 		Post post = session.get(Post.class, idPost);
-		PostDTO postDTO = DTOutils.postToDTO(post);
-		
-		Profile profile = session.get(Profile.class, postDTO.getIdProfile());
-		ProfileDTO profileDTO = DTOutils.profileToDTO(profile);
-		postDTO.setProfile(profileDTO);
-		
-		Query<Like> query = session
-				.createQuery("from Like where id_post = :idPost");
-		query.setParameter("idPost", idPost);
-		
-		List<Like> likes = query.getResultList();
-		List<LikeDTO> likesDTO = DTOutils.likeToDTO(likes);
-		postDTO.setLikes(likesDTO);
-		postDTO.setLikesCounter(likesDTO.size());
-		
-		return postDTO;
+		return DTOPostUtils.fillPostCompleteDTO(post);
 	}
 
 	@Override
@@ -101,27 +89,10 @@ public class CrudPostImpl implements CrudPost {
 		Query<Post> query = session.createQuery("from Post where id_profile=:idProfile");
 		query.setParameter("idProfile", idProfile);
 		List<Post> posts = query.getResultList();
-		List<PostDTO> postsDTO = DTOutils.postToDTO(posts);
-		for(PostDTO postDTO : postsDTO) {
-			Query<Comment> query2 = session.createQuery("from Comment where id_post=:idPost");
-			query2.setParameter("idPost", postDTO.getIdPost());
-			List<Comment> comments = query2.getResultList();
-			if(comments != null) {
-				postDTO.setCommentsCounter(comments.size());
-			}
-			else {
-				postDTO.setCommentsCounter(0);
-			}
-			
-			Query<Like> query3 = session.createQuery("from Like where id_post=:idPost");
-			query3.setParameter("idPost", postDTO.getIdPost());
-			List<Like> likes = query3.getResultList();
-			if(likes != null) {
-				postDTO.setLikesCounter(likes.size());
-			}
-			else {
-				postDTO.setLikesCounter(0);
-			}
+		List<PostDTO> postsDTO = new ArrayList<>();
+
+		for(Post post : posts) {
+			postsDTO.add(DTOPostUtils.fillPostCompleteDTO(post));
 		}
 		
 		return postsDTO;
@@ -138,11 +109,11 @@ public class CrudPostImpl implements CrudPost {
 		List<Post> posts = query.getResultList();
 		List<PostDTO> ris = new ArrayList<>();
 		for(Post post : posts) {
-			PostDTO postDTO = DTOutils.postToDTO(post);
-			postDTO.setProfile(DTOutils.profileToDTO(post.getProfile()));
-			postDTO.setComments(DTOutils.commentToDTO(post.getComments()));
+			PostDTO postDTO = DTOPostUtils.postToDTO(post);
+			postDTO.setProfile(DTOProfileUtils.profileToDTO(post.getProfile()));
+			postDTO.setComments(DTOCommentUtils.commentToDTO(post.getComments()));
 			postDTO.setCommentsCounter(post.getComments().size());
-			postDTO.setLikes(DTOutils.likeToDTO(post.getLikes()));
+			postDTO.setLikes(DTOLikeUtils.likeToDTO(post.getLikes()));
 			postDTO.setLikesCounter(post.getLikes().size());
 			ris.add(postDTO);
 		}

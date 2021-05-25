@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,8 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
-import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOFollowUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
 
 import javassist.tools.web.BadHttpRequest;
 
@@ -40,7 +40,7 @@ public class CrudProfileImpl implements CrudProfile {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Profile> query = session.createQuery("from Profile", Profile.class);
 		List<Profile> profiles = query.getResultList();
-		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);
 		
 		
 		return profilesDTO;
@@ -50,26 +50,13 @@ public class CrudProfileImpl implements CrudProfile {
 	public ProfileDTO findProfileById(String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
 		Profile profile = session.get(Profile.class, idProfile);
-		ProfileDTO profileDTO = DTOutils.profileToDTO(profile);
-		/*
-		Query<BigInteger> query = session.createSQLQuery("select count(*) from social_clone.follow "
-				+ "where social_clone.follow.id_followed = :idProfile");
-		query.setParameter("idProfile", idProfile);
-		int followers = query.uniqueResult().intValue();
-		profileDTO.setFollowersCounter(followers);
-		
-		Query<BigInteger> query2 = session.createSQLQuery("select count(*) from social_clone.follow "
-				+ "where social_clone.follow.id_follower = :idProfile");
-		query2.setParameter("idProfile", idProfile);
-		int following = query.uniqueResult().intValue();
-		profileDTO.setFollowingCounter(following);
-		*/
+		ProfileDTO profileDTO = DTOProfileUtils.profileToDTO(profile);
 		
 		Query<Follow> queryFollowers = session.createQuery("from Follow where id_followed = :idProfile");
 		queryFollowers.setParameter("idProfile", idProfile);
 		List<Follow> followers = queryFollowers.getResultList();
 		if(followers != null) {
-			List<FollowDTO> followersDTO = DTOutils.followToDTO(followers);
+			List<FollowDTO> followersDTO = DTOFollowUtils.followToDTO(followers);
 			profileDTO.setFollowers(followersDTO);
 			profileDTO.setFollowersCounter(followersDTO.size());
 		} else {
@@ -80,7 +67,7 @@ public class CrudProfileImpl implements CrudProfile {
 		queryFollowing.setParameter("idProfile", idProfile);
 		List<Follow> following = queryFollowing.getResultList();
 		if(following != null) {
-			List<FollowDTO> followingDTO = DTOutils.followToDTO(following);
+			List<FollowDTO> followingDTO = DTOFollowUtils.followToDTO(following);
 			profileDTO.setFollowing(followingDTO);
 			profileDTO.setFollowingCounter(followingDTO.size());
 		} else {
@@ -101,7 +88,7 @@ public class CrudProfileImpl implements CrudProfile {
 		}
 		
 		session.save(profile);
-		return new ResponseEntity(DTOutils.profileToDTO(profile), HttpStatus.OK);
+		return new ResponseEntity(DTOProfileUtils.profileToDTO(profile), HttpStatus.OK);
 	}
 	
 	@Override
@@ -142,7 +129,7 @@ public class CrudProfileImpl implements CrudProfile {
 		if(profile == null) {
 			return null;
 		}
-		User user = DTOutils.profileToUser(profile);
+		User user = DTOProfileUtils.profileToUser(profile);
 		
 		return user;
 	}
@@ -156,10 +143,9 @@ public class CrudProfileImpl implements CrudProfile {
 		Post p = session.get(Post.class, idPost);
 		p.getLikes();
 		for(Like l : p.getLikes()) {
-			//System.out.println(l.getProfileLiker().getName());
 			profiles.add(l.getProfileLiker());
 		}
-		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);
 		return profilesDTO;
 	}
 
@@ -176,7 +162,7 @@ public class CrudProfileImpl implements CrudProfile {
 			System.out.println(p.getIdProfile());
 			profiles.add(p);
 		}
-		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);
 		
 		return profilesDTO;
 	}
@@ -195,7 +181,7 @@ public class CrudProfileImpl implements CrudProfile {
 			profiles.add(p);
 		}
 
-		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);
 
 		return profilesDTO;
 	}
@@ -208,7 +194,7 @@ public class CrudProfileImpl implements CrudProfile {
 				.createQuery("from Profile where nickname like :string");
 		query.setParameter("string", '%'+profileName+'%');
 		List<Profile> profiles = query.getResultList();
-		List<ProfileDTO> profilesDTO = DTOutils.profileToDTO(profiles);		
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);		
 		
 		return profilesDTO;
 	}

@@ -11,7 +11,7 @@ import org.hibernate.query.Query;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentLikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
-import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOCommentsLikeUtils;
 
 @Repository
 public class CrudCommentLikeImpl implements CrudCommentLike {
@@ -27,7 +27,7 @@ public class CrudCommentLikeImpl implements CrudCommentLike {
 		Session session = entityManager.unwrap(Session.class);
 		Query<CommentLike> query = session.createQuery("from CommentLike", CommentLike.class);
 		List<CommentLike> commentLikes = query.getResultList();
-		List<CommentLikeDTO> commentLikesDTO = DTOutils.commentLikeToDTO(commentLikes);
+		List<CommentLikeDTO> commentLikesDTO = DTOCommentsLikeUtils.commentLikeToDTO(commentLikes);
 		
 		return commentLikesDTO;
 	}
@@ -38,7 +38,7 @@ public class CrudCommentLikeImpl implements CrudCommentLike {
 		Query<CommentLike> query = session.createQuery("from CommentLike where id_comment=:idComment");
 		query.setParameter("idComment", idComment);
 		List<CommentLike> commentLikes = query.getResultList();
-		List<CommentLikeDTO> commentLikesDTO = DTOutils.commentLikeToDTO(commentLikes);
+		List<CommentLikeDTO> commentLikesDTO = DTOCommentsLikeUtils.commentLikeToDTO(commentLikes);
 		
 		return commentLikesDTO;
 	}
@@ -49,7 +49,7 @@ public class CrudCommentLikeImpl implements CrudCommentLike {
 		Query<CommentLike> query = session.createQuery("from CommentLike where id_comment_like=:idCommentLike");
 		query.setParameter("idCommentLike", idCommentLike);
 		CommentLike commentLike = query.getSingleResult();
-		CommentLikeDTO commentLikeDTO = DTOutils.commentLikeToDTO(commentLike);
+		CommentLikeDTO commentLikeDTO = DTOCommentsLikeUtils.commentLikeToDTO(commentLike);
 		
 		return commentLikeDTO;
 	}

@@ -32,5 +32,5 @@ public interface CrudFollow {
 	
 	public FollowDTO addFollow(String idFollower, String idFollowed);
 	
-	public void deleteFollow(String idFollower, String idFollowed);
+	public ResponseEntity<String> deleteFollow(String idFollower, String idFollowed);
 }

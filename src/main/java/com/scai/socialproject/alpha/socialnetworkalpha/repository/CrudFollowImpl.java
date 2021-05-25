@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
-import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOutils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOFollowUtils;
 
 import org.hibernate.query.Query;
 
@@ -31,7 +31,7 @@ public class CrudFollowImpl implements CrudFollow {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Follow> query = session.createQuery("from Follow", Follow.class);
 		List<Follow> follows = query.getResultList();
-		List<FollowDTO> followsDTO = DTOutils.followToDTO(follows);
+		List<FollowDTO> followsDTO = DTOFollowUtils.followToDTO(follows);
 		
 		
 		return followsDTO;
@@ -43,7 +43,7 @@ public class CrudFollowImpl implements CrudFollow {
 		Query<Follow> query = session.createQuery("from Follow where id_followed=:idProfile");
 		query.setParameter("idProfile", idProfile);
 		List<Follow> followers = query.getResultList();
-		List<FollowDTO> followersDTO = DTOutils.followToDTO(followers);
+		List<FollowDTO> followersDTO = DTOFollowUtils.followToDTO(followers);
 		
 		return followersDTO;
 	}
@@ -54,7 +54,7 @@ public class CrudFollowImpl implements CrudFollow {
 		Query<Follow> query = session.createQuery("from Follow where id_follower=:idProfile");
 		query.setParameter("idProfile", idProfile);
 		List<Follow> followings = query.getResultList();
-		List<FollowDTO> followingsDTO = DTOutils.followToDTO(followings);
+		List<FollowDTO> followingsDTO = DTOFollowUtils.followToDTO(followings);
 
 		return followingsDTO;
 	}
@@ -63,7 +63,7 @@ public class CrudFollowImpl implements CrudFollow {
 	public FollowDTO findFollowById(String id) {
 		Session session = entityManager.unwrap(Session.class);
 		Follow follow = session.get(Follow.class, id);
-		FollowDTO followDTO = DTOutils.followToDTO(follow);
+		FollowDTO followDTO = DTOFollowUtils.followToDTO(follow);
 		
 		return followDTO;
 	}
@@ -84,13 +84,16 @@ public class CrudFollowImpl implements CrudFollow {
 	}
 
 	@Override
-	public void deleteFollow(String idFollower, String idFollowed) {
+	public ResponseEntity<String> deleteFollow(String idFollower, String idFollowed) {		
 		Session session = entityManager.unwrap(Session.class);
-		
 		Query query = session.createQuery("delete from Follow where id_follower=:idFollower AND id_followed=:idFollowed");
 		query.setParameter("idFollower", idFollower).setParameter("idFollowed", idFollowed);
-		query.executeUpdate();
+		if(query.executeUpdate() == 0) {
+			return new ResponseEntity("NOT FOUND",HttpStatus.NOT_FOUND);
 		}
+		return new ResponseEntity("Okay",HttpStatus.OK);
+
+	}
 
 	@Override
 	public FollowDTO addFollow(String idFollower, String idFollowed) {
@@ -102,7 +105,7 @@ public class CrudFollowImpl implements CrudFollow {
 		follow.setFollower(follower); follow.setFollowed(followed);
 		session.save(follow);
 		
-		return DTOutils.followToDTO(follow);
+		return DTOFollowUtils.followToDTO(follow);
 	}
 
 	@Override
@@ -117,7 +120,7 @@ public class CrudFollowImpl implements CrudFollow {
 			return new ResponseEntity<FollowDTO>(HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity(DTOutils.followToDTO(follow), HttpStatus.OK);
+		return new ResponseEntity(DTOFollowUtils.followToDTO(follow), HttpStatus.OK);
 	}
 
 }
