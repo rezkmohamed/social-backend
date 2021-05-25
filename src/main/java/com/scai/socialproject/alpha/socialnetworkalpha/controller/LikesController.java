@@ -15,16 +15,20 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.LikeService;
+import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("likes")
 public class LikesController {
 	private LikeService likeService;
+	private ProfileService profileService;
+
 	
 	@Autowired
-	public LikesController(LikeService likeService) {
+	public LikesController(LikeService likeService, ProfileService profileService) {
 		this.likeService = likeService;
+		this.profileService = profileService;
 	}
 	
 	//OKS
@@ -33,10 +37,10 @@ public class LikesController {
 		return likeService.findAllLikes();
 	}
 	
-	//OK
+	//OK!
 	@GetMapping("/{idPost}")
-	public List<LikeDTO> findLikesForPost(@PathVariable String idPost){
-		return likeService.findLikesForPost(idPost);
+	public List<ProfileDTO> findProfilesLikesForPost(@PathVariable String idPost){
+		return profileService.findProfilesLikesPost(idPost);
 	}
 	
 	@GetMapping("/{idProfile}/{idPost}")

@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
-import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
-import com.scai.socialproject.alpha.socialnetworkalpha.service.CommentService;
-import com.scai.socialproject.alpha.socialnetworkalpha.service.LikeService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,14 +20,10 @@ import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
 @RequestMapping("/posts")
 public class PostsController {
 	private PostService postService;
-	private LikeService likeService;
-	private CommentService commentService;
 	
 	@Autowired
-	public PostsController(PostService postService, LikeService likeService, CommentService commentService) {
+	public PostsController(PostService postService) {
 		this.postService = postService;
-		this.likeService = likeService;
-		this.commentService = commentService;
 	}
 	
 	//OK!

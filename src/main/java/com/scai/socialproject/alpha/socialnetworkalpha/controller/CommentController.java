@@ -22,7 +22,6 @@ import com.scai.socialproject.alpha.socialnetworkalpha.service.CommentService;
 @RequestMapping("/comments")
 public class CommentController {
 	private CommentService commentService;
-	private CommentLikeService commentLikeService;
 	
 	@Autowired
 	public CommentController(CommentService commentService, CommentLikeService commentLikeService) {

@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
-import com.scai.socialproject.alpha.socialnetworkalpha.service.FollowService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 
@@ -27,13 +25,11 @@ import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 public class ProfilesController {
 	private ProfileService profileService;
 	private PostService postService;
- 	private FollowService followService;
 	
 	@Autowired
-	public ProfilesController(ProfileService profileService, FollowService followService,
+	public ProfilesController(ProfileService profileService,
 							  PostService postService) {
 		this.profileService = profileService;
-		this.followService = followService;
 		this.postService = postService;
 	}
 	
@@ -41,12 +37,6 @@ public class ProfilesController {
 	@GetMapping("")
 	public List<ProfileDTO> findAllProfiles(){
 		return profileService.findAllProfiles();
-	}
-	
-	//OK!
-	@GetMapping("/likes/{idPost}")
-	public List<ProfileDTO> findProfilesLikesForPost(@PathVariable String idPost){
-		return profileService.findProfilesLikesPost(idPost);
 	}
 	
 	//OK
@@ -75,16 +65,6 @@ public class ProfilesController {
 		return "SUCCESS - PROFILE DELETED WITH ID: " + idProfile;
 	}
 	
-	@GetMapping("/{idProfile}/followers")
-	public List<ProfileDTO> findFollowersForProfile(@PathVariable("idProfile") String idProfile){
-		return profileService.findFollowersProfile(idProfile);
-	}
-	
-	@GetMapping("/{idProfile}/following")
-	public List<ProfileDTO> findFollowingForProfile(@PathVariable("idProfile") String idProfile){
-		return profileService.findFollowingProfile(idProfile);
-	}
-	
 	//OK!
 	@GetMapping("/search/{profileName}")
 	public List<ProfileDTO> searchProfilesByName(@PathVariable String profileName){
@@ -95,16 +75,4 @@ public class ProfilesController {
 	public void updateAccount(@RequestBody ProfileDTO profileDTO) {
 		profileService.updateProfile(profileDTO);
 	}
-	
-	@PostMapping("/{idFollower}/follow/{idFollowed}")
-	public FollowDTO addFollow(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed) {
-		return followService.addFollow(idFollower, idFollowed);
-	}
-	
-	//OK
-	@DeleteMapping("/{idFollower}/unfollow/{idFollowed}")
-	public ResponseEntity<String> deleteFollowByIdFollower(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed) {
-		return this.followService.deleteFollow(idFollower, idFollowed);
-	}
-
 }
