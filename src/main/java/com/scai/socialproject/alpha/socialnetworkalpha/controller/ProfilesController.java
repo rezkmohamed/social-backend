@@ -72,7 +72,7 @@ public class ProfilesController {
 	}
 	
 	@PutMapping("")
-	public void updateAccount(@RequestBody ProfileDTO profileDTO) {
-		profileService.updateProfile(profileDTO);
+	public ResponseEntity<ProfileDTO> updateAccount(@RequestBody ProfileDTO profileDTO) {
+		return profileService.updateProfile(profileDTO);
 	}
 }

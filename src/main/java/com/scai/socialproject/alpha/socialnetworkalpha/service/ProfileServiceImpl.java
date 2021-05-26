@@ -50,8 +50,8 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public void updateProfile(ProfileDTO profileDTO) {
-		profileRepo.updateProfile(profileDTO);
+	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO) {
+		return profileRepo.updateProfile(profileDTO);
 	}
 
 	@Override
@@ -70,10 +70,12 @@ public class ProfileServiceImpl implements ProfileService {
 	@Transactional
 	public ResponseEntity<User> login(String email, String pass) {
 		User user = profileRepo.getUserAuth(email, pass);
+		
 		if(user != null) {
 			HttpHeaders headers = new HttpHeaders();
         	HashMap<String, Object> addedValues = new HashMap<String, Object>();
         	addedValues.put("idUser", user.getIdUser());
+        	addedValues.put("nickname", user.getNickname());
 			String token = Jwts.builder()
 					.addClaims(addedValues)
 					.setIssuedAt(new Date(System.currentTimeMillis()))
@@ -108,6 +110,19 @@ public class ProfileServiceImpl implements ProfileService {
 	@Transactional
 	public List<ProfileDTO> searchProfilesByName(String profileName) {
 		return profileRepo.searchProfilesByName(profileName);
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<User> checkEmail(User user) {
+		Profile profile = profileRepo.findProfile(user.getIdUser());
+		if(profile != null) {
+			if(profile.getPassword().equals(user.getPass())) {
+				return new ResponseEntity<User>(HttpStatus.OK);
+			}
+		}
+		
+		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 	}
 
 }

@@ -31,6 +31,11 @@ public class AuthController {
 		return profileService.login(user.getEmail(), user.getPass());
 	}
 	
+	@PostMapping("checkpassword")
+	public ResponseEntity<User> checkPassword(@RequestBody User user){
+		return profileService.checkEmail(user);
+	}
+	
 	@PostMapping("/register")
 	public ResponseEntity<ProfileDTO> register(@RequestBody Profile profile) {
 		return profileService.saveProfile(profile);

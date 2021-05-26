@@ -34,7 +34,7 @@ public class DTOProfileUtils {
 	}
 	
 	public static User profileToUser(Profile profile) {
-		return new User(profile.getIdProfile(), profile.getEmail(), profile.getPassword());
+		return new User(profile.getIdProfile(), profile.getNickname(),profile.getEmail(), profile.getPassword());
 	}
 
 }

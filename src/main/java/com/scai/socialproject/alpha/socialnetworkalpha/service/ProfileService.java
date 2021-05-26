@@ -25,9 +25,11 @@ public interface ProfileService {
 	
 	public ResponseEntity<ProfileDTO> saveProfile(Profile profile);
 	
-	public void updateProfile(ProfileDTO profileDTO);
+	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO);
 	
 	public void deleteProfileById(String idProfile);
 	
 	public ResponseEntity<User> login(String email, String pass);
+	
+	public ResponseEntity<User> checkEmail(User user);
 }

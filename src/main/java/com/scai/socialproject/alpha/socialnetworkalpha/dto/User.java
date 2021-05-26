@@ -2,6 +2,7 @@ package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
 public class User {
 	private String idUser;
+	private String nickname;
 	private String email;
 	private String pass;
 	
@@ -10,6 +11,14 @@ public class User {
 	public User(String idUser, String email, String pass) {
 		super();
 		this.idUser = idUser;
+		this.email = email;
+		this.pass = pass;
+	}
+
+	public User(String idUser, String nickname, String email, String pass) {
+		super();
+		this.idUser = idUser;
+		this.nickname = nickname;
 		this.email = email;
 		this.pass = pass;
 	}
@@ -36,6 +45,14 @@ public class User {
 
 	public void setPass(String pass) {
 		this.pass = pass;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	@Override

@@ -92,13 +92,17 @@ public class CrudProfileImpl implements CrudProfile {
 	}
 	
 	@Override
-	public void updateProfile(ProfileDTO profileDTO) {
+	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO) {
 		Session session = entityManager.unwrap(Session.class);
 		Profile profile = session.get(Profile.class, profileDTO.getId());
+		if(profile == null) {
+			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+		}
 		profile.setName(profileDTO.getName()); profile.setNickname(profileDTO.getNickname());
 		profile.setBio(profileDTO.getBio()); profile.setProPic(profileDTO.getProPic());
 		profile.setEmail(profileDTO.getEmail());
 		session.update(profile);
+		return new ResponseEntity(profile, HttpStatus.OK);
 	}
 	
 	@Override
@@ -166,7 +170,6 @@ public class CrudProfileImpl implements CrudProfile {
 		
 		return profilesDTO;
 	}
-
 
 	//OK!
 	@Override
