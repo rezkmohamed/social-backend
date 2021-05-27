@@ -27,7 +27,7 @@ public interface CrudProfile {
 	
 	public void updateProfileEntity(Profile profile);
 	
-	public ResponseEntity<ProfileDTO> saveProfile(Profile profile);
+	public boolean saveProfile(Profile profile);
 	
 	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO);
 	

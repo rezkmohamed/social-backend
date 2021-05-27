@@ -1,6 +1,5 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.repository;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
@@ -23,7 +21,6 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOFollowUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOPostUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
 
-import javassist.tools.web.BadHttpRequest;
 
 import org.hibernate.query.Query;
 
@@ -65,17 +62,16 @@ public class CrudProfileImpl implements CrudProfile {
 	}
 
 	@Override
-	public ResponseEntity<ProfileDTO> saveProfile(Profile profile){
+	public boolean saveProfile(Profile profile){
 		Session session = entityManager.unwrap(Session.class);
-		List<ProfileDTO> allProfiles = this.findAllProfiles();
-		for(ProfileDTO profileDTO : allProfiles) {
+		List<ProfileDTO> profiles = this.findAllProfiles();
+		for(ProfileDTO profileDTO : profiles) {
 			if(profileDTO.getEmail().equalsIgnoreCase(profile.getEmail())) {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				return false;
 			}
 		}
-		
 		session.save(profile);
-		return new ResponseEntity(DTOProfileUtils.profileToDTO(profile), HttpStatus.OK);
+		return true;
 	}
 	
 	@Override

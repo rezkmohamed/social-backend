@@ -1,6 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<ProfileDTO> register(@RequestBody Profile profile) {
+	public ResponseEntity<HttpStatus> register(@RequestBody Profile profile) {
 		return profileService.saveProfile(profile);
 	}
 	

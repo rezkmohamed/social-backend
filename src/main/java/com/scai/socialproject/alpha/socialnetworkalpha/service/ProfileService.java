@@ -25,7 +25,7 @@ public interface ProfileService {
 	
 	public Profile findProfile(String idProfile);
 	
-	public ResponseEntity<ProfileDTO> saveProfile(Profile profile);
+	public ResponseEntity<HttpStatus> saveProfile(Profile profile);
 	
 	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO);
 	

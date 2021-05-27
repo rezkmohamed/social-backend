@@ -49,8 +49,11 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<ProfileDTO> saveProfile(Profile profile) {
-		return profileRepo.saveProfile(profile);
+	public ResponseEntity<HttpStatus> saveProfile(Profile profile) {
+		if(profileRepo.saveProfile(profile)) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
+		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 	}
 
 	@Override
