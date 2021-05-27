@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.NewPasswordDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
@@ -123,6 +124,19 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 		
 		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<HttpStatus> updatePassword(NewPasswordDTO newPasswordDTO) {
+		Profile profile = profileRepo.findProfile(newPasswordDTO.getIdProfile());
+		if(profile != null) {
+			profile.setPassword(newPasswordDTO.getNewPassword());
+			profileRepo.updateProfileEntity(profile);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 	}
 
 }

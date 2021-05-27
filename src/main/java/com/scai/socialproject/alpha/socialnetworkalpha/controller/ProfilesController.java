@@ -3,6 +3,7 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.NewPasswordDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
@@ -74,5 +76,10 @@ public class ProfilesController {
 	@PutMapping("")
 	public ResponseEntity<ProfileDTO> updateAccount(@RequestBody ProfileDTO profileDTO) {
 		return profileService.updateProfile(profileDTO);
+	}
+	
+	@PutMapping("newpassword/{idProfile}")
+	public ResponseEntity<HttpStatus> updatePassword(@RequestBody NewPasswordDTO newPasswordDTO){
+		return profileService.updatePassword(newPasswordDTO);
 	}
 }

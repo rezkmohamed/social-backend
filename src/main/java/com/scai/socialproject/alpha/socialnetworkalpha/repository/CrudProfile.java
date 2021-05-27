@@ -25,6 +25,8 @@ public interface CrudProfile {
 	
 	public Profile findProfile(String idProfile);
 	
+	public void updateProfileEntity(Profile profile);
+	
 	public ResponseEntity<ProfileDTO> saveProfile(Profile profile);
 	
 	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO);

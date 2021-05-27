@@ -2,8 +2,10 @@ package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.NewPasswordDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
@@ -32,4 +34,6 @@ public interface ProfileService {
 	public ResponseEntity<User> login(String email, String pass);
 	
 	public ResponseEntity<User> checkEmail(User user);
+	
+	public ResponseEntity<HttpStatus> updatePassword(NewPasswordDTO newPasswordDTO);
 }

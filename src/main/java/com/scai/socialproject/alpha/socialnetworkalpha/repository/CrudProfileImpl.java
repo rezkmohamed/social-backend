@@ -201,6 +201,12 @@ public class CrudProfileImpl implements CrudProfile {
 		
 		return profilesDTO;
 	}
+
+	@Override
+	public void updateProfileEntity(Profile profile) {
+		Session session = entityManager.unwrap(Session.class);
+		session.update(profile);
+	}
 	
 
 }
