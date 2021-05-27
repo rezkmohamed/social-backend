@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NewPasswordDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
-import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,13 +25,10 @@ import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 @RequestMapping("/profiles")
 public class ProfilesController {
 	private ProfileService profileService;
-	private PostService postService;
 	
 	@Autowired
-	public ProfilesController(ProfileService profileService,
-							  PostService postService) {
+	public ProfilesController(ProfileService profileService) {
 		this.profileService = profileService;
-		this.postService = postService;
 	}
 	
 	//OK!

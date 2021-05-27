@@ -54,28 +54,10 @@ public class CrudProfileImpl implements CrudProfile {
 		if(profile != null) {
 			ProfileDTO profileDTO = DTOProfileUtils.profileToDTO(profile);
 			profileDTO.setPosts(DTOPostUtils.postToDTO(profile.getPosts()));
-			Query<Follow> queryFollowers = session.createQuery("from Follow where id_followed = :idProfile");
-			queryFollowers.setParameter("idProfile", idProfile);
-			List<Follow> followers = queryFollowers.getResultList();
-			if(followers != null) {
-				List<FollowDTO> followersDTO = DTOFollowUtils.followToDTO(followers);
-				profileDTO.setFollowers(followersDTO);
-				profileDTO.setFollowersCounter(followersDTO.size());
-			} else {
-				profileDTO.setFollowersCounter(0);
-			}
-			
-			Query<Follow> queryFollowing = session.createQuery("from Follow where id_follower = :idProfile");
-			queryFollowing.setParameter("idProfile", idProfile);
-			List<Follow> following = queryFollowing.getResultList();
-			if(following != null) {
-				List<FollowDTO> followingDTO = DTOFollowUtils.followToDTO(following);
-				profileDTO.setFollowing(followingDTO);
-				profileDTO.setFollowingCounter(followingDTO.size());
-			} else {
-				profileDTO.setFollowingCounter(0);
-			}
-			
+			profileDTO.setFollowers(DTOFollowUtils.followToDTO(profile.getFollowers()));
+			profileDTO.setFollowersCounter(profileDTO.getFollowers().size());
+			profileDTO.setFollowing(DTOFollowUtils.followToDTO(profile.getFollowing()));
+			profileDTO.setFollowingCounter(profileDTO.getFollowing().size());
 			return profileDTO;
 		}
 		
@@ -212,6 +194,4 @@ public class CrudProfileImpl implements CrudProfile {
 		Session session = entityManager.unwrap(Session.class);
 		session.update(profile);
 	}
-	
-
 }
