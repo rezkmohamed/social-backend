@@ -2,6 +2,9 @@ package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 
@@ -20,5 +23,5 @@ public interface PostService {
 	
 	public void updatePost(Post post);
 	
-	public void deletePostById(String idPost);
+	public ResponseEntity<HttpStatus> deletePostById(String idPost);
 }

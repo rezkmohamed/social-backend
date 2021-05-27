@@ -74,12 +74,15 @@ public class CrudPostImpl implements CrudPost {
 	}
 
 	@Override
-	public void deletePostById(String idPost) {
+	public boolean deletePostById(String idPost) {
 		Session session = entityManager.unwrap(Session.class);
 		
-		Query query = session.createQuery("delete from Post where id_post=:idPost");
-		query.setParameter("idPost", idPost);
-		query.executeUpdate();
+		Query query = session.createQuery("delete from Post where id_post = :idPost");
+		query.setParameter("idPost", idPost); 
+		if(query.executeUpdate() == 1) {
+			return true;
+		}
+		return false;
 	}
 	
 
