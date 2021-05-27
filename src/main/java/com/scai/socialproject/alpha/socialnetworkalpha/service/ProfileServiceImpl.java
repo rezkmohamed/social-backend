@@ -39,8 +39,12 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public ProfileDTO findProfileById(String idProfile) {
-		return profileRepo.findProfileById(idProfile);
+	public ResponseEntity<ProfileDTO> findProfileById(String idProfile) {
+		ProfileDTO profile = profileRepo.findProfileById(idProfile);
+		if(profile != null) {
+			return new ResponseEntity<ProfileDTO>(profile, HttpStatus.OK);
+		}
+		return new ResponseEntity<ProfileDTO>(HttpStatus.NOT_FOUND);
 	}
 
 	@Override

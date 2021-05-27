@@ -43,10 +43,8 @@ public class ProfilesController {
 	
 	//OK
 	@GetMapping("/{idProfile}")
-	public ProfileDTO findProfileById(@PathVariable String idProfile) {
-		ProfileDTO profile = profileService.findProfileById(idProfile);
-		profile.setPosts(postService.findPostsProfilePage(idProfile));
-		return profile;
+	public ResponseEntity<ProfileDTO> findProfileById(@PathVariable String idProfile) {
+		return profileService.findProfileById(idProfile);
 	}
 	
 	@PostMapping("")
@@ -56,7 +54,7 @@ public class ProfilesController {
 	}
 	
 	//OK!
-	@DeleteMapping("/{idProfile}")
+	/*@DeleteMapping("/{idProfile}")
 	public String deleteProfile(@PathVariable String idProfile) {
 		ProfileDTO profile = profileService.findProfileById(idProfile);
 		if(profile == null) {
@@ -65,7 +63,7 @@ public class ProfilesController {
 		
 		profileService.deleteProfileById(idProfile);
 		return "SUCCESS - PROFILE DELETED WITH ID: " + idProfile;
-	}
+	}*/
 	
 	//OK!
 	@GetMapping("/search/{profileName}")

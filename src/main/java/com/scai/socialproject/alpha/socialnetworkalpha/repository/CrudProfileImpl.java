@@ -20,6 +20,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOFollowUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOPostUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
 
 import javassist.tools.web.BadHttpRequest;
@@ -50,31 +51,35 @@ public class CrudProfileImpl implements CrudProfile {
 	public ProfileDTO findProfileById(String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
 		Profile profile = session.get(Profile.class, idProfile);
-		ProfileDTO profileDTO = DTOProfileUtils.profileToDTO(profile);
-		
-		Query<Follow> queryFollowers = session.createQuery("from Follow where id_followed = :idProfile");
-		queryFollowers.setParameter("idProfile", idProfile);
-		List<Follow> followers = queryFollowers.getResultList();
-		if(followers != null) {
-			List<FollowDTO> followersDTO = DTOFollowUtils.followToDTO(followers);
-			profileDTO.setFollowers(followersDTO);
-			profileDTO.setFollowersCounter(followersDTO.size());
-		} else {
-			profileDTO.setFollowersCounter(0);
+		if(profile != null) {
+			ProfileDTO profileDTO = DTOProfileUtils.profileToDTO(profile);
+			profileDTO.setPosts(DTOPostUtils.postToDTO(profile.getPosts()));
+			Query<Follow> queryFollowers = session.createQuery("from Follow where id_followed = :idProfile");
+			queryFollowers.setParameter("idProfile", idProfile);
+			List<Follow> followers = queryFollowers.getResultList();
+			if(followers != null) {
+				List<FollowDTO> followersDTO = DTOFollowUtils.followToDTO(followers);
+				profileDTO.setFollowers(followersDTO);
+				profileDTO.setFollowersCounter(followersDTO.size());
+			} else {
+				profileDTO.setFollowersCounter(0);
+			}
+			
+			Query<Follow> queryFollowing = session.createQuery("from Follow where id_follower = :idProfile");
+			queryFollowing.setParameter("idProfile", idProfile);
+			List<Follow> following = queryFollowing.getResultList();
+			if(following != null) {
+				List<FollowDTO> followingDTO = DTOFollowUtils.followToDTO(following);
+				profileDTO.setFollowing(followingDTO);
+				profileDTO.setFollowingCounter(followingDTO.size());
+			} else {
+				profileDTO.setFollowingCounter(0);
+			}
+			
+			return profileDTO;
 		}
 		
-		Query<Follow> queryFollowing = session.createQuery("from Follow where id_follower = :idProfile");
-		queryFollowing.setParameter("idProfile", idProfile);
-		List<Follow> following = queryFollowing.getResultList();
-		if(following != null) {
-			List<FollowDTO> followingDTO = DTOFollowUtils.followToDTO(following);
-			profileDTO.setFollowing(followingDTO);
-			profileDTO.setFollowingCounter(followingDTO.size());
-		} else {
-			profileDTO.setFollowingCounter(0);
-		}
-		
-		return profileDTO;
+		return null;
 	}
 
 	@Override
