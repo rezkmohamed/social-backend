@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,8 +52,6 @@ public class PostsController {
 		return post;
 	}
 	
-	
-	
 	//OK!
 	@PostMapping("")
 	public PostDTO addPost(@RequestBody PostDTO postDTO) {
@@ -66,4 +65,8 @@ public class PostsController {
 		return postService.deletePostById(idPost);
 	}
 	
+	@PutMapping("/{idPost}")
+	public ResponseEntity<HttpStatus> updatePost(@RequestBody PostDTO postDTO){
+		return postService.updatePost(postDTO);
+	}
 }

@@ -68,9 +68,15 @@ public class CrudPostImpl implements CrudPost {
 	}
 
 	@Override
-	public void updatePost(Post post) {
+	public boolean updatePost(PostDTO postDTO) {
 		Session session = entityManager.unwrap(Session.class);
-		session.update(post);
+		Query query = session.createQuery("update Post set description = :desc where id_post = :idPost");
+		query.setParameter("desc", postDTO.getDescription()); query.setParameter("idPost", postDTO.getIdPost());
+		if(query.executeUpdate() == 1){
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override

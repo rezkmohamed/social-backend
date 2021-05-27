@@ -42,8 +42,12 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional
-	public void updatePost(Post post) {
-		postRepo.updatePost(post);
+	public ResponseEntity<HttpStatus> updatePost(PostDTO postDTO) {
+		if(postRepo.updatePost(postDTO)) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 	}
 
 	@Override

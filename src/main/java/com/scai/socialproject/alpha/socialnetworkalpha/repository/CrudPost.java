@@ -18,7 +18,7 @@ public interface CrudPost {
 	
 	public void savePost(PostDTO postDTO);
 	
-	public void updatePost(Post post);
+	public boolean updatePost(PostDTO postDTO);
 	
 	public boolean deletePostById(String idPost);
 }
