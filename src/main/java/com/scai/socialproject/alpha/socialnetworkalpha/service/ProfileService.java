@@ -27,7 +27,7 @@ public interface ProfileService {
 	
 	public ResponseEntity<HttpStatus> saveProfile(Profile profile);
 	
-	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO);
+	public ResponseEntity<HttpStatus> updateProfile(ProfileDTO profileDTO);
 	
 	public void deleteProfileById(String idProfile);
 	

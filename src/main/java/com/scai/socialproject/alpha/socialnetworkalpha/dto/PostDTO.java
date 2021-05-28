@@ -13,6 +13,8 @@ public class PostDTO {
 	private int likesCounter;
 	private List<CommentDTO> comments;
 	private List<LikeDTO> likes;
+	private boolean isLiked;
+	
 	
 	public PostDTO() {}
 
@@ -103,6 +105,14 @@ public class PostDTO {
 
 	public void setProfile(ProfileDTO profile) {
 		this.profile = profile;
+	}
+	
+	public boolean isLiked() {
+		return isLiked;
+	}
+
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
 	}
 
 	@Override

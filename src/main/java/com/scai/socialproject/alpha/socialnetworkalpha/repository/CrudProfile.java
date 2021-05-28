@@ -29,7 +29,7 @@ public interface CrudProfile {
 	
 	public boolean saveProfile(Profile profile);
 	
-	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO);
+	public boolean updateProfile(ProfileDTO profileDTO);
 	
 	public void deleteProfileById(String idProfile);
 	

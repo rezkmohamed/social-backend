@@ -76,6 +76,8 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
 	public List<PostDTO> getHomepage(String idProfile) {
+		
+		
 		return postRepo.getHomepage(idProfile);
 	}
 }

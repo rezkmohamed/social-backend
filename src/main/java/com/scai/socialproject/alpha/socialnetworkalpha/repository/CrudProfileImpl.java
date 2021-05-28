@@ -75,17 +75,19 @@ public class CrudProfileImpl implements CrudProfile {
 	}
 	
 	@Override
-	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO) {
+	public boolean updateProfile(ProfileDTO profileDTO) {
 		Session session = entityManager.unwrap(Session.class);
 		Profile profile = session.get(Profile.class, profileDTO.getId());
 		if(profile == null) {
-			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+			return false;
 		}
 		profile.setName(profileDTO.getName()); profile.setNickname(profileDTO.getNickname());
 		profile.setBio(profileDTO.getBio()); profile.setProPic(profileDTO.getProPic());
 		profile.setEmail(profileDTO.getEmail());
 		session.update(profile);
-		return new ResponseEntity(profile, HttpStatus.OK);
+		return true;
+		
+		//return new ResponseEntity(profile, HttpStatus.OK);
 	}
 	
 	@Override
@@ -111,14 +113,23 @@ public class CrudProfileImpl implements CrudProfile {
 		Query<Profile> query = session
 				.createQuery("from Profile where email= :email AND password = :password");
 		query.setParameter("email", email); query.setParameter("password", pass);
-		Profile profile = query.getSingleResult();
+		try {
+			Profile profile = query.getSingleResult();
+			User user = DTOProfileUtils.profileToUser(profile);
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		/*Profile profile = query.getSingleResult();
 		System.out.println(profile);
 		if(profile == null) {
 			return null;
 		}
 		User user = DTOProfileUtils.profileToUser(profile);
 		
-		return user;
+		return user;*/
+		return null;
 	}
 
 	//OK!
@@ -175,9 +186,7 @@ public class CrudProfileImpl implements CrudProfile {
 	@Override
 	public List<ProfileDTO> searchProfilesByName(String profileName) {
 		Session session = entityManager.unwrap(Session.class);
-		Query<Profile> query = 
-				session
-				.createQuery("from Profile where nickname like :string");
+		Query<Profile> query = session.createQuery("from Profile where nickname like :string");
 		query.setParameter("string", '%'+profileName+'%');
 		List<Profile> profiles = query.getResultList();
 		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);		

@@ -58,8 +58,12 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<ProfileDTO> updateProfile(ProfileDTO profileDTO) {
-		return profileRepo.updateProfile(profileDTO);
+	public ResponseEntity<HttpStatus> updateProfile(ProfileDTO profileDTO) {
+		if(profileRepo.updateProfile(profileDTO)) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public class ProfilesController {
 	}
 	
 	@PutMapping("")
-	public ResponseEntity<ProfileDTO> updateAccount(@RequestBody ProfileDTO profileDTO) {
+	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO) {
 		return profileService.updateProfile(profileDTO);
 	}
 	
