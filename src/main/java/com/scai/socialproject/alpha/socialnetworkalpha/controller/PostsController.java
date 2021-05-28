@@ -2,6 +2,8 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,10 @@ public class PostsController {
 	
 	//OK!
 	@GetMapping("/homepage/{id}")
-	public List<PostDTO> getHomepage(@PathVariable String id){
+	public List<PostDTO> getHomepage(@PathVariable String id, HttpServletRequest request){
+		/*System.out.println("controller");
+		String header = request.getHeader("Authorization");
+		System.out.println("header: " + header);*/
 		return postService.getHomepage(id);
 	}
 	
