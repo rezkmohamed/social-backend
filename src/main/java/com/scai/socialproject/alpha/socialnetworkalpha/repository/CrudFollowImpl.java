@@ -84,14 +84,14 @@ public class CrudFollowImpl implements CrudFollow {
 	}
 
 	@Override
-	public ResponseEntity<String> deleteFollow(String idFollower, String idFollowed) {		
+	public boolean deleteFollow(String idFollower, String idFollowed) {		
 		Session session = entityManager.unwrap(Session.class);
 		Query query = session.createQuery("delete from Follow where id_follower=:idFollower AND id_followed=:idFollowed");
 		query.setParameter("idFollower", idFollower).setParameter("idFollowed", idFollowed);
 		if(query.executeUpdate() == 0) {
-			return new ResponseEntity("NOT FOUND",HttpStatus.NOT_FOUND);
+			return false;
 		}
-		return new ResponseEntity("Okay",HttpStatus.OK);
+		return true;
 
 	}
 

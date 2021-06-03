@@ -58,7 +58,7 @@ public class FollowServiceImpl implements FollowService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<String> deleteFollow(String idFollower, String idFollowed) {
+	public boolean deleteFollow(String idFollower, String idFollowed) {
 		return followRepo.deleteFollow(idFollower, idFollowed);
 	}
 
