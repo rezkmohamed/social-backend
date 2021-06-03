@@ -87,11 +87,20 @@ public class PostsController {
 	//OK!
 	@DeleteMapping("/{idPost}")
 	public ResponseEntity<HttpStatus> deletePostById(@PathVariable String idPost) {
+		
+		
 		return postService.deletePostById(idPost);
 	}
 	
 	@PutMapping("/{idPost}")
-	public ResponseEntity<HttpStatus> updatePost(@RequestBody(required = false) PostDTO postDTO) throws HttpMessageNotReadableException{
-		return postService.updatePost(postDTO);
+	public ResponseEntity<HttpStatus> updatePost(@RequestBody(required = false) PostDTO postDTO, HttpServletRequest request, HttpServletResponse response ) throws HttpMessageNotReadableException{
+		String idProfile = RequestUtils.idProfileFromToken(request);
+		postDTO.setIdProfile(idProfile);
+		
+		if(postService.updatePost(postDTO)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

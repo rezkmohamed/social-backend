@@ -21,7 +21,7 @@ public interface PostService {
 	
 	public void savePost(PostDTO postDTO);
 	
-	public ResponseEntity<HttpStatus> updatePost(PostDTO postDTO);
+	public boolean updatePost(PostDTO postDTO);
 	
 	public ResponseEntity<HttpStatus> deletePostById(String idPost);
 }
