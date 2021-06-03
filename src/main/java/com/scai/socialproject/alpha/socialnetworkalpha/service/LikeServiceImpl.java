@@ -34,26 +34,20 @@ public class LikeServiceImpl implements LikeService {
 
 	@Override
 	@Transactional
-	public void addLike(Like like) {
-		likeRepo.addLike(like);
-	}
-
-	@Override
-	@Transactional
 	public LikeDTO addLike(String idPost, String idProfile) {
 		return likeRepo.addLike(idPost, idProfile);
 	}
 
-	@Override
+	/*@Override
 	@Transactional
 	public void deleteLike(String idLike) {
 		likeRepo.deleteLike(idLike);
 	}
-
+*/
 	@Override
 	@Transactional
-	public void deleteLike(String idPost, String idProfile) {
-		likeRepo.deleteLike(idPost, idProfile);
+	public boolean deleteLike(String idPost, String idProfile) {
+		return likeRepo.deleteLike(idPost, idProfile);
 	}
 
 	@Override

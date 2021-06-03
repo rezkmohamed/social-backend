@@ -18,5 +18,5 @@ public interface CrudLike {
 	
 	public void deleteLike(String idLike);
 	
-	public void deleteLike(String idPost, String idProfile);
+	public boolean deleteLike(String idPost, String idProfile);
 }

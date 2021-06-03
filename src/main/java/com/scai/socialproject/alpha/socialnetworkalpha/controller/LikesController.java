@@ -2,7 +2,11 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.LikeService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -44,31 +49,50 @@ public class LikesController {
 	}
 	
 	@GetMapping("/{idProfile}/{idPost}")
-	public LikeDTO getLike(@PathVariable String idProfile, @PathVariable String idPost) {
-		return likeService.getLikeByLikerAndPost(idProfile, idPost);
+	public ResponseEntity<LikeDTO> getLike(@PathVariable String idProfile, @PathVariable String idPost) {
+		LikeDTO res = likeService.getLikeByLikerAndPost(idProfile, idPost);
+		
+		if(res == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
-	
-	@PostMapping("")
-	public Like addLike(Like like) {
-		likeService.addLike(like);
-		return like;
-	}
-	
+		
 	//OKAY
 	@PostMapping("add/{idPost}/{idProfile}")
-	public LikeDTO addLike(@PathVariable String idPost, @PathVariable String idProfile) {
-		return likeService.addLike(idPost, idProfile);
+	public ResponseEntity<LikeDTO> addLike(@PathVariable String idPost, @PathVariable String idProfile, HttpServletRequest request) {
+		String idP = RequestUtils.idProfileFromToken(request);
+		if(!idP.equals(idProfile)) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		LikeDTO like = likeService.addLike(idPost, idP);
+		if(like == null) {
+			return new ResponseEntity<>(like, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(like, HttpStatus.OK);
 	}
 	
 	//OKAY
-	@DeleteMapping("/{idLike}")
+	/*@DeleteMapping("/{idLike}")
 	public void deleteLikeById(@PathVariable String idLike) {
 		likeService.deleteLike(idLike);
-	}
+	}*/
 	
 	//OKAY
 	@DeleteMapping("/delete/{idPost}/{idProfile}")
-	public void deleteLikeByPostAndProfile(@PathVariable String idPost,@PathVariable String idProfile) {
-		likeService.deleteLike(idPost, idProfile);
+	public ResponseEntity<HttpStatus> deleteLikeByPostAndProfile(@PathVariable String idPost,@PathVariable String idProfile, HttpServletRequest request) {
+		String idP = RequestUtils.idProfileFromToken(request);
+		
+		if(!idP.equals(idProfile)) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		if(likeService.deleteLike(idPost, idProfile)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
  }

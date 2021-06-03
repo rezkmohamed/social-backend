@@ -56,7 +56,9 @@ public class CrudLikeImpl implements CrudLike {
 	public LikeDTO addLike(String idPost, String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
 		Post post = session.get(Post.class, idPost);
+
 		Profile profile = session.get(Profile.class, idProfile);
+
 		Like newLike = new Like();
 		newLike.setPost(post); newLike.setProfileLiker(profile);
 		newLike.setDate("31/03/1999");
@@ -73,14 +75,16 @@ public class CrudLikeImpl implements CrudLike {
 	}
 	
 	@Override
-	public void deleteLike(String idPost, String idProfile) {
+	public boolean deleteLike(String idPost, String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
 		
 		Query query = session
 			.createQuery("delete from Like where id_post=:idPost and id_profile_liker=:idProfile");
 		query.setParameter("idPost", idPost); query.setParameter("idProfile", idProfile);
-		query.executeUpdate();
-		
+		if(query.executeUpdate() == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

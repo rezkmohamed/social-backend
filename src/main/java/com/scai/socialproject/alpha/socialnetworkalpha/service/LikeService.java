@@ -11,12 +11,10 @@ public interface LikeService {
 	public List<LikeDTO> findLikesForPost(String idPost);
 	
 	public LikeDTO getLikeByLikerAndPost(String idProfile, String idPost);
-	
-	public void addLike(Like like);
-	
+		
 	public LikeDTO addLike(String idPost, String idProfile);
 	
-	public void deleteLike(String idLike);
+	//public void deleteLike(String idLike);
 	
-	public void deleteLike(String idPost, String idProfile);
+	public boolean deleteLike(String idPost, String idProfile);
 }
