@@ -30,8 +30,17 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional
-	public PostDTO findPostById(String idPost) {
-		return postRepo.findPostById(idPost);
+	public PostDTO findPostById(String idPost, String idProfileLogged) {
+		PostDTO ris = postRepo.findPostById(idPost);
+		
+		ris.getLikes().stream()
+		.forEach( l -> {
+			if(l.getIdProfile().equals(idProfileLogged)) {
+				ris.setLiked(true);
+			}
+		});
+		
+		return ris;
 	}
 
 	@Override
@@ -74,6 +83,16 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
 	public List<PostDTO> getHomepage(String idProfile) {
-		return postRepo.getHomepage(idProfile);
+		List<PostDTO> posts = postRepo.getHomepage(idProfile);
+		
+		posts.stream().forEach( p -> {
+			p.getLikes().forEach(l -> {
+				if(l.getIdProfile().equals(idProfile)) {
+					p.setLiked(true);
+				}
+			});
+		});
+
+		return posts;
 	}
 }

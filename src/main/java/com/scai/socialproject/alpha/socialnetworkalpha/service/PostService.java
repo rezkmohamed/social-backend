@@ -11,7 +11,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 public interface PostService {
 	public List<PostDTO> findAllPosts();
 	
-	public PostDTO findPostById(String idPost);
+	public PostDTO findPostById(String idPost, String idProfileLogged);
 	
 	public List<PostDTO> findPostsProfilePage(String idProfile);
 	

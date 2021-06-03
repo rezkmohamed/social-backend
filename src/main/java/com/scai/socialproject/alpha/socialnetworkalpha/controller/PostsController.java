@@ -63,8 +63,10 @@ public class PostsController {
 	
 	//OK!
 	@GetMapping("/{idPost}")
-	public PostDTO findPostById(@PathVariable String idPost, HttpServletRequest request, HttpServletResponse response) {
-		PostDTO post = postService.findPostById(idPost);
+	public PostDTO findPostById(@PathVariable String idPost, HttpServletRequest request) {
+		String idProfile = RequestUtils.idProfileFromToken(request);
+
+		PostDTO post = postService.findPostById(idPost, idProfile);
 		if(post == null) {
 			throw new RuntimeException("ERROR - POST WITH ID: " + idPost + " NOT FOUND");
 		}
