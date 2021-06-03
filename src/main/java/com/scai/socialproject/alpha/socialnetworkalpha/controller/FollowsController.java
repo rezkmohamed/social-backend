@@ -3,6 +3,7 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,7 +54,12 @@ public class FollowsController {
 	//OK
 	@GetMapping("/get/{idFollower}/{idFollowed}")
 	public ResponseEntity<FollowDTO> getFollow(@PathVariable String idFollower, @PathVariable String idFollowed) {
-		return followService.getFollow(idFollower, idFollowed);
+		FollowDTO follow = followService.getFollow(idFollower, idFollowed);
+		if(follow == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(follow, HttpStatus.OK);
 	}
 	
 	//OK

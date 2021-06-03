@@ -109,18 +109,19 @@ public class CrudFollowImpl implements CrudFollow {
 	}
 
 	@Override
-	public ResponseEntity<FollowDTO> getFollow(String idFollower, String idFollowed) {
+	public FollowDTO getFollow(String idFollower, String idFollowed) {
 		Session session = entityManager.unwrap(Session.class);
 		
 		Query<Follow> query = session.createQuery("from Follow where id_follower = :idFollower AND id_followed = :idFollowed");
 		query.setParameter("idFollower", idFollower); 
 		query.setParameter("idFollowed", idFollowed);
-		Follow follow = query.getSingleResult();
-		if(follow == null) {
-			return new ResponseEntity<FollowDTO>(HttpStatus.NOT_FOUND);
+		try {
+			Follow follow = query.getSingleResult();
+			return DTOFollowUtils.followToDTO(follow);
+		} catch (Exception e) {
+			System.out.println("non c'e il follow");
 		}
-		
-		return new ResponseEntity(DTOFollowUtils.followToDTO(follow), HttpStatus.OK);
+		return null;
 	}
 
 }

@@ -2,7 +2,11 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.CommentLikeService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.CommentService;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -37,14 +42,22 @@ public class CommentController {
 	
 	//OKAY
 	@PostMapping("")
-	public CommentDTO addComment(@RequestBody CommentDTO commentDTO) {
-		return commentService.addComment(commentDTO);
+	public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
+		String idProfile = RequestUtils.idProfileFromToken(request);
+		commentDTO.setIdProfile(idProfile);
+		CommentDTO ris = commentService.addComment(commentDTO);
+		
+		return new ResponseEntity<>(ris, HttpStatus.OK);
 	}
 	
 	//PUT MAPPING (UPDATE TEXT COMMENT)
 	@PutMapping("")
-	public CommentDTO updateComment(@RequestBody CommentDTO commentDTO) {
-		return commentService.updateComment(commentDTO);
+	public ResponseEntity<CommentDTO> updateComment(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
+		String idProfile = RequestUtils.idProfileFromToken(request);
+		commentDTO.setIdProfile(idProfile);
+		CommentDTO ris = commentService.updateComment(commentDTO);
+		
+		return new ResponseEntity<>(ris, HttpStatus.OK);
 	}
 	
 	//DELETE COMMENT

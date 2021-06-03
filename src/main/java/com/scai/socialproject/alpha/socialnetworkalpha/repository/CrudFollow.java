@@ -22,7 +22,7 @@ public interface CrudFollow {
 	 */
 	public List<FollowDTO> findFollowingForProfile(String idProfile);
 	
-	public ResponseEntity<FollowDTO> getFollow(String idFollower, String idFollowed);
+	public FollowDTO getFollow(String idFollower, String idFollowed);
 	
 	public FollowDTO findFollowById(String id);
 	

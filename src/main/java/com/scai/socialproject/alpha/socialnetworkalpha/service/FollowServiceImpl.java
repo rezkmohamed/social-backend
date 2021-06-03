@@ -70,7 +70,7 @@ public class FollowServiceImpl implements FollowService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<FollowDTO> getFollow(String idFollower, String idFollowed) {
+	public FollowDTO getFollow(String idFollower, String idFollowed) {
 		return followRepo.getFollow(idFollower, idFollowed);
 	}
 }
