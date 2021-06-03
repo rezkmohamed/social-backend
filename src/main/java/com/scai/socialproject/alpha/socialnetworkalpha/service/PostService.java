@@ -23,5 +23,5 @@ public interface PostService {
 	
 	public boolean updatePost(PostDTO postDTO);
 	
-	public ResponseEntity<HttpStatus> deletePostById(String idPost);
+	public boolean deletePostById(String idPost, String idProfile);
 }

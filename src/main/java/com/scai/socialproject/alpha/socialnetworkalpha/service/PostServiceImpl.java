@@ -48,12 +48,14 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<HttpStatus> deletePostById(String idPost) {
-		if(postRepo.deletePostById(idPost)) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		}
+	public boolean deletePostById(String idPost, String idProfile) {
+		PostDTO post = postRepo.findPostById(idPost);
 		
-		return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		if(post.getIdProfile().equals(idProfile)) {
+			postRepo.deletePostById(idPost);
+			return true;
+		}
+		return false;
 	}
 
 
@@ -72,8 +74,6 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
 	public List<PostDTO> getHomepage(String idProfile) {
-		
-		
 		return postRepo.getHomepage(idProfile);
 	}
 }

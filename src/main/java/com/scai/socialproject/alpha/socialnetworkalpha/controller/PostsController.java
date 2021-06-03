@@ -63,7 +63,7 @@ public class PostsController {
 	
 	//OK!
 	@GetMapping("/{idPost}")
-	public PostDTO findPostById(@PathVariable String idPost, HttpServletRequest request, HttpServletResponse respons) {
+	public PostDTO findPostById(@PathVariable String idPost, HttpServletRequest request, HttpServletResponse response) {
 		PostDTO post = postService.findPostById(idPost);
 		if(post == null) {
 			throw new RuntimeException("ERROR - POST WITH ID: " + idPost + " NOT FOUND");
@@ -86,10 +86,14 @@ public class PostsController {
 	
 	//OK!
 	@DeleteMapping("/{idPost}")
-	public ResponseEntity<HttpStatus> deletePostById(@PathVariable String idPost) {
+	public ResponseEntity<HttpStatus> deletePostById(@PathVariable String idPost, HttpServletRequest request) {
+		String idProfile = RequestUtils.idProfileFromToken(request);
 		
+		if(postService.deletePostById(idPost, idProfile)) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
 		
-		return postService.deletePostById(idPost);
+		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{idPost}")
