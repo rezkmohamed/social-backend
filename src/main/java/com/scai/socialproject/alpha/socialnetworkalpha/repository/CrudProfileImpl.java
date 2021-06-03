@@ -62,16 +62,15 @@ public class CrudProfileImpl implements CrudProfile {
 	}
 
 	@Override
-	public boolean saveProfile(Profile profile){
+	public void saveProfile(Profile profile){
 		Session session = entityManager.unwrap(Session.class);
 		List<ProfileDTO> profiles = this.findAllProfiles();
 		for(ProfileDTO profileDTO : profiles) {
 			if(profileDTO.getEmail().equalsIgnoreCase(profile.getEmail())) {
-				return false;
+
 			}
 		}
 		session.save(profile);
-		return true;
 	}
 	
 	@Override

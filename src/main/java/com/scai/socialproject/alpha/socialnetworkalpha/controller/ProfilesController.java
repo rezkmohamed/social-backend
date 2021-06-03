@@ -2,6 +2,8 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.NewPasswordDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -40,13 +43,20 @@ public class ProfilesController {
 	//OK
 	@GetMapping("/{idProfile}")
 	public ResponseEntity<ProfileDTO> findProfileById(@PathVariable String idProfile) {
-		return profileService.findProfileById(idProfile);
+		ProfileDTO profile = profileService.findProfileById(idProfile);
+		if(profile != null) {
+			return new ResponseEntity<>(profile, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 	}
 	
 	@PostMapping("")
-    public Profile addProfile(@RequestBody Profile profile) {
-		profileService.saveProfile(profile);
-		return profile;
+    public ResponseEntity<ProfileDTO> addProfile(@RequestBody Profile profile) {
+		if(profileService.saveProfile(profile)) {
+			return new ResponseEntity<>(DTOProfileUtils.profileToDTO(profile), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 	}
 	
 	//OK!
@@ -68,7 +78,9 @@ public class ProfilesController {
 	}
 	
 	@PutMapping("")
-	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO) {
+	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO, HttpServletRequest request) {
+		
+		
 		return profileService.updateProfile(profileDTO);
 	}
 	

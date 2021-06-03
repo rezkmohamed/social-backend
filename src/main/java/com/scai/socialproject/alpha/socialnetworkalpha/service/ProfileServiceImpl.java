@@ -3,6 +3,8 @@ package com.scai.socialproject.alpha.socialnetworkalpha.service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,21 +41,22 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<ProfileDTO> findProfileById(String idProfile) {
-		ProfileDTO profile = profileRepo.findProfileById(idProfile);
-		if(profile != null) {
-			return new ResponseEntity<ProfileDTO>(profile, HttpStatus.OK);
-		}
-		return new ResponseEntity<ProfileDTO>(HttpStatus.NOT_FOUND);
+	public ProfileDTO findProfileById(String idProfile) {
+		return profileRepo.findProfileById(idProfile);
 	}
 
 	@Override
 	@Transactional
-	public ResponseEntity<HttpStatus> saveProfile(Profile profile) {
-		if(profileRepo.saveProfile(profile)) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	public boolean saveProfile(Profile profile) {		
+		boolean ris = !profileRepo.findAllProfiles().stream()
+		.filter(p -> p.getEmail().equals(profile.getEmail()))
+		.findFirst().isPresent();
+		
+		if(ris) {
+			profileRepo.saveProfile(profile);
 		}
-		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		
+		return ris;
 	}
 
 	@Override

@@ -21,11 +21,11 @@ public interface ProfileService {
 	
 	public List<ProfileDTO> searchProfilesByName(String profileName);
 	
-	public ResponseEntity<ProfileDTO> findProfileById(String idProfile);
+	public ProfileDTO findProfileById(String idProfile);
 	
 	public Profile findProfile(String idProfile);
 	
-	public ResponseEntity<HttpStatus> saveProfile(Profile profile);
+	public boolean saveProfile(Profile profile);
 	
 	public ResponseEntity<HttpStatus> updateProfile(ProfileDTO profileDTO);
 	

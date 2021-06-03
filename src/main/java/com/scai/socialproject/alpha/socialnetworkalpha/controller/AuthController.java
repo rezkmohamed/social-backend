@@ -15,6 +15,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController("")
@@ -39,7 +40,10 @@ public class AuthController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<HttpStatus> register(@RequestBody Profile profile) {
-		return profileService.saveProfile(profile);
+		if(profileService.saveProfile(profile)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("/testing-auth")
