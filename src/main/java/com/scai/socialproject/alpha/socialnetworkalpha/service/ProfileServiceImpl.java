@@ -136,15 +136,15 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<User> checkEmail(User user) {
+	public boolean checkEmail(User user) {
 		Profile profile = profileRepo.findProfile(user.getIdUser());
 		if(profile != null) {
 			if(profile.getPassword().equals(user.getPass())) {
-				return new ResponseEntity<User>(HttpStatus.OK);
+				return true;
 			}
 		}
 		
-		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		return false;
 	}
 
 	@Override

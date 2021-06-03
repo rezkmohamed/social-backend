@@ -33,7 +33,7 @@ public interface ProfileService {
 	
 	public ResponseEntity<User> login(String email, String pass);
 	
-	public ResponseEntity<User> checkEmail(User user);
+	public boolean checkEmail(User user);
 	
 	public boolean updatePassword(NewPasswordDTO newPasswordDTO);
 }

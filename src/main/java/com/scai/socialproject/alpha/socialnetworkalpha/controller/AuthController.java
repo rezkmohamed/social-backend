@@ -1,5 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController("")
@@ -34,8 +37,15 @@ public class AuthController {
 	}
 	
 	@PostMapping("checkpassword")
-	public ResponseEntity<User> checkPassword(@RequestBody User user){
-		return profileService.checkEmail(user);
+	public ResponseEntity<HttpStatus> checkPassword(@RequestBody User user, HttpServletRequest request){
+		String idProfile = RequestUtils.idProfileFromToken(request);
+		user.setIdUser(idProfile);
+		
+		if(profileService.checkEmail(user)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	//OK
