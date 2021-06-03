@@ -35,5 +35,5 @@ public interface ProfileService {
 	
 	public ResponseEntity<User> checkEmail(User user);
 	
-	public ResponseEntity<HttpStatus> updatePassword(NewPasswordDTO newPasswordDTO);
+	public boolean updatePassword(NewPasswordDTO newPasswordDTO);
 }

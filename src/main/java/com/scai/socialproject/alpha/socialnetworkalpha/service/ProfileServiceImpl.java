@@ -149,15 +149,16 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<HttpStatus> updatePassword(NewPasswordDTO newPasswordDTO) {
+	public boolean updatePassword(NewPasswordDTO newPasswordDTO) {
 		Profile profile = profileRepo.findProfile(newPasswordDTO.getIdProfile());
+		
 		if(profile != null) {
 			profile.setPassword(newPasswordDTO.getNewPassword());
 			profileRepo.updateProfileEntity(profile);
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+			return true;
 		}
 		
-		return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		return false;
 	}
 
 }

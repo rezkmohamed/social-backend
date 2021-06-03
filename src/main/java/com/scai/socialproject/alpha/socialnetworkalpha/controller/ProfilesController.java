@@ -91,7 +91,14 @@ public class ProfilesController {
 	}
 	
 	@PutMapping("newpassword/{idProfile}")
-	public ResponseEntity<HttpStatus> updatePassword(@RequestBody NewPasswordDTO newPasswordDTO){
-		return profileService.updatePassword(newPasswordDTO);
+	public ResponseEntity<HttpStatus> updatePassword(@RequestBody NewPasswordDTO newPasswordDTO, HttpServletRequest request){
+		String idProfile = RequestUtils.idProfileFromToken(request);
+		newPasswordDTO.setIdProfile(idProfile);
+		
+		if(profileService.updatePassword(newPasswordDTO)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }
