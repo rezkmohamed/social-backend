@@ -29,7 +29,7 @@ public interface CrudProfile {
 	
 	public void saveProfile(Profile profile);
 	
-	public boolean updateProfile(ProfileDTO profileDTO);
+	public void updateProfile(Profile profile);
 	
 	public void deleteProfileById(String idProfile);
 	

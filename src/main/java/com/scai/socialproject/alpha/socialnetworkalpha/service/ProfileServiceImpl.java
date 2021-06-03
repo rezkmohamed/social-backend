@@ -17,6 +17,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -61,12 +62,18 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<HttpStatus> updateProfile(ProfileDTO profileDTO) {
-		if(profileRepo.updateProfile(profileDTO)) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	public boolean updateProfile(ProfileDTO profileDTO) {
+		Profile profile = profileRepo.findProfile(profileDTO.getId());
+		if(profile == null) {
+			return false;
 		}
 		
-		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		profile.setName(profileDTO.getName()); profile.setNickname(profileDTO.getNickname());
+		profile.setBio(profileDTO.getBio()); profile.setProPic(profileDTO.getProPic());
+		profile.setEmail(profileDTO.getEmail());
+		
+		profileRepo.updateProfile(profile);
+		return true;
 	}
 
 	@Override

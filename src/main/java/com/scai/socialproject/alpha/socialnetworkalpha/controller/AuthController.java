@@ -38,6 +38,7 @@ public class AuthController {
 		return profileService.checkEmail(user);
 	}
 	
+	//OK
 	@PostMapping("/register")
 	public ResponseEntity<HttpStatus> register(@RequestBody Profile profile) {
 		if(profileService.saveProfile(profile)) {

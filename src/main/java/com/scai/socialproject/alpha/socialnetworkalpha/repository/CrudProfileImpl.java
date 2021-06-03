@@ -43,6 +43,8 @@ public class CrudProfileImpl implements CrudProfile {
 		
 		return profilesDTO;
 	}
+	
+	
 
 	@Override
 	public ProfileDTO findProfileById(String idProfile) {
@@ -74,9 +76,12 @@ public class CrudProfileImpl implements CrudProfile {
 	}
 	
 	@Override
-	public boolean updateProfile(ProfileDTO profileDTO) {
+	public void updateProfile(Profile profile) {
 		Session session = entityManager.unwrap(Session.class);
-		Profile profile = session.get(Profile.class, profileDTO.getId());
+		
+		session.update(profile);
+		
+		/*Profile profile = session.get(Profile.class, profileDTO.getId());
 		if(profile == null) {
 			return false;
 		}
@@ -85,7 +90,7 @@ public class CrudProfileImpl implements CrudProfile {
 		profile.setEmail(profileDTO.getEmail());
 		session.update(profile);
 		return true;
-		
+		*/
 		//return new ResponseEntity(profile, HttpStatus.OK);
 	}
 	

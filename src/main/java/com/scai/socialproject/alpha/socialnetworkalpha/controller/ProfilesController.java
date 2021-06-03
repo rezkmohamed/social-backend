@@ -22,6 +22,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -51,6 +52,7 @@ public class ProfilesController {
 		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 	}
 	
+	//OK
 	@PostMapping("")
     public ResponseEntity<ProfileDTO> addProfile(@RequestBody Profile profile) {
 		if(profileService.saveProfile(profile)) {
@@ -79,9 +81,13 @@ public class ProfilesController {
 	
 	@PutMapping("")
 	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO, HttpServletRequest request) {
+		String idProfile = RequestUtils.idProfileFromToken(request);
+		profileDTO.setId(idProfile);
+		if(profileService.updateProfile(profileDTO)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 		
-		
-		return profileService.updateProfile(profileDTO);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@PutMapping("newpassword/{idProfile}")
