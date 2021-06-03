@@ -2,6 +2,8 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.FollowService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -64,8 +67,15 @@ public class FollowsController {
 	
 	//OK
 	@PostMapping("/{idFollower}/follow/{idFollowed}")
-	public FollowDTO addFollow(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed) {
-		return followService.addFollow(idFollower, idFollowed);
+	public ResponseEntity<FollowDTO> addFollow(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
+		String idProfileFollower = RequestUtils.idProfileFromToken(request);
+		FollowDTO ris = followService.addFollow(idProfileFollower, idFollowed);
+		
+		if(ris == null) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(ris, HttpStatus.OK);
 	}
 	
 	//OK

@@ -99,8 +99,13 @@ public class CrudFollowImpl implements CrudFollow {
 	public FollowDTO addFollow(String idFollower, String idFollowed) {
 		Session session = entityManager.unwrap(Session.class);
 		Profile follower = session.get(Profile.class, idFollower);
+		if(follower == null) {
+			return null;
+		}
 		Profile followed = session.get(Profile.class, idFollowed);
-		
+		if(followed == null) {
+			return null;
+		}
 		Follow follow = new Follow();
 		follow.setFollower(follower); follow.setFollowed(followed);
 		session.save(follow);
