@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -101,6 +100,10 @@ public class Post {
 
 	public String getDate() {
 		return date.toString();
+	}
+	
+	public LocalDateTime getLocalDateTime() {
+		return date;
 	}
 
 	public void setDate(String date) {

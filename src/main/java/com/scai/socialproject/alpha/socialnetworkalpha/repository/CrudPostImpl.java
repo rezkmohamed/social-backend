@@ -1,7 +1,9 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.repository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
@@ -118,8 +120,17 @@ public class CrudPostImpl implements CrudPost {
 		
 		System.out.println("HOMEPAGE FOR PROFILE - " + idProfile);
 		List<Post> posts = query.getResultList();
+		
+		List<Post> postsSorted =
+		posts.stream()
+		.sorted(Comparator.comparing(
+				Post::getLocalDateTime,
+				Comparator.reverseOrder()
+				))
+		.collect(Collectors.toList());
+		
 		List<PostDTO> ris = new ArrayList<>();
-		for(Post post : posts) {
+		for(Post post : postsSorted) {
 			PostDTO postDTO = DTOPostUtils.postToDTO(post);
 			postDTO.setProfile(DTOProfileUtils.profileToDTO(post.getProfile()));
 			postDTO.setComments(DTOCommentUtils.commentToDTO(post.getComments()));
