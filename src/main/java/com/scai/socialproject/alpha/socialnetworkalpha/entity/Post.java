@@ -1,5 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.entity;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class Post {
 	private String description;
 	
 	@Column(name="date")
-	private String date;
+	private LocalDateTime date;
 	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
 			            CascadeType.REFRESH, CascadeType.DETACH},
@@ -63,7 +65,14 @@ public class Post {
 		super();
 		this.img_post = img_post;
 		this.description = description;
-		this.date = date;
+		
+		
+		int endOfString = 19;
+		date = date.substring(0, endOfString);
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
+		this.date = dateInput;
 	}
 
 	public String getIdPost() {
@@ -91,11 +100,17 @@ public class Post {
 	}
 
 	public String getDate() {
-		return date;
+		return date.toString();
 	}
 
 	public void setDate(String date) {
-		this.date = date;
+		
+		int endOfString = 19;
+		date = date.substring(0, endOfString);
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
+		this.date = dateInput;
 	}
 	
 	public Profile getProfile() {

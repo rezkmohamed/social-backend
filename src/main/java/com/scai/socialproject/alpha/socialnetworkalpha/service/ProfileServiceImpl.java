@@ -1,5 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -93,6 +95,7 @@ public class ProfileServiceImpl implements ProfileService {
 	public ResponseEntity<User> login(String email, String pass) {
 		User user = profileRepo.getUserAuth(email, pass);
 		
+		
 		if(user != null) {
 			HttpHeaders headers = new HttpHeaders();
         	HashMap<String, Object> addedValues = new HashMap<String, Object>();
@@ -101,7 +104,7 @@ public class ProfileServiceImpl implements ProfileService {
 			String token = Jwts.builder()
 					.addClaims(addedValues)
 					.setIssuedAt(new Date(System.currentTimeMillis()))
-					.setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
+					.setExpiration(new Date(System.currentTimeMillis() + 120 * 60 * 1000))
 					.signWith(SignatureAlgorithm.HS512, "ciao").compact();
 			headers.add("Authentication", "Bearer " + token);
 			return ResponseEntity.ok().headers(headers).build();

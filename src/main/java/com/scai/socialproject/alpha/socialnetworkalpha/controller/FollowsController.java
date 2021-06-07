@@ -86,7 +86,6 @@ public class FollowsController {
 			return new ResponseEntity<>("OK!", HttpStatus.OK);
 		}
 		
-		
 		return new ResponseEntity<>("SOME ERROR JUST HAPPENED", HttpStatus.BAD_REQUEST);
 	}
 }
