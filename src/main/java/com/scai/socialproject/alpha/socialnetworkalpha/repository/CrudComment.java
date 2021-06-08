@@ -10,6 +10,8 @@ public interface CrudComment {
 	
 	public List<CommentDTO> findAllComments(String idPost);
 	
+	public Comment getCommentByIdComment(String idComment);
+	
 	public CommentDTO addComment(CommentDTO commentDTO);
 	
 	public CommentDTO updateComment(CommentDTO commentDTO);

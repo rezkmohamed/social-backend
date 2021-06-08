@@ -103,4 +103,12 @@ public class CrudCommentImpl implements CrudComment{
 		
 		return commentDTO;
 	}
+
+	@Override
+	public Comment getCommentByIdComment(String idComment) {
+		Session session = entityManager.unwrap(Session.class);
+		Comment comment = session.get(Comment.class, idComment);
+		
+		return comment;
+	}
 }

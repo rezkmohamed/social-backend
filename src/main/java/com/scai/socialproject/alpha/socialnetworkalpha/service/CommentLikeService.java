@@ -12,7 +12,7 @@ public interface CommentLikeService {
 	
 	public CommentLikeDTO findCommentLikeById(String idCommentLike);
 	
-	public void addCommentLike(CommentLike commentLike);
+	public boolean addCommentLike(String idComment, String idProfile);
 	
 	public void deleteCommentLikeById(String idCommentLike);
 
