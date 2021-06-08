@@ -70,4 +70,19 @@ public class CommentLikeServiceImpl implements CommentLikeService {
 		commentLikeRepo.deleteCommentLikeById(idCommentLike);
 	}
 
+	@Override
+	@Transactional
+	public boolean isLiked(String idComment, String idProfile) {
+		CommentLike liked = commentLikeRepo.findCommentLikeByIdCommentAndIdProfile(idComment, idProfile);
+		if(liked == null) {
+			return false;
+		}
+		else if(liked.getProfile().getIdProfile().equals(idProfile) && 
+				liked.getComment().getIdComment().equals(idComment)) {
+			return true;
+		}
+					
+		return false;
+	}
+
 }

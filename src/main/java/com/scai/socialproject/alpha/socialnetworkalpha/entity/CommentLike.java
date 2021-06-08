@@ -4,8 +4,6 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name="comment_like")
 public class CommentLike {
@@ -14,9 +12,6 @@ public class CommentLike {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@Column(name="id_comment_like")
 	private String idCommentLike;
-	
-	@Column(name="date")
-	private String date;
 	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
                         CascadeType.REFRESH, CascadeType.DETACH})
@@ -30,11 +25,6 @@ public class CommentLike {
 	
 	public CommentLike() {}
 
-	public CommentLike(String date) {
-		super();
-		this.date = date;
-	}
-
 	public String getIdCommentLike() {
 		return idCommentLike;
 	}
@@ -43,15 +33,6 @@ public class CommentLike {
 		this.idCommentLike = idCommentLike;
 	}
 	
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	@JsonIgnore
 	public Comment getComment() {
 		return comment;
 	}
@@ -60,7 +41,6 @@ public class CommentLike {
 		this.comment = comment;
 	}
 
-	@JsonIgnore
 	public Profile getProfile() {
 		return profile;
 	}

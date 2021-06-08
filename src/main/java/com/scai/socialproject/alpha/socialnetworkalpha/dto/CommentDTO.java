@@ -14,6 +14,7 @@ public class CommentDTO {
 	private String nicknameProfile;
 	private List<CommentLikeDTO> commentLikes;
 	private int commentLikesCounter;
+	private boolean isLiked;
 	
 	public CommentDTO() {}
 
@@ -105,6 +106,14 @@ public class CommentDTO {
 		this.commentLikes = commentLikes;
 	}
 
+	public boolean isLiked() {
+		return isLiked;
+	}
+
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+	
 	@Override
 	public String toString() {
 		return "CommentDTO [idComment=" + idComment + ", comment=" + comment + ", date=" + date + ", idPost=" + idPost

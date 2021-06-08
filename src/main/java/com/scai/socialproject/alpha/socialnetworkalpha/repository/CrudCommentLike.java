@@ -10,6 +10,8 @@ public interface CrudCommentLike {
 	
 	public List<CommentLikeDTO> findAllCommentLikesForComment(String idComment);
 	
+	public CommentLike findCommentLikeByIdCommentAndIdProfile(String idComment, String idProfile);
+	
 	public CommentLikeDTO findCommentLikeById(String idCommentLike);
 	
 	public void addCommentLike(CommentLike commentLike);

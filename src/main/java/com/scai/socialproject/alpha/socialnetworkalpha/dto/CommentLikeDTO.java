@@ -4,16 +4,14 @@ public class CommentLikeDTO {
 	private String idCommentLike;
 	private String idComment;
 	private String idProfile;
-	private String date;
 	
 	public CommentLikeDTO() {}
 
-	public CommentLikeDTO(String idCommentLike, String idComment, String idProfile, String date) {
+	public CommentLikeDTO(String idCommentLike, String idComment, String idProfile) {
 		super();
 		this.idCommentLike = idCommentLike;
 		this.idComment = idComment;
 		this.idProfile = idProfile;
-		this.date = date;
 	}
 
 	public String getIdCommentLike() {
@@ -40,17 +38,10 @@ public class CommentLikeDTO {
 		this.idProfile = idProfile;
 	}
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
 
 	@Override
 	public String toString() {
 		return "CommentLikeDTO [idCommentLike=" + idCommentLike + ", idComment=" + idComment + ", idProfile="
-				+ idProfile + ", date=" + date + "]";
+				+ idProfile + "]";
 	}
 }

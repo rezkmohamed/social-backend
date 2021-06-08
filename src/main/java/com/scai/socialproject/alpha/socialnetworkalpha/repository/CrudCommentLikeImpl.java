@@ -67,4 +67,20 @@ public class CrudCommentLikeImpl implements CrudCommentLike {
 		query.setParameter("idCommentLike", idCommentLike);
 		query.executeUpdate();
 	}
+
+	@Override
+	public CommentLike findCommentLikeByIdCommentAndIdProfile(String idComment, String idProfile) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<CommentLike> query = session.createQuery("from CommentLike where id_comment = :idComment AND id_liker = :idProfile");
+		query.setParameter("idComment", idComment); query.setParameter("idProfile", idProfile);
+
+		try {
+			CommentLike commentLike = query.getSingleResult();
+			return commentLike;
+		} catch (Exception e) {
+			System.out.println("non ce il commentLike");
+		}
+		
+		return null;
+	}
 }

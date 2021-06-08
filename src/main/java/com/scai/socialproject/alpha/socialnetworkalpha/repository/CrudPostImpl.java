@@ -2,6 +2,7 @@ package com.scai.socialproject.alpha.socialnetworkalpha.repository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentLikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
@@ -118,13 +121,19 @@ public class CrudPostImpl implements CrudPost {
 		Query<Post> query = session.createQuery("from Post where id_profile = :idProfile");
 		query.setParameter("idProfile", idProfile);
 		
+				
 		List<Post> posts = query.getResultList();		
 		List<PostDTO> ris = new ArrayList<>();
 		for(Post post : posts) {
 			PostDTO postDTO = DTOPostUtils.postToDTO(post);
 			postDTO.setProfile(DTOProfileUtils.profileToDTO(post.getProfile()));
-			postDTO.setComments(DTOCommentUtils.commentToDTO(post.getComments()));
+			
+			
+			postDTO.setComments(DTOCommentUtils.commentToDTO(post.getComments()));			
+			
 			postDTO.setCommentsCounter(post.getComments().size());
+			
+			
 			postDTO.setLikes(DTOLikeUtils.likeToDTO(post.getLikes()));
 			postDTO.setLikesCounter(post.getLikes().size());
 			ris.add(postDTO);
@@ -133,36 +142,4 @@ public class CrudPostImpl implements CrudPost {
 		return ris;
 	}
 	
-	/*
-	@Override
-	public List<PostDTO> getHomepage(String idProfile) {
-		Session session = entityManager.unwrap(Session.class);
-		Query<Post> query = session.createQuery("from Post where id_profile <> :idProfile");
-		query.setParameter("idProfile", idProfile);
-		
-		System.out.println("HOMEPAGE FOR PROFILE - " + idProfile);
-		List<Post> posts = query.getResultList();
-		
-		List<Post> postsSorted =
-		posts.stream()
-		.sorted(Comparator.comparing(
-				Post::getLocalDateTime,
-				Comparator.reverseOrder()
-				))
-		.collect(Collectors.toList());
-		
-		List<PostDTO> ris = new ArrayList<>();
-		for(Post post : postsSorted) {
-			PostDTO postDTO = DTOPostUtils.postToDTO(post);
-			postDTO.setProfile(DTOProfileUtils.profileToDTO(post.getProfile()));
-			postDTO.setComments(DTOCommentUtils.commentToDTO(post.getComments()));
-			postDTO.setCommentsCounter(post.getComments().size());
-			postDTO.setLikes(DTOLikeUtils.likeToDTO(post.getLikes()));
-			postDTO.setLikesCounter(post.getLikes().size());
-			ris.add(postDTO);
-		}
-		
-		return ris;
-	}
-	*/
 }

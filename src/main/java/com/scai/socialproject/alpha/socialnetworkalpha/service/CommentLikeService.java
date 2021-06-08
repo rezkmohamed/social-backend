@@ -14,6 +14,8 @@ public interface CommentLikeService {
 	
 	public boolean addCommentLike(String idComment, String idProfile);
 	
+	public boolean isLiked(String idComment, String idProfile);
+	
 	public void deleteCommentLikeById(String idCommentLike);
 
 }

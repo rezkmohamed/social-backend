@@ -10,8 +10,7 @@ public class DTOCommentsLikeUtils {
 	private static CommentLikeDTO DTOFromCommentLike(CommentLike commentLike) {
 		return new CommentLikeDTO(commentLike.getIdCommentLike(), 
 												commentLike.getComment().getIdComment(), 
-												commentLike.getProfile().getIdProfile(), 
-												commentLike.getDate());
+												commentLike.getProfile().getIdProfile());
 	}
 
 	

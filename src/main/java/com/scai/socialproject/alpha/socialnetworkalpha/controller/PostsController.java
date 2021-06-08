@@ -57,7 +57,7 @@ public class PostsController {
 			response.sendError(401);
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 		}
-		
+				
 		return new ResponseEntity<>(postService.getHomepage(id), HttpStatus.OK);
 	}
 	
