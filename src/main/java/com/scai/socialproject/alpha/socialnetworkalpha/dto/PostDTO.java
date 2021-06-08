@@ -1,5 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostDTO {
@@ -7,6 +8,7 @@ public class PostDTO {
 	private String urlImg;
 	private String description;
 	private String date;
+	private LocalDateTime localDate;
 	private String idProfile;
 	private ProfileDTO profile;
 	private int commentsCounter;
@@ -115,6 +117,14 @@ public class PostDTO {
 		this.isLiked = isLiked;
 	}
 
+	public LocalDateTime getLocalDate() {
+		return localDate;
+	}
+
+	public void setLocalDate(LocalDateTime localDate) {
+		this.localDate = localDate;
+	}
+	
 	@Override
 	public String toString() {
 		return "PostDTO [idPost=" + idPost + ", urlImg=" + urlImg + ", description=" + description + ", date=" + date

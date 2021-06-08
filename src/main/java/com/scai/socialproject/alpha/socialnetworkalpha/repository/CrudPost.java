@@ -8,9 +8,11 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 public interface CrudPost {
 	public List<PostDTO> findAllPosts();
 	
+	public List<PostDTO> getPosts(String idProfile);
+	
 	public List<PostDTO> findPostsProfilePage(String idProfile);
 	
-	public List<PostDTO> getHomepage(String idProfile);
+	//public List<PostDTO> getHomepage(String idProfile);
 	
 	public PostDTO findPostById(String idPost);
 	

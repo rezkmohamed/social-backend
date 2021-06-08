@@ -110,8 +110,30 @@ public class CrudPostImpl implements CrudPost {
 		
 		return postsDTO;
 	}
-
-
+	
+	
+	@Override
+	public List<PostDTO> getPosts(String idProfile){
+		Session session = entityManager.unwrap(Session.class);
+		Query<Post> query = session.createQuery("from Post where id_profile = :idProfile");
+		query.setParameter("idProfile", idProfile);
+		
+		List<Post> posts = query.getResultList();		
+		List<PostDTO> ris = new ArrayList<>();
+		for(Post post : posts) {
+			PostDTO postDTO = DTOPostUtils.postToDTO(post);
+			postDTO.setProfile(DTOProfileUtils.profileToDTO(post.getProfile()));
+			postDTO.setComments(DTOCommentUtils.commentToDTO(post.getComments()));
+			postDTO.setCommentsCounter(post.getComments().size());
+			postDTO.setLikes(DTOLikeUtils.likeToDTO(post.getLikes()));
+			postDTO.setLikesCounter(post.getLikes().size());
+			ris.add(postDTO);
+		}
+		
+		return ris;
+	}
+	
+	/*
 	@Override
 	public List<PostDTO> getHomepage(String idProfile) {
 		Session session = entityManager.unwrap(Session.class);
@@ -142,5 +164,5 @@ public class CrudPostImpl implements CrudPost {
 		
 		return ris;
 	}
-
+	*/
 }

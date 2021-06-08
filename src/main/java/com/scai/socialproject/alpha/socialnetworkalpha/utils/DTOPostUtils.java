@@ -17,6 +17,7 @@ public class DTOPostUtils {
 								  post.getDescription(), 
 								  post.getDate(), 
 								  post.getProfile().getIdProfile());
+		tmp.setLocalDate(post.getLocalDateTime());
 		return tmp;
 	}
 	

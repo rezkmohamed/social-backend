@@ -31,8 +31,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody User user){		
-		System.out.println(user);
+	public ResponseEntity<User> login(@RequestBody User user){	
 		return profileService.login(user.getEmail(), user.getPass());
 	}
 	

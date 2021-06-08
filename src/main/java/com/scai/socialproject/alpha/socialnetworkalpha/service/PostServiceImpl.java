@@ -1,6 +1,9 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,17 +11,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
+import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudFollow;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudPost;
 
 @Service
 public class PostServiceImpl implements PostService {
 	private CrudPost postRepo;
+	private CrudFollow followRepo;
 	
 	@Autowired
-	public PostServiceImpl(CrudPost postRepo) {
+	public PostServiceImpl(CrudPost postRepo, CrudFollow followRepo) {
 		this.postRepo = postRepo;
+		this.followRepo = followRepo;
 	}
 	
 	
@@ -83,9 +90,24 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
 	public List<PostDTO> getHomepage(String idProfile) {
-		List<PostDTO> posts = postRepo.getHomepage(idProfile);
+		List<PostDTO> posts = new LinkedList<>();
+		List<FollowDTO> following = followRepo.findFollowingForProfile(idProfile);
+		for(FollowDTO follow : following) {
+			String id = follow.getIdFollowed();
+			List<PostDTO> postsProfile = postRepo.getPosts(id);
+			posts.addAll(postsProfile);
+		}
 		
-		posts.stream().forEach( p -> {
+		List<PostDTO> postsSorted =
+		posts.stream()
+		.sorted(Comparator.comparing(
+				PostDTO::getLocalDate,
+				Comparator.reverseOrder()
+				))
+		.collect(Collectors.toList());
+
+		
+		postsSorted.stream().forEach( p -> {
 			p.getLikes().forEach(l -> {
 				if(l.getIdProfile().equals(idProfile)) {
 					p.setLiked(true);
@@ -93,6 +115,6 @@ public class PostServiceImpl implements PostService {
 			});
 		});
 
-		return posts;
+		return postsSorted;
 	}
 }
