@@ -50,7 +50,6 @@ public class CommentController {
 		return new ResponseEntity<>(ris, HttpStatus.OK);
 	}
 	
-	//PUT MAPPING (UPDATE TEXT COMMENT)
 	@PutMapping("")
 	public ResponseEntity<CommentDTO> updateComment(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
 		String idProfile = RequestUtils.idProfileFromToken(request);

@@ -77,7 +77,7 @@ public class CrudCommentImpl implements CrudComment{
 		queryProfile.setParameter("idProfile", commentDTO.getIdProfile());
 		Profile profile = queryProfile.getSingleResult();
 		comment.setWriter(profile);
-		session.save(comment);
+		commentDTO.setIdComment((String) session.save(comment));
 		
 		return commentDTO;
 	}
