@@ -83,4 +83,17 @@ public class CrudCommentLikeImpl implements CrudCommentLike {
 		
 		return null;
 	}
+
+	@Override
+	public boolean deleteCommentLikeByIdCommentAndIdProfile(String idComment, String idProfile) {
+		Session session = entityManager.unwrap(Session.class);
+		Query query = session.createQuery("delete from CommentLike where id_comment = :idComment AND id_liker = :idProfile");
+		query.setParameter("idComment", idComment); query.setParameter("idProfile", idProfile);
+		
+		if(query.executeUpdate() == 1) {
+			return true;
+		}
+		
+		return false;
+	}
 }

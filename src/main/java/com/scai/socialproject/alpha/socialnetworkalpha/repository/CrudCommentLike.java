@@ -12,6 +12,8 @@ public interface CrudCommentLike {
 	
 	public CommentLike findCommentLikeByIdCommentAndIdProfile(String idComment, String idProfile);
 	
+	public boolean deleteCommentLikeByIdCommentAndIdProfile(String idComment, String idProfile);
+	
 	public CommentLikeDTO findCommentLikeById(String idCommentLike);
 	
 	public void addCommentLike(CommentLike commentLike);

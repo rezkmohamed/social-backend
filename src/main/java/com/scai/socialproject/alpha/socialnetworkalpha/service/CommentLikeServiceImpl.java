@@ -85,4 +85,10 @@ public class CommentLikeServiceImpl implements CommentLikeService {
 		return false;
 	}
 
+	@Override
+	@Transactional
+	public boolean deleteCommentLike(String idComment, String idProfile) {
+		return commentLikeRepo.deleteCommentLikeByIdCommentAndIdProfile(idComment, idProfile);
+	}
+
 }

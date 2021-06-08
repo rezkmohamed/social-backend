@@ -45,6 +45,16 @@ public class PostServiceImpl implements PostService {
 			}
 		});
 		
+		ris.getComments().stream()
+		.forEach(c -> {
+			c.getCommentLikes().stream()
+			.forEach(cl -> {
+				if(cl.getIdProfile().equals(idProfileLogged)) {
+					c.setLiked(true);
+				}
+			});
+		});
+		
 		return ris;
 	}
 
@@ -106,10 +116,7 @@ public class PostServiceImpl implements PostService {
 				});
 			});
 		});
-		
-		
-		
-		
+
 		
 		List<PostDTO> postsSorted =
 		posts.stream()
