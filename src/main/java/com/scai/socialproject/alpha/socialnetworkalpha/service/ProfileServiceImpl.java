@@ -164,4 +164,20 @@ public class ProfileServiceImpl implements ProfileService {
 		return false;
 	}
 
+	@Override
+	@Transactional
+	public boolean resetPassword(String email) {
+		Profile profile = profileRepo.findProfileByEmail(email);
+		if(profile != null ) {
+			if(profile.getEmail().equals(email)) {
+				profile.setPassword("password");
+				profileRepo.updateProfile(profile);
+				return true;
+			}
+		}
+
+		
+		return false;
+	}
+
 }

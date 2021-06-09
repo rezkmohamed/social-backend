@@ -36,4 +36,6 @@ public interface ProfileService {
 	public boolean checkEmail(User user);
 	
 	public boolean updatePassword(NewPasswordDTO newPasswordDTO);
+	
+	public boolean resetPassword(String email);
 }

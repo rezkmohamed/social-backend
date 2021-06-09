@@ -203,4 +203,19 @@ public class CrudProfileImpl implements CrudProfile {
 		Session session = entityManager.unwrap(Session.class);
 		session.update(profile);
 	}
+
+	@Override
+	public Profile findProfileByEmail(String email) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Profile> query = session.createQuery("from Profile where email = :mail");
+		query.setParameter("mail", email);
+		try {
+			Profile profile = query.getSingleResult();
+			return profile;
+		} catch (Exception e) {
+			System.out.println("profile with email " + email + " not found.");
+		}
+		
+		return null;
+	}
 }

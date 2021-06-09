@@ -61,4 +61,12 @@ public class AuthController {
 		return "auth works";
 	}
 	
+	@PutMapping("resetpassword")
+	public ResponseEntity<HttpStatus> resetPassword(@RequestBody String email){
+		if(profileService.resetPassword(email)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
 }

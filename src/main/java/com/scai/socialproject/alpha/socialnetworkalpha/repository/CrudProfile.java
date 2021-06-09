@@ -25,6 +25,8 @@ public interface CrudProfile {
 	
 	public Profile findProfile(String idProfile);
 	
+	public Profile findProfileByEmail(String email);
+	
 	public void updateProfileEntity(Profile profile);
 	
 	public void saveProfile(Profile profile);
