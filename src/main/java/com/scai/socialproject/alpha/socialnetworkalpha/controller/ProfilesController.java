@@ -1,5 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +16,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NewPasswordDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -79,10 +85,34 @@ public class ProfilesController {
 		return profileService.searchProfilesByName(profileName);
 	}
 	
-	@PutMapping("")
-	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO, HttpServletRequest request) {
+	
+	/**
+	 *  public name: string,
+        public nickname: string,
+        public bio: string,
+        public proPic: string,
+
+
+
+
+	private String id;
+	private String name;
+	private String nickname;
+	private String bio;
+	private String proPic;
+	private String email;
+	 * @param profileDTO
+	 * @param profilePic
+	 * @param request
+	 * @return
+	 * @throws IOException 
+	 */
+	@PostMapping(path="updategeneraldata")
+	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO,
+			HttpServletRequest request) throws IOException {
 		String idProfile = RequestUtils.idProfileFromToken(request);
 		profileDTO.setId(idProfile);
+		
 		if(profileService.updateProfile(profileDTO)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
@@ -90,8 +120,21 @@ public class ProfilesController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
+	
+	@PostMapping("/propic")
+	public ResponseEntity<HttpStatus> uploadProfilePic(@RequestParam("myFile") MultipartFile file, MultipartHttpServletRequest request) throws IllegalStateException, IOException{
+		System.out.println(file.getOriginalFilename());
+		String idProfile = RequestUtils.idProfileFromToken(request);
+		if(profileService.uploadProfilePicture(file, idProfile)) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+
+		}
+		
+		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+	}
+	
 	@PutMapping("newpassword/{idProfile}")
-	public ResponseEntity<HttpStatus> updatePassword(@RequestBody NewPasswordDTO newPasswordDTO, HttpServletRequest request){
+	public ResponseEntity<HttpStatus> updatePassword(@RequestBody NewPasswordDTO newPasswordDTO,HttpServletRequest request){
 		String idProfile = RequestUtils.idProfileFromToken(request);
 		newPasswordDTO.setIdProfile(idProfile);
 		

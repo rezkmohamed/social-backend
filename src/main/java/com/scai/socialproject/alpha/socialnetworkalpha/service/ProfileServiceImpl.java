@@ -1,18 +1,23 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NewPasswordDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
@@ -26,10 +31,17 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import javassist.tools.web.BadHttpRequest;
 
+import org.apache.commons.io.*;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
 	private CrudProfile profileRepo;
+	private String basePathFileSystem = "C:\\immagini\\";
+	/**
+	 * FOR FILE UPLOAD
+	 */
+	@Value("${app.upload.dir:${user.home}}")
+	public String uploadDir;
 	
 	@Autowired
 	public ProfileServiceImpl(CrudProfile profileRepo) {
@@ -56,6 +68,7 @@ public class ProfileServiceImpl implements ProfileService {
 		.findFirst().isPresent();
 		
 		if(ris) {
+			
 			profileRepo.saveProfile(profile);
 		}
 		
@@ -76,6 +89,28 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		profileRepo.updateProfile(profile);
 		return true;
+	}
+	
+	@Override
+	@Transactional
+	public boolean uploadProfilePicture(MultipartFile file, String idProfile) throws IllegalStateException, IOException {
+		String filename = file.getOriginalFilename();
+		System.out.println(file.getOriginalFilename());
+		String extension  = filename.substring(filename.lastIndexOf(".") + 1);
+		System.out.println(filename);
+		System.out.println(extension);
+		
+
+		if(extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
+			String newProfilePic = UUID.randomUUID().toString();
+			file.transferTo(new File(basePathFileSystem + newProfilePic + "." + extension));
+			Profile profile = profileRepo.findProfile(idProfile);
+			profile.setProPic(newProfilePic);
+			profileRepo.saveProfile(profile);
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
