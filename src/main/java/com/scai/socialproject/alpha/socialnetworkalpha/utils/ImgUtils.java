@@ -1,26 +1,22 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.utils;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
-
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 public class ImgUtils {
 	
-	public static String fileImgToBase64Encoding(MultipartFile file) throws IOException {
+	public static String fileImgToBase64Encoding(String proPic) throws IOException {
+		String basePathFileSystem = "C:\\immagini\\";
+
+		Path path = Paths.get(basePathFileSystem + proPic);
+		byte[] content = null;
+	    content = Files.readAllBytes(path);
+
+		String img = Base64.getEncoder().encodeToString(content);
 		
-		
-		
-		
-		
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		if(fileName.contains("..")) {
-			System.out.println("not a valid file.");
-		}
-	
-		String img = Base64.getEncoder().encodeToString(file.getBytes());
-		System.out.println(img);
 		return img;
 	}
 }

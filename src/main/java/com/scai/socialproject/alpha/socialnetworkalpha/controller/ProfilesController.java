@@ -49,7 +49,7 @@ public class ProfilesController {
 	
 	//OK
 	@GetMapping("/{idProfile}")
-	public ResponseEntity<ProfileDTO> findProfileById(@PathVariable String idProfile) {
+	public ResponseEntity<ProfileDTO> findProfileById(@PathVariable String idProfile) throws IOException {
 		ProfileDTO profile = profileService.findProfileById(idProfile);
 		if(profile != null) {
 			return new ResponseEntity<>(profile, HttpStatus.OK);
@@ -84,29 +84,7 @@ public class ProfilesController {
 	public List<ProfileDTO> searchProfilesByName(@PathVariable String profileName){
 		return profileService.searchProfilesByName(profileName);
 	}
-	
-	
-	/**
-	 *  public name: string,
-        public nickname: string,
-        public bio: string,
-        public proPic: string,
 
-
-
-
-	private String id;
-	private String name;
-	private String nickname;
-	private String bio;
-	private String proPic;
-	private String email;
-	 * @param profileDTO
-	 * @param profilePic
-	 * @param request
-	 * @return
-	 * @throws IOException 
-	 */
 	@PostMapping(path="updategeneraldata")
 	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO,
 			HttpServletRequest request) throws IOException {
@@ -144,5 +122,5 @@ public class ProfilesController {
 		
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-
+	
 }

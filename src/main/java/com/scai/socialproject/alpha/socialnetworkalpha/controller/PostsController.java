@@ -54,7 +54,6 @@ public class PostsController {
 		String idProfile = RequestUtils.idProfileFromToken(request);
 		
 		if(!idRequest.equals(idProfile)) {
-			response.sendError(401);
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 		}
 				

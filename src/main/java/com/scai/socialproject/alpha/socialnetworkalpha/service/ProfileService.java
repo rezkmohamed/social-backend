@@ -23,7 +23,7 @@ public interface ProfileService {
 	
 	public List<ProfileDTO> searchProfilesByName(String profileName);
 	
-	public ProfileDTO findProfileById(String idProfile);
+	public ProfileDTO findProfileById(String idProfile) throws IOException;
 	
 	public Profile findProfile(String idProfile);
 	
@@ -42,4 +42,5 @@ public interface ProfileService {
 	public boolean resetPassword(String email);
 	
 	public boolean uploadProfilePicture(MultipartFile file, String idProfile) throws IllegalStateException, IOException;
+	
 }

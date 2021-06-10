@@ -1,5 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -27,6 +28,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOCommentUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOLikeUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOPostUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
 
 @Repository
 public class CrudPostImpl implements CrudPost {
@@ -127,6 +129,10 @@ public class CrudPostImpl implements CrudPost {
 		for(Post post : posts) {
 			PostDTO postDTO = DTOPostUtils.postToDTO(post);
 			postDTO.setProfile(DTOProfileUtils.profileToDTO(post.getProfile()));
+			try {
+				postDTO.getProfile().setProPic(ImgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
+			} catch (IOException e) {
+			}
 			
 			
 			postDTO.setComments(DTOCommentUtils.commentToDTO(post.getComments()));			

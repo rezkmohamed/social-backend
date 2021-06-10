@@ -2,8 +2,10 @@ package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,24 +25,17 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
-import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import javassist.tools.web.BadHttpRequest;
 
-import org.apache.commons.io.*;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
 	private CrudProfile profileRepo;
 	private String basePathFileSystem = "C:\\immagini\\";
-	/**
-	 * FOR FILE UPLOAD
-	 */
-	@Value("${app.upload.dir:${user.home}}")
-	public String uploadDir;
 	
 	@Autowired
 	public ProfileServiceImpl(CrudProfile profileRepo) {
@@ -56,8 +50,10 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public ProfileDTO findProfileById(String idProfile) {
-		return profileRepo.findProfileById(idProfile);
+	public ProfileDTO findProfileById(String idProfile) throws IOException {
+		ProfileDTO profile = profileRepo.findProfileById(idProfile);
+		profile.setProPic(ImgUtils.fileImgToBase64Encoding(profile.getProPic()));
+		return profile;		
 	}
 
 	@Override
@@ -102,8 +98,8 @@ public class ProfileServiceImpl implements ProfileService {
 		
 
 		if(extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
-			String newProfilePic = UUID.randomUUID().toString();
-			file.transferTo(new File(basePathFileSystem + newProfilePic + "." + extension));
+			String newProfilePic = UUID.randomUUID().toString()+ "." + extension;
+			file.transferTo(new File(basePathFileSystem + newProfilePic));
 			Profile profile = profileRepo.findProfile(idProfile);
 			profile.setProPic(newProfilePic);
 			profileRepo.saveProfile(profile);
@@ -214,5 +210,4 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		return false;
 	}
-
 }
