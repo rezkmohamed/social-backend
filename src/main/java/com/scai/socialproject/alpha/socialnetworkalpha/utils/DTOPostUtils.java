@@ -1,5 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,11 @@ public class DTOPostUtils {
 		
 		Profile p = post.getProfile();
 		postDTO.setProfile(DTOProfileUtils.profileToDTO(p));
+		try {
+			postDTO.getProfile().setProPic(ImgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		List<Like> likes = post.getLikes();
 		postDTO.setLikes(DTOLikeUtils.likeToDTO(likes));

@@ -85,7 +85,7 @@ public class ProfilesController {
 		return profileService.searchProfilesByName(profileName);
 	}
 
-	@PostMapping(path="updategeneraldata")
+	@PostMapping("updategeneraldata")
 	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO,
 			HttpServletRequest request) throws IOException {
 		String idProfile = RequestUtils.idProfileFromToken(request);
@@ -122,5 +122,4 @@ public class ProfilesController {
 		
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-	
 }

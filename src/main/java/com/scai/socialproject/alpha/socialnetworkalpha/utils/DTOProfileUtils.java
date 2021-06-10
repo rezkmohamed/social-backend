@@ -1,5 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,11 @@ public class DTOProfileUtils {
 		List<ProfileDTO> ris = new ArrayList<>();
 		for(Profile profile : profiles) {
 			ProfileDTO tmp = DTOFromProfile(profile);
+			try {
+				tmp.setProPic(ImgUtils.fileImgToBase64Encoding(tmp.getProPic()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			ris.add(tmp);
 		}
 		
