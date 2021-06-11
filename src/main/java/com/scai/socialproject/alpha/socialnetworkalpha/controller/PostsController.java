@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
@@ -83,6 +86,27 @@ public class PostsController {
 		
 		postService.savePost(postDTO);
 		return new ResponseEntity<>(postDTO, HttpStatus.OK);
+	}
+	
+	@PostMapping("/newpost/test")
+	public ResponseEntity<PostDTO> addPostTest(
+			@RequestParam("myFile") MultipartFile file, 
+			@RequestParam("description") String description,
+			@RequestParam("date") String date,
+			@RequestParam("idProfile") String id,
+			MultipartHttpServletRequest request) throws IllegalStateException, IOException {
+		String idProfile = RequestUtils.idProfileFromToken(request);
+		if(!id.equals(idProfile)) {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+		
+		PostDTO newPost = postService.savePostTest(file, description, date, idProfile);
+		if(newPost == null) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		return new ResponseEntity<>(newPost, HttpStatus.OK);
 	}
 	
 	//OK!

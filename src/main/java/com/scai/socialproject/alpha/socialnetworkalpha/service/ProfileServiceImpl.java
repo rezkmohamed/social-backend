@@ -53,6 +53,14 @@ public class ProfileServiceImpl implements ProfileService {
 	public ProfileDTO findProfileById(String idProfile) throws IOException {
 		ProfileDTO profile = profileRepo.findProfileById(idProfile);
 		profile.setProPic(ImgUtils.fileImgToBase64Encoding(profile.getProPic()));
+		profile.getPosts().stream()
+		.forEach(p -> {
+			try {
+				p.setUrlImg(ImgUtils.fileImgToBase64Encoding(p.getUrlImg()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 		return profile;		
 	}
 

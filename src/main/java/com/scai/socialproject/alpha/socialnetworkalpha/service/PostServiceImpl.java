@@ -1,29 +1,41 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudFollow;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudPost;
+import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOPostUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
 
 @Service
 public class PostServiceImpl implements PostService {
 	private CrudPost postRepo;
 	private CrudFollow followRepo;
+	private CrudProfile profileRepo;
+	private String basePathFileSystem = "C:\\immagini\\";
+
 	
 	@Autowired
-	public PostServiceImpl(CrudPost postRepo, CrudFollow followRepo) {
+	public PostServiceImpl(CrudPost postRepo, CrudFollow followRepo, CrudProfile profileRepo) {
 		this.postRepo = postRepo;
 		this.followRepo = followRepo;
+		this.profileRepo = profileRepo;
 	}
 	
 	
@@ -37,6 +49,11 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	public PostDTO findPostById(String idPost, String idProfileLogged) {
 		PostDTO ris = postRepo.findPostById(idPost);
+		
+		try {
+			ris.setUrlImg(ImgUtils.fileImgToBase64Encoding(ris.getUrlImg()));
+		} catch (IOException e) {
+		}
 		
 		ris.getLikes().stream()
 		.forEach( l -> {
@@ -108,6 +125,10 @@ public class PostServiceImpl implements PostService {
 		
 		posts.stream()
 		.forEach( p -> {
+			try {
+				p.setUrlImg(ImgUtils.fileImgToBase64Encoding(p.getUrlImg()));
+			} catch (IOException e) {
+			}
 			p.getComments().forEach( c -> {
 				c.getCommentLikes().forEach(cl -> {
 					if(cl.getIdProfile().equals(idProfile)) {
@@ -136,5 +157,30 @@ public class PostServiceImpl implements PostService {
 		});
 
 		return postsSorted;
+	}
+
+
+	@Override
+	@Transactional
+	public PostDTO savePostTest(MultipartFile img, String description, String date, String idProfile) throws IllegalStateException, IOException {
+		String filename = img.getOriginalFilename();
+		String extension  = filename.substring(filename.lastIndexOf(".") + 1);
+
+		if(extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
+			String newImg = UUID.randomUUID().toString()+ "." + extension;
+				img.transferTo(new File(basePathFileSystem + newImg));
+				Post post = new Post(newImg, description, date);
+				Profile profile = profileRepo.findProfile(idProfile);
+				if(profile == null) {
+					return null;
+				}
+				post.setProfile(profile);
+				postRepo.savePost(post);
+				PostDTO postDTO = DTOPostUtils.postToDTO(post);
+				return postDTO;
+			
+		}
+		
+		return null;
 	}
 }
