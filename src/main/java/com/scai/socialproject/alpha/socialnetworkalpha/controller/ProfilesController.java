@@ -68,18 +68,6 @@ public class ProfilesController {
 	}
 	
 	//OK!
-	/*@DeleteMapping("/{idProfile}")
-	public String deleteProfile(@PathVariable String idProfile) {
-		ProfileDTO profile = profileService.findProfileById(idProfile);
-		if(profile == null) {
-			throw new RuntimeException("ERROR - PROFILE WITH ID: " + idProfile + " NOT FOUND");
-		}
-		
-		profileService.deleteProfileById(idProfile);
-		return "SUCCESS - PROFILE DELETED WITH ID: " + idProfile;
-	}*/
-	
-	//OK!
 	@GetMapping("/search/{profileName}")
 	public List<ProfileDTO> searchProfilesByName(@PathVariable String profileName){
 		return profileService.searchProfilesByName(profileName);
