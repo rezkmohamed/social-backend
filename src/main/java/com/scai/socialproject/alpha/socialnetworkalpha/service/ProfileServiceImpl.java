@@ -36,6 +36,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class ProfileServiceImpl implements ProfileService {
 	private CrudProfile profileRepo;
 	private String basePathFileSystem = "C:\\immagini\\";
+	private static String DEFAULT_IMG = "87d7e392-0271-440f-8e9e-1f09db316b58.png";
 	
 	@Autowired
 	public ProfileServiceImpl(CrudProfile profileRepo) {
@@ -72,7 +73,7 @@ public class ProfileServiceImpl implements ProfileService {
 		.findFirst().isPresent();
 		
 		if(ris) {
-			
+			profile.setProPic(this.DEFAULT_IMG);
 			profileRepo.saveProfile(profile);
 		}
 		

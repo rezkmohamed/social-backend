@@ -166,7 +166,7 @@ public class PostServiceImpl implements PostService {
 		String filename = img.getOriginalFilename();
 		String extension  = filename.substring(filename.lastIndexOf(".") + 1);
 
-		if(extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
+		if(extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
 			String newImg = UUID.randomUUID().toString()+ "." + extension;
 				img.transferTo(new File(basePathFileSystem + newImg));
 				Post post = new Post(newImg, description, date);
