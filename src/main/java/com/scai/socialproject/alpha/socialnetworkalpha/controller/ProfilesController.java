@@ -73,7 +73,7 @@ public class ProfilesController {
 		return profileService.searchProfilesByName(profileName);
 	}
 
-	@PostMapping("updategeneraldata")
+	@PostMapping("/updategeneraldata")
 	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO,
 			HttpServletRequest request) throws IOException {
 		String idProfile = RequestUtils.idProfileFromToken(request);
@@ -99,7 +99,7 @@ public class ProfilesController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@PutMapping("newpassword/{idProfile}")
+	@PutMapping("newpassword")
 	public ResponseEntity<HttpStatus> updatePassword(@RequestBody NewPasswordDTO newPasswordDTO,HttpServletRequest request){
 		String idProfile = RequestUtils.idProfileFromToken(request);
 		newPasswordDTO.setIdProfile(idProfile);

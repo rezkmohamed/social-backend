@@ -48,19 +48,12 @@ public class PostsController {
 		return postService.findAllPosts();
 	}
 	
-	
 	//OK!
-	@GetMapping("/homepage/{id}")
-	public ResponseEntity<List<PostDTO>> getHomepage(@PathVariable String id, HttpServletRequest request, HttpServletResponse response ) throws IOException{
-		int position = request.getRequestURI().lastIndexOf("/");
-		String idRequest = request.getRequestURI().substring(position + 1);
+	@GetMapping("/homepage")
+	public ResponseEntity<List<PostDTO>> getHomepage(HttpServletRequest request, HttpServletResponse response ) throws IOException{
 		String idProfile = RequestUtils.idProfileFromToken(request);
 		
-		if(!idRequest.equals(idProfile)) {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-				
-		return new ResponseEntity<>(postService.getHomepage(id), HttpStatus.OK);
+		return new ResponseEntity<>(postService.getHomepage(idProfile), HttpStatus.OK);
 	}
 	
 	//OK!
@@ -75,36 +68,18 @@ public class PostsController {
 		return post;
 	}
 	
-	//OK!
 	@PostMapping("/newpost")
-	public ResponseEntity<PostDTO> addPost(@RequestBody(required = false) PostDTO postDTO, HttpServletRequest request, HttpServletResponse response) {
-		/**
-		 * FORCING THE ID OF PROFILE WITH TOKEN
-		 */
-		String idProfile = RequestUtils.idProfileFromToken(request);
-		postDTO.setIdProfile(idProfile);
-		
-		postService.savePost(postDTO);
-		return new ResponseEntity<>(postDTO, HttpStatus.OK);
-	}
-	
-	@PostMapping("/newpost/test")
 	public ResponseEntity<PostDTO> addPostTest(
 			@RequestParam("myFile") MultipartFile file, 
 			@RequestParam("description") String description,
 			@RequestParam("date") String date,
-			@RequestParam("idProfile") String id,
 			MultipartHttpServletRequest request) throws IllegalStateException, IOException {
 		String idProfile = RequestUtils.idProfileFromToken(request);
-		if(!id.equals(idProfile)) {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
 		
 		PostDTO newPost = postService.savePostTest(file, description, date, idProfile);
 		if(newPost == null) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
-		
 		
 		return new ResponseEntity<>(newPost, HttpStatus.OK);
 	}

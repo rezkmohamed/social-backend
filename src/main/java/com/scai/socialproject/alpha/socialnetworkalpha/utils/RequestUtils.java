@@ -16,13 +16,11 @@ public class RequestUtils {
 	public static String idProfileFromToken(HttpServletRequest request) {
 		String header = request.getHeader("Authorization");
 		String token = header.replace("Bearer ", "");
-		Jws<Claims> result =  Jwts.parser().setSigningKey("ciao").parseClaimsJws(token);
-		int position = request.getRequestURI().lastIndexOf("/");
-		String idRequest = request.getRequestURI().substring(position + 1);
+		Jws<Claims> result =  Jwts.parser().setSigningKey("ciao").parseClaimsJws(token);		
 		String idProfile = result.getBody().get("idUser", String.class);
 		return idProfile;
 	}
-	
+	/*
 	private static String extractPostRequestBody(HttpServletRequest request) {
 	    if ("POST".equalsIgnoreCase(request.getMethod())) {
 	        Scanner s = null;
@@ -49,5 +47,5 @@ public class RequestUtils {
 		}
 		
 		return ris;
-	}
+	}*/
 }
