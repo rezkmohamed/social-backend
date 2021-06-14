@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,16 +22,18 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 @RequestMapping("commentlike")
 public class CommentLikeController {
 	private CommentLikeService commentLikeService;
+	private RequestUtils requestUtils;
 
 	@Autowired
-	public CommentLikeController(CommentLikeService commentLikeService) {
+	public CommentLikeController(CommentLikeService commentLikeService, RequestUtils requestUtils) {
 		super();
 		this.commentLikeService = commentLikeService;
+		this.requestUtils = requestUtils;
 	}
 	
 	@PostMapping("/add/{idComment}")
 	public ResponseEntity<HttpStatus> addCommentLike(@PathVariable String idComment ,HttpServletRequest request){
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		if(commentLikeService.addCommentLike(idComment, idProfile)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
@@ -42,7 +43,7 @@ public class CommentLikeController {
 	
 	@DeleteMapping("/delete/{idComment}")
 	public ResponseEntity<HttpStatus> deleteCommentLike(@PathVariable String idComment ,HttpServletRequest request){
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		if(commentLikeService.deleteCommentLike(idComment, idProfile)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}

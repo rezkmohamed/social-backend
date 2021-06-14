@@ -19,13 +19,13 @@ public class DTOProfileUtils {
 		return tmp;
 	}
 	
-	public static List<ProfileDTO> profileToDTO(List<Profile> profiles){
+	public static List<ProfileDTO> profileToDTO(List<Profile> profiles, ImgUtils imgUtils){
 		List<ProfileDTO> ris = new ArrayList<>();
 		for(Profile profile : profiles) {
 			ProfileDTO tmp = DTOFromProfile(profile);
 			try {
 				if(tmp.getProPic() != null) {
-					tmp.setProPic(ImgUtils.fileImgToBase64Encoding(tmp.getProPic()));
+					tmp.setProPic(imgUtils.fileImgToBase64Encoding(tmp.getProPic()));
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

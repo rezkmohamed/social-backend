@@ -33,10 +33,12 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
 @Repository
 public class CrudPostImpl implements CrudPost {
 	private EntityManager entityManager;
+	private ImgUtils imgUtils;
 	
 	@Autowired
-	public CrudPostImpl(EntityManager entityManager) {
+	public CrudPostImpl(EntityManager entityManager, ImgUtils imgUtils) {
 		this.entityManager = entityManager;
+		this.imgUtils = imgUtils;
 	}
 	
 	
@@ -54,7 +56,7 @@ public class CrudPostImpl implements CrudPost {
 	public PostDTO findPostById(String idPost) {
 		Session session = entityManager.unwrap(Session.class);
 		Post post = session.get(Post.class, idPost);
-		return DTOPostUtils.fillPostCompleteDTO(post);
+		return DTOPostUtils.fillPostCompleteDTO(post, imgUtils);
 	}
 
 	@Override
@@ -110,7 +112,7 @@ public class CrudPostImpl implements CrudPost {
 		List<PostDTO> postsDTO = new ArrayList<>();
 
 		for(Post post : posts) {
-			postsDTO.add(DTOPostUtils.fillPostCompleteDTO(post));
+			postsDTO.add(DTOPostUtils.fillPostCompleteDTO(post, imgUtils));
 		}
 		
 		return postsDTO;
@@ -131,7 +133,7 @@ public class CrudPostImpl implements CrudPost {
 			postDTO.setProfile(DTOProfileUtils.profileToDTO(post.getProfile()));
 			try {
 				if(postDTO.getProfile().getProPic() != null) {
-					postDTO.getProfile().setProPic(ImgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
+					postDTO.getProfile().setProPic(imgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
 				}
 			} catch (IOException e) {
 			}

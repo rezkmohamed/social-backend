@@ -37,13 +37,13 @@ public class DTOPostUtils {
 		return ris;
 	}
 	
-	public static PostDTO fillPostCompleteDTO(Post post) {
+	public static PostDTO fillPostCompleteDTO(Post post, ImgUtils imgUtils) {
 		PostDTO postDTO = DTOPostUtils.postToDTO(post);
 		
 		Profile p = post.getProfile();
 		postDTO.setProfile(DTOProfileUtils.profileToDTO(p));
 		try {
-			postDTO.getProfile().setProPic(ImgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
+			postDTO.getProfile().setProPic(imgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -35,10 +35,12 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 @RequestMapping("/profiles")
 public class ProfilesController {
 	private ProfileService profileService;
-	
+	private RequestUtils requestUtils;
+
 	@Autowired
-	public ProfilesController(ProfileService profileService) {
+	public ProfilesController(ProfileService profileService, RequestUtils requestUtils) {
 		this.profileService = profileService;
+		this.requestUtils = requestUtils;
 	}
 	
 	//OK!
@@ -76,7 +78,7 @@ public class ProfilesController {
 	@PostMapping("/updategeneraldata")
 	public ResponseEntity<HttpStatus> updateAccount(@RequestBody ProfileDTO profileDTO,
 			HttpServletRequest request) throws IOException {
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		profileDTO.setId(idProfile);
 		
 		if(profileService.updateProfile(profileDTO)) {
@@ -90,7 +92,7 @@ public class ProfilesController {
 	@PostMapping("/propic")
 	public ResponseEntity<HttpStatus> uploadProfilePic(@RequestParam("myFile") MultipartFile file, MultipartHttpServletRequest request) throws IllegalStateException, IOException{
 		System.out.println(file.getOriginalFilename());
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		if(profileService.uploadProfilePicture(file, idProfile)) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
@@ -101,7 +103,7 @@ public class ProfilesController {
 	
 	@PutMapping("newpassword")
 	public ResponseEntity<HttpStatus> updatePassword(@RequestBody NewPasswordDTO newPasswordDTO,HttpServletRequest request){
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		newPasswordDTO.setIdProfile(idProfile);
 		
 		if(profileService.updatePassword(newPasswordDTO)) {

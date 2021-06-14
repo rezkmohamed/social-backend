@@ -28,12 +28,14 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 public class LikesController {
 	private LikeService likeService;
 	private ProfileService profileService;
+	private RequestUtils requestUtils;
 
 	
 	@Autowired
-	public LikesController(LikeService likeService, ProfileService profileService) {
+	public LikesController(LikeService likeService, ProfileService profileService, RequestUtils requestUtils) {
 		this.likeService = likeService;
 		this.profileService = profileService;
+		this.requestUtils = requestUtils;
 	}
 	
 	//OKS
@@ -62,7 +64,7 @@ public class LikesController {
 	//OKAY
 	@PostMapping("add/{idPost}")
 	public ResponseEntity<LikeDTO> addLike(@PathVariable String idPost, HttpServletRequest request) {
-		String idP = RequestUtils.idProfileFromToken(request);
+		String idP = requestUtils.idProfileFromToken(request);
 		
 		LikeDTO like = likeService.addLike(idPost, idP);
 		if(like == null) {
@@ -74,7 +76,7 @@ public class LikesController {
 	//OKAY
 	@DeleteMapping("/delete/{idPost}")
 	public ResponseEntity<HttpStatus> deleteLikeByPostAndProfile(@PathVariable String idPost, HttpServletRequest request) {
-		String idP = RequestUtils.idProfileFromToken(request);
+		String idP = requestUtils.idProfileFromToken(request);
 				
 		if(likeService.deleteLike(idPost, idP)) {
 			return new ResponseEntity<>(HttpStatus.OK);

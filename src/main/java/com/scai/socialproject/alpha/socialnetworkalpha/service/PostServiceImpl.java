@@ -29,13 +29,15 @@ public class PostServiceImpl implements PostService {
 	private CrudFollow followRepo;
 	private CrudProfile profileRepo;
 	private String basePathFileSystem = "C:\\immagini\\";
+	private ImgUtils imgUtils;
 
 	
 	@Autowired
-	public PostServiceImpl(CrudPost postRepo, CrudFollow followRepo, CrudProfile profileRepo) {
+	public PostServiceImpl(CrudPost postRepo, CrudFollow followRepo, CrudProfile profileRepo, ImgUtils imgUtils) {
 		this.postRepo = postRepo;
 		this.followRepo = followRepo;
 		this.profileRepo = profileRepo;
+		this.imgUtils = imgUtils;
 	}
 	
 	
@@ -51,7 +53,7 @@ public class PostServiceImpl implements PostService {
 		PostDTO ris = postRepo.findPostById(idPost);
 		
 		try {
-			ris.setUrlImg(ImgUtils.fileImgToBase64Encoding(ris.getUrlImg()));
+			ris.setUrlImg(imgUtils.fileImgToBase64Encoding(ris.getUrlImg()));
 		} catch (IOException e) {
 		}
 		
@@ -126,7 +128,7 @@ public class PostServiceImpl implements PostService {
 		posts.stream()
 		.forEach( p -> {
 			try {
-				p.setUrlImg(ImgUtils.fileImgToBase64Encoding(p.getUrlImg()));
+				p.setUrlImg(imgUtils.fileImgToBase64Encoding(p.getUrlImg()));
 			} catch (IOException e) {
 			}
 			p.getComments().forEach( c -> {

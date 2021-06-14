@@ -29,11 +29,13 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 public class FollowsController {
 	private FollowService followService;
 	private ProfileService profileService;
-	
+	private RequestUtils requestUtils;
+
 	@Autowired
-	public FollowsController(FollowService followService, ProfileService profileService) {
+	public FollowsController(FollowService followService, ProfileService profileService, RequestUtils requestUtils) {
 		this.followService = followService;
 		this.profileService = profileService;
+		this.requestUtils = requestUtils;
 	}
 	
 	//OK!
@@ -68,7 +70,7 @@ public class FollowsController {
 	//OK
 	@PostMapping("/follow/{idFollowed}")
 	public ResponseEntity<FollowDTO> addFollow(@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
-		String idProfileFollower = RequestUtils.idProfileFromToken(request);
+		String idProfileFollower = requestUtils.idProfileFromToken(request);
 		FollowDTO ris = followService.addFollow(idProfileFollower, idFollowed);
 		
 		if(ris == null) {
@@ -81,7 +83,7 @@ public class FollowsController {
 	//OK
 	@DeleteMapping("/unfollow/{idFollowed}")
 	public ResponseEntity<String> deleteFollowByIdFollower(@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
-		String idProfileFollower = RequestUtils.idProfileFromToken(request);
+		String idProfileFollower = requestUtils.idProfileFromToken(request);
 		if(followService.deleteFollow(idProfileFollower, idFollowed)) {
 			return new ResponseEntity<>("OK!", HttpStatus.OK);
 		}

@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,12 +36,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 	private CrudProfile profileRepo;
-	private String basePathFileSystem = "C:\\immagini\\";
-	//private static String DEFAULT_IMG = "87d7e392-0271-440f-8e9e-1f09db316b58.png";
+	@Value("${basePathFileSystem}")
+	private String basePathFileSystem;
+	@Value("${signingKey}")
+	private String signingKey;
+	private ImgUtils imgUtils;
 	
 	@Autowired
-	public ProfileServiceImpl(CrudProfile profileRepo) {
+	public ProfileServiceImpl(CrudProfile profileRepo, ImgUtils imgUtils) {
 		this.profileRepo = profileRepo;
+		this.imgUtils = imgUtils;
 	}
 	
 	@Override
@@ -54,12 +59,12 @@ public class ProfileServiceImpl implements ProfileService {
 	public ProfileDTO findProfileById(String idProfile) throws IOException {
 		ProfileDTO profile = profileRepo.findProfileById(idProfile);
 		if(profile.getProPic() != null) {
-			profile.setProPic(ImgUtils.fileImgToBase64Encoding(profile.getProPic()));
+			profile.setProPic(imgUtils.fileImgToBase64Encoding(profile.getProPic()));
 		}
 		profile.getPosts().stream()
 		.forEach(p -> {
 			try {
-				p.setUrlImg(ImgUtils.fileImgToBase64Encoding(p.getUrlImg()));
+				p.setUrlImg(imgUtils.fileImgToBase64Encoding(p.getUrlImg()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -130,7 +135,14 @@ public class ProfileServiceImpl implements ProfileService {
 	public Profile findProfile(String idProfile) {
 		return profileRepo.findProfile(idProfile);
 	}
+	
+	@Override
+	@Transactional
+	public User getUserAuth(String email, String pass) {
+		return profileRepo.getUserAuth(email, pass);
+	}
 
+	
 	@Override
 	@Transactional
 	public ResponseEntity<User> login(String email, String pass) {
@@ -153,6 +165,7 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
+	
 
 	@Override
 	@Transactional
@@ -216,7 +229,6 @@ public class ProfileServiceImpl implements ProfileService {
 				return true;
 			}
 		}
-
 		
 		return false;
 	}

@@ -27,10 +27,13 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 @RequestMapping("/comments")
 public class CommentController {
 	private CommentService commentService;
-	
+	private RequestUtils requestUtils;
+
 	@Autowired
-	public CommentController(CommentService commentService, CommentLikeService commentLikeService) {
+	public CommentController(CommentService commentService, RequestUtils requestUtils) {
 		this.commentService = commentService;
+		this.requestUtils = requestUtils;
+		
 	}
 	
 	//OK
@@ -43,7 +46,7 @@ public class CommentController {
 	//OKAY
 	@PostMapping("")
 	public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		commentDTO.setIdProfile(idProfile);
 		CommentDTO ris = commentService.addComment(commentDTO);
 		
@@ -52,7 +55,7 @@ public class CommentController {
 	
 	@PutMapping("")
 	public ResponseEntity<CommentDTO> updateComment(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		commentDTO.setIdProfile(idProfile);
 		CommentDTO ris = commentService.updateComment(commentDTO);
 		

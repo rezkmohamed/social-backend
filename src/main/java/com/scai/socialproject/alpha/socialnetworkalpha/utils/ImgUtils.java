@@ -6,12 +6,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class ImgUtils {
+	@Value("${basePathFileSystem}")
+	private String basePathFileSystem;
 	
-	public static String fileImgToBase64Encoding(String proPic) throws IOException {
-		String basePathFileSystem = "C:\\immagini\\";
+	public String fileImgToBase64Encoding(String proPic) throws IOException {
 		String extension = proPic.substring(proPic.lastIndexOf(".") + 1);
-		
 		
 		Path path = Paths.get(basePathFileSystem + proPic);
 		byte[] content = null;

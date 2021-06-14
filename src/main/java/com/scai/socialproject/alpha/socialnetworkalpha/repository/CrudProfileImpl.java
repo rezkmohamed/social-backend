@@ -20,17 +20,19 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOFollowUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOPostUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
-
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
 
 import org.hibernate.query.Query;
 
 @Repository
 public class CrudProfileImpl implements CrudProfile {
 	private EntityManager entityManager;
+	private ImgUtils imgUtils;
 	
 	@Autowired
-	public CrudProfileImpl(EntityManager entityManager) {
+	public CrudProfileImpl(EntityManager entityManager, ImgUtils imgUtils) {
 		this.entityManager = entityManager;
+		this.imgUtils = imgUtils;
 	}
 	
 	@Override
@@ -38,7 +40,7 @@ public class CrudProfileImpl implements CrudProfile {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Profile> query = session.createQuery("from Profile", Profile.class);
 		List<Profile> profiles = query.getResultList();
-		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles, imgUtils);
 		
 		
 		return profilesDTO;
@@ -80,18 +82,6 @@ public class CrudProfileImpl implements CrudProfile {
 		Session session = entityManager.unwrap(Session.class);
 		
 		session.update(profile);
-		
-		/*Profile profile = session.get(Profile.class, profileDTO.getId());
-		if(profile == null) {
-			return false;
-		}
-		profile.setName(profileDTO.getName()); profile.setNickname(profileDTO.getNickname());
-		profile.setBio(profileDTO.getBio()); profile.setProPic(profileDTO.getProPic());
-		profile.setEmail(profileDTO.getEmail());
-		session.update(profile);
-		return true;
-		*/
-		//return new ResponseEntity(profile, HttpStatus.OK);
 	}
 	
 	@Override
@@ -124,15 +114,6 @@ public class CrudProfileImpl implements CrudProfile {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		/*Profile profile = query.getSingleResult();
-		System.out.println(profile);
-		if(profile == null) {
-			return null;
-		}
-		User user = DTOProfileUtils.profileToUser(profile);
-		
-		return user;*/
 		return null;
 	}
 
@@ -147,7 +128,7 @@ public class CrudProfileImpl implements CrudProfile {
 		for(Like l : p.getLikes()) {
 			profiles.add(l.getProfileLiker());
 		}
-		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles, imgUtils);
 		return profilesDTO;
 	}
 
@@ -164,7 +145,7 @@ public class CrudProfileImpl implements CrudProfile {
 			System.out.println(p.getIdProfile());
 			profiles.add(p);
 		}
-		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles, imgUtils);
 		
 		return profilesDTO;
 	}
@@ -182,7 +163,7 @@ public class CrudProfileImpl implements CrudProfile {
 			profiles.add(p);
 		}
 
-		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles, imgUtils);
 
 		return profilesDTO;
 	}
@@ -193,7 +174,7 @@ public class CrudProfileImpl implements CrudProfile {
 		Query<Profile> query = session.createQuery("from Profile where nickname like :string");
 		query.setParameter("string", '%'+profileName+'%');
 		List<Profile> profiles = query.getResultList();
-		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles);		
+		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles, imgUtils);		
 		
 		return profilesDTO;
 	}

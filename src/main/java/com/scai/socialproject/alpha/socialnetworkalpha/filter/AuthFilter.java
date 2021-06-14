@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
@@ -20,6 +21,9 @@ import io.jsonwebtoken.Jwts;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class AuthFilter extends OncePerRequestFilter {
+	@Value("${signingKey}")
+	private String signingKey;
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -45,7 +49,7 @@ public class AuthFilter extends OncePerRequestFilter {
 		
 		
 		String token = header.replace("Bearer ", "");
-		Jwts.parser().setSigningKey("ciao").parseClaimsJws(token).getBody();
+		Jwts.parser().setSigningKey(this.signingKey).parseClaimsJws(token).getBody();
 				
 		filterChain.doFilter(request, response);
 	}

@@ -36,10 +36,12 @@ import io.jsonwebtoken.Jwts;
 @RequestMapping("/posts")
 public class PostsController {
 	private PostService postService;
-	
+	private RequestUtils requestUtils;
+
 	@Autowired
-	public PostsController(PostService postService) {
+	public PostsController(PostService postService, RequestUtils requestUtils) {
 		this.postService = postService;
+		this.requestUtils = requestUtils;
 	}
 	
 	//OK!
@@ -51,7 +53,7 @@ public class PostsController {
 	//OK!
 	@GetMapping("/homepage")
 	public ResponseEntity<List<PostDTO>> getHomepage(HttpServletRequest request, HttpServletResponse response ) throws IOException{
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		
 		return new ResponseEntity<>(postService.getHomepage(idProfile), HttpStatus.OK);
 	}
@@ -59,7 +61,7 @@ public class PostsController {
 	//OK!
 	@GetMapping("/{idPost}")
 	public PostDTO findPostById(@PathVariable String idPost, HttpServletRequest request) {
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 
 		PostDTO post = postService.findPostById(idPost, idProfile);
 		if(post == null) {
@@ -74,7 +76,7 @@ public class PostsController {
 			@RequestParam("description") String description,
 			@RequestParam("date") String date,
 			MultipartHttpServletRequest request) throws IllegalStateException, IOException {
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		
 		PostDTO newPost = postService.savePostTest(file, description, date, idProfile);
 		if(newPost == null) {
@@ -87,7 +89,7 @@ public class PostsController {
 	//OK!
 	@DeleteMapping("/{idPost}")
 	public ResponseEntity<HttpStatus> deletePostById(@PathVariable String idPost, HttpServletRequest request) {
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		
 		if(postService.deletePostById(idPost, idProfile)) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
@@ -98,7 +100,7 @@ public class PostsController {
 	
 	@PutMapping("/{idPost}")
 	public ResponseEntity<HttpStatus> updatePost(@RequestBody(required = false) PostDTO postDTO, HttpServletRequest request, HttpServletResponse response ) throws HttpMessageNotReadableException{
-		String idProfile = RequestUtils.idProfileFromToken(request);
+		String idProfile = requestUtils.idProfileFromToken(request);
 		postDTO.setIdProfile(idProfile);
 		
 		if(postService.updatePost(postDTO)) {

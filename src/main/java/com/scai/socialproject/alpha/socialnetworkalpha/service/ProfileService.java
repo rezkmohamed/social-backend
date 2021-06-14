@@ -33,6 +33,8 @@ public interface ProfileService {
 	
 	public void deleteProfileById(String idProfile);
 	
+	public User getUserAuth(String email, String pass);
+	
 	public ResponseEntity<User> login(String email, String pass);
 	
 	public boolean checkEmail(User user);
