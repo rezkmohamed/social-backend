@@ -24,7 +24,9 @@ public class DTOProfileUtils {
 		for(Profile profile : profiles) {
 			ProfileDTO tmp = DTOFromProfile(profile);
 			try {
-				tmp.setProPic(ImgUtils.fileImgToBase64Encoding(tmp.getProPic()));
+				if(tmp.getProPic() != null) {
+					tmp.setProPic(ImgUtils.fileImgToBase64Encoding(tmp.getProPic()));
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -120,7 +120,6 @@ public class Post {
 		return profile;
 	}
 	
-	@JsonIgnore
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -136,7 +135,6 @@ public class Post {
 		comments.add(comment);
 	}
 	
-	@JsonIgnore
 	public List<Like> getLikes() {
 		return likes;
 	}

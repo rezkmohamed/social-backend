@@ -69,7 +69,7 @@ public class CrudPostImpl implements CrudPost {
 		Query<Profile> query = session.createQuery("from Profile where id_profile=:idProfile");
 		query.setParameter("idProfile", postDTO.getIdProfile());
 		Profile profile = query.getSingleResult();
-		Post post = new Post(postDTO.getUrlImg(), postDTO.getDescription(), postDTO.getDate());
+		Post post = new Post(postDTO.getUrlImg(), postDTO.getDescription(), postDTO.getLocalDate().toString());
 		System.out.println(post.getDate());
 		
 		post.setProfile(profile);
@@ -130,7 +130,9 @@ public class CrudPostImpl implements CrudPost {
 			PostDTO postDTO = DTOPostUtils.postToDTO(post);
 			postDTO.setProfile(DTOProfileUtils.profileToDTO(post.getProfile()));
 			try {
-				postDTO.getProfile().setProPic(ImgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
+				if(postDTO.getProfile().getProPic() != null) {
+					postDTO.getProfile().setProPic(ImgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
+				}
 			} catch (IOException e) {
 			}
 			

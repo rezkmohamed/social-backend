@@ -56,11 +56,6 @@ public class AuthController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping("/testing-auth")
-	public String testingAuth() {
-		return "auth works";
-	}
-	
 	@PutMapping("resetpassword")
 	public ResponseEntity<HttpStatus> resetPassword(@RequestBody String email){
 		if(profileService.resetPassword(email)) {

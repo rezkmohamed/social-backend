@@ -7,7 +7,7 @@ public class PostDTO {
 	private String idPost;
 	private String urlImg;
 	private String description;
-	private String date;
+	//private String date;
 	private LocalDateTime localDate;
 	private String idProfile;
 	private ProfileDTO profile;
@@ -20,12 +20,11 @@ public class PostDTO {
 	
 	public PostDTO() {}
 
-	public PostDTO(String idPost, String urlImg, String description, String date, String idProfile) {
+	public PostDTO(String idPost, String urlImg, String description, String idProfile) {
 		super();
 		this.idPost = idPost;
 		this.urlImg = urlImg;
 		this.description = description;
-		this.date = date;
 		this.idProfile = idProfile;
 	}
 
@@ -53,13 +52,13 @@ public class PostDTO {
 		this.description = description;
 	}
 
-	public String getDate() {
+	/*public String getDate() {
 		return date;
 	}
 
 	public void setDate(String date) {
 		this.date = date;
-	}
+	}*/
 
 	public String getIdProfile() {
 		return idProfile;
@@ -127,7 +126,6 @@ public class PostDTO {
 	
 	@Override
 	public String toString() {
-		return "PostDTO [idPost=" + idPost + ", urlImg=" + urlImg + ", description=" + description + ", date=" + date
-				+ ", idProfile=" + idProfile + "]";
+		return "PostDTO [idPost=" + idPost + ", urlImg=" + urlImg + ", description=" + description +", idProfile=" + idProfile + "]";
 	}
 }
