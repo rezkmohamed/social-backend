@@ -30,11 +30,6 @@ public class CommentLikeController {
 		this.commentLikeService = commentLikeService;
 	}
 	
-	@GetMapping("/test")
-	public String testingCommentLike() {
-		return "comment like works!";
-	}
-	
 	@PostMapping("/add/{idComment}")
 	public ResponseEntity<HttpStatus> addCommentLike(@PathVariable String idComment ,HttpServletRequest request){
 		String idProfile = RequestUtils.idProfileFromToken(request);

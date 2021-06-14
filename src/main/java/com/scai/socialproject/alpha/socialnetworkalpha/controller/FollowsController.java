@@ -66,8 +66,8 @@ public class FollowsController {
 	}
 	
 	//OK
-	@PostMapping("/{idFollower}/follow/{idFollowed}")
-	public ResponseEntity<FollowDTO> addFollow(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
+	@PostMapping("/follow/{idFollowed}")
+	public ResponseEntity<FollowDTO> addFollow(@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
 		String idProfileFollower = RequestUtils.idProfileFromToken(request);
 		FollowDTO ris = followService.addFollow(idProfileFollower, idFollowed);
 		
@@ -79,8 +79,8 @@ public class FollowsController {
 	}
 	
 	//OK
-	@DeleteMapping("/{idFollower}/unfollow/{idFollowed}")
-	public ResponseEntity<String> deleteFollowByIdFollower(@PathVariable("idFollower") String idFollower,@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
+	@DeleteMapping("/unfollow/{idFollowed}")
+	public ResponseEntity<String> deleteFollowByIdFollower(@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
 		String idProfileFollower = RequestUtils.idProfileFromToken(request);
 		if(followService.deleteFollow(idProfileFollower, idFollowed)) {
 			return new ResponseEntity<>("OK!", HttpStatus.OK);
