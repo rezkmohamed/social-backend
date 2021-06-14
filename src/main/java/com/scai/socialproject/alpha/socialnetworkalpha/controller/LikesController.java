@@ -60,12 +60,9 @@ public class LikesController {
 	}
 		
 	//OKAY
-	@PostMapping("add/{idPost}/{idProfile}")
-	public ResponseEntity<LikeDTO> addLike(@PathVariable String idPost, @PathVariable String idProfile, HttpServletRequest request) {
+	@PostMapping("add/{idPost}")
+	public ResponseEntity<LikeDTO> addLike(@PathVariable String idPost, HttpServletRequest request) {
 		String idP = RequestUtils.idProfileFromToken(request);
-		if(!idP.equals(idProfile)) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
 		
 		LikeDTO like = likeService.addLike(idPost, idP);
 		if(like == null) {
@@ -75,21 +72,11 @@ public class LikesController {
 	}
 	
 	//OKAY
-	/*@DeleteMapping("/{idLike}")
-	public void deleteLikeById(@PathVariable String idLike) {
-		likeService.deleteLike(idLike);
-	}*/
-	
-	//OKAY
-	@DeleteMapping("/delete/{idPost}/{idProfile}")
-	public ResponseEntity<HttpStatus> deleteLikeByPostAndProfile(@PathVariable String idPost,@PathVariable String idProfile, HttpServletRequest request) {
+	@DeleteMapping("/delete/{idPost}")
+	public ResponseEntity<HttpStatus> deleteLikeByPostAndProfile(@PathVariable String idPost, HttpServletRequest request) {
 		String idP = RequestUtils.idProfileFromToken(request);
-		
-		if(!idP.equals(idProfile)) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
-		
-		if(likeService.deleteLike(idPost, idProfile)) {
+				
+		if(likeService.deleteLike(idPost, idP)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
