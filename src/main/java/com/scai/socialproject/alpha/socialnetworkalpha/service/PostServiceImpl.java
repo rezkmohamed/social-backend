@@ -116,7 +116,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional
-	public List<PostDTO> getHomepage(String idProfile) {
+	public List<PostDTO> getHomepage(String idProfile, int startingIndex) {
+		int lastPost = 6;
 		List<PostDTO> posts = new LinkedList<>();
 		List<FollowDTO> following = followRepo.findFollowingForProfile(idProfile);
 		for(FollowDTO follow : following) {
@@ -125,7 +126,23 @@ public class PostServiceImpl implements PostService {
 			posts.addAll(postsProfile);
 		}
 		
+		List<PostDTO> postsSorted =
 		posts.stream()
+		.sorted(Comparator.comparing(
+				PostDTO::getLocalDate,
+				Comparator.reverseOrder()
+				))
+		.collect(Collectors.toList());
+		
+		List<PostDTO> postsRis = new LinkedList<>();
+		for(int i = startingIndex; (i < startingIndex + lastPost) && i < postsSorted.size() ; i++) {
+			postsRis.add(postsSorted.get(i));
+		}
+		
+		/**
+		 * COMMENT'S LIKE CHECK., ADJUSTING PROPIC
+		 */
+		postsRis.stream()
 		.forEach( p -> {
 			try {
 				p.setUrlImg(imgUtils.fileImgToBase64Encoding(p.getUrlImg()));
@@ -140,17 +157,11 @@ public class PostServiceImpl implements PostService {
 			});
 		});
 
+		/**
+		 * SORTING LIKES.
+		 */
 		
-		List<PostDTO> postsSorted =
-		posts.stream()
-		.sorted(Comparator.comparing(
-				PostDTO::getLocalDate,
-				Comparator.reverseOrder()
-				))
-		.collect(Collectors.toList());
-
-		
-		postsSorted.stream().forEach( p -> {
+		postsRis.stream().forEach( p -> {
 			p.getLikes().forEach(l -> {
 				if(l.getIdProfile().equals(idProfile)) {
 					p.setLiked(true);
@@ -158,7 +169,7 @@ public class PostServiceImpl implements PostService {
 			});
 		});
 
-		return postsSorted;
+		return postsRis;
 	}
 
 

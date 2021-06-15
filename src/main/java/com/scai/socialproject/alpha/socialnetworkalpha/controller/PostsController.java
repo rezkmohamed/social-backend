@@ -51,11 +51,11 @@ public class PostsController {
 	}
 	
 	//OK!
-	@GetMapping("/homepage")
-	public ResponseEntity<List<PostDTO>> getHomepage(HttpServletRequest request, HttpServletResponse response ) throws IOException{
+	@GetMapping("/homepage/{startingIndex}")
+	public ResponseEntity<List<PostDTO>> getHomepage(@PathVariable int startingIndex, HttpServletRequest request, HttpServletResponse response ) throws IOException{
 		String idProfile = requestUtils.idProfileFromToken(request);
 		
-		return new ResponseEntity<>(postService.getHomepage(idProfile), HttpStatus.OK);
+		return new ResponseEntity<>(postService.getHomepage(idProfile, startingIndex), HttpStatus.OK);
 	}
 	
 	//OK!

@@ -17,7 +17,7 @@ public interface PostService {
 	
 	public List<PostDTO> findPostsProfilePage(String idProfile);
 	
-	public List<PostDTO> getHomepage(String idProfile);
+	public List<PostDTO> getHomepage(String idProfile, int startingIndex);
 	
 	public void savePost(Post post);
 	
