@@ -120,7 +120,7 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	public List<PostDTO> getNextPostsForProfilePage(String idProfile, int startingIndex) {
-		int lastPost = 6;
+		int lastPost = 3;
 		/**
 		 * FIXME
 		 */

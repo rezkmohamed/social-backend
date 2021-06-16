@@ -55,10 +55,10 @@ public class CrudProfileImpl implements CrudProfile {
 		if(profile != null) {
 			ProfileDTO profileDTO = DTOProfileUtils.profileToDTO(profile);
 			profileDTO.setPosts(DTOPostUtils.postToDTO(profile.getPosts()));
-			profileDTO.setFollowers(DTOFollowUtils.followToDTO(profile.getFollowers()));
-			profileDTO.setFollowersCounter(profileDTO.getFollowers().size());
-			profileDTO.setFollowing(DTOFollowUtils.followToDTO(profile.getFollowing()));
-			profileDTO.setFollowingCounter(profileDTO.getFollowing().size());
+			//profileDTO.setFollowers(DTOFollowUtils.followToDTO(profile.getFollowers()));
+			profileDTO.setFollowersCounter(profile.getFollowers().size());
+			//profileDTO.setFollowing(DTOFollowUtils.followToDTO(profile.getFollowing()));
+			profileDTO.setFollowingCounter(profile.getFollowing().size());
 			return profileDTO;
 		}
 		
