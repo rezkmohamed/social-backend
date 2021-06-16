@@ -2,6 +2,7 @@ package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +30,9 @@ public class PostServiceImpl implements PostService {
 	private CrudPost postRepo;
 	private CrudFollow followRepo;
 	private CrudProfile profileRepo;
-	private String basePathFileSystem = "C:\\immagini\\";
+	//private String basePathFileSystem = "C:\\immagini\\";
+	@Value("${basePathFileSystem}")
+	private String basePathFileSystem;
 	private ImgUtils imgUtils;
 
 	
@@ -112,6 +116,38 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	public void savePost(PostDTO postDTO) {
 		postRepo.savePost(postDTO);
+	}
+	
+	@Override
+	public List<PostDTO> getNextPostsForProfilePage(String idProfile, int startingIndex) {
+		int lastPost = 6;
+		/**
+		 * FIXME
+		 */
+		Profile profile = profileRepo.findProfile(idProfile);
+
+		List<PostDTO> postsSorted = 
+			profile.getPosts().stream()
+			.map(p -> {
+				PostDTO pdto = DTOPostUtils.postToDTO(p);
+				try {
+					pdto.setUrlImg(imgUtils.fileImgToBase64Encoding(pdto.getUrlImg()));
+				} catch (Exception e) {
+				}
+				return pdto;
+			})
+			.sorted(Comparator.comparing(
+					PostDTO::getLocalDate,
+					Comparator.reverseOrder()
+					))
+			.collect(Collectors.toList());
+		
+		List<PostDTO> postsResponse = new ArrayList<>();
+		for(int i = startingIndex; (i < startingIndex + lastPost) && i < postsSorted.size() ; i++) {
+			postsResponse.add(postsSorted.get(i));
+		}
+		
+		return postsResponse;
 	}
 
 	@Override

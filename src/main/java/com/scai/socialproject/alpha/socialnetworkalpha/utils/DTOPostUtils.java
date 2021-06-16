@@ -16,7 +16,6 @@ public class DTOPostUtils {
 		PostDTO tmp = new PostDTO(post.getIdPost(),
 								  post.getImg_post(), 
 								  post.getDescription(), 
-
 								  post.getProfile().getIdProfile());
 		tmp.setLocalDate(post.getLocalDateTime());
 		return tmp;

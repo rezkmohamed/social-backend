@@ -70,6 +70,17 @@ public class PostsController {
 		return post;
 	}
 	
+	@GetMapping("/next/{startingPost}")
+	public ResponseEntity<List<PostDTO>> loadNextPostsForProfile(@PathVariable int startingPost, HttpServletRequest request){
+		String idProfile = requestUtils.idProfileFromToken(request);
+		
+		
+		
+		
+		return new ResponseEntity<>(postService.getNextPostsForProfilePage(idProfile, startingPost), HttpStatus.OK);
+	}
+	
+	//OK
 	@PostMapping("/newpost")
 	public ResponseEntity<PostDTO> addPostTest(
 			@RequestParam("myFile") MultipartFile file, 

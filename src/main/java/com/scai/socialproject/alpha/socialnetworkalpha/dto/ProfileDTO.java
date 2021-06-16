@@ -10,6 +10,7 @@ public class ProfileDTO {
 	private String proPic;
 	private String email;
 	private List<PostDTO> posts;
+	private int postsCounter;
 	private List<FollowDTO> followers;
 	private int followersCounter;
 	private List<FollowDTO> following;
@@ -114,7 +115,15 @@ public class ProfileDTO {
 	public void setFollowingCounter(int followingCounter) {
 		this.followingCounter = followingCounter;
 	}
+	
+	public int getPostsCounter() {
+		return postsCounter;
+	}
 
+	public void setPostsCounter(int postsCounter) {
+		this.postsCounter = postsCounter;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProfileDTO [id=" + id + ", name=" + name + ", nickname=" + nickname + ", bio=" + bio + ", proPic="

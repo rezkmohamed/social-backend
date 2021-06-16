@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NewPasswordDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.User;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
@@ -61,7 +64,19 @@ public class ProfileServiceImpl implements ProfileService {
 		if(profile.getProPic() != null) {
 			profile.setProPic(imgUtils.fileImgToBase64Encoding(profile.getProPic()));
 		}
+		
+		profile.setPostsCounter(profile.getPosts().size());
+		
+		List<PostDTO> postsSorted = 
 		profile.getPosts().stream()
+		.sorted(Comparator.comparing(
+				PostDTO::getLocalDate,
+				Comparator.reverseOrder()
+				))
+		.limit(3)
+		.collect(Collectors.toList());
+		
+		postsSorted.stream()
 		.forEach(p -> {
 			try {
 				p.setUrlImg(imgUtils.fileImgToBase64Encoding(p.getUrlImg()));
@@ -69,6 +84,8 @@ public class ProfileServiceImpl implements ProfileService {
 				e.printStackTrace();
 			}
 		});
+		
+		profile.setPosts(postsSorted);
 		return profile;		
 	}
 
