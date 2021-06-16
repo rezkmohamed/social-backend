@@ -121,11 +121,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<PostDTO> getNextPostsForProfilePage(String idProfile, int startingIndex) {
 		int lastPost = 3;
-		/**
-		 * FIXME
-		 */
-		Profile profile = profileRepo.findProfile(idProfile);
 
+		Profile profile = profileRepo.findProfile(idProfile);
+		
+		return postRepo.loadNextPostsForProfile(idProfile, startingIndex);
+		/*
 		List<PostDTO> postsSorted = 
 			profile.getPosts().stream()
 			.map(p -> {
@@ -147,7 +147,7 @@ public class PostServiceImpl implements PostService {
 			postsResponse.add(postsSorted.get(i));
 		}
 		
-		return postsResponse;
+		return postsResponse;*/
 	}
 
 	@Override

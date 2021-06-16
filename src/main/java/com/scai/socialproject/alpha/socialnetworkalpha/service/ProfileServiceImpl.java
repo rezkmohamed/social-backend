@@ -73,7 +73,7 @@ public class ProfileServiceImpl implements ProfileService {
 				PostDTO::getLocalDate,
 				Comparator.reverseOrder()
 				))
-		.limit(3)
+		.limit(6)
 		.collect(Collectors.toList());
 		
 		postsSorted.stream()

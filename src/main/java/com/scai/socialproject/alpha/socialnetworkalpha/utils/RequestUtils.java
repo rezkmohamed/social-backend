@@ -22,6 +22,4 @@ public class RequestUtils {
 		
 		return idProfile;
 	}
-	
-	
 }

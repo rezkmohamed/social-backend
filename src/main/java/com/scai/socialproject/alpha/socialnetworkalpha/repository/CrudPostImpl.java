@@ -125,8 +125,8 @@ public class CrudPostImpl implements CrudPost {
 		Query<Post> query = session.createQuery("from Post where id_profile = :idProfile");
 		query.setParameter("idProfile", idProfile);
 		
-				
-		List<Post> posts = query.getResultList();		
+		
+		List<Post> posts = query.getResultList();
 		List<PostDTO> ris = new ArrayList<>();
 		for(Post post : posts) {
 			PostDTO postDTO = DTOPostUtils.postToDTO(post);
@@ -150,6 +150,31 @@ public class CrudPostImpl implements CrudPost {
 		}
 		
 		return ris;
+	}
+
+	@Override
+	public List<PostDTO> loadNextPostsForProfile(String idProfile, int startingIndex) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Post> query = session.createQuery("from Post where id_profile = :idProfile ORDER BY date DESC");
+		query.setParameter("idProfile", idProfile);
+		query.setFirstResult(startingIndex);
+		query.setMaxResults(6);
+		List<Post> posts = query.getResultList();
+		
+		
+		List<PostDTO> postsDTO = DTOPostUtils.postToDTO(posts);
+		for(PostDTO p : postsDTO) {
+			try {
+				p.setUrlImg(imgUtils.fileImgToBase64Encoding(p.getUrlImg()));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println(postsDTO);
+		
+		return postsDTO;
 	}
 	
 }

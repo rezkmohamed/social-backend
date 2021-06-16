@@ -14,6 +14,8 @@ public interface CrudPost {
 	
 	//public List<PostDTO> getHomepage(String idProfile);
 	
+	public List<PostDTO> loadNextPostsForProfile(String idProfile, int startingIndex);
+	
 	public PostDTO findPostById(String idPost);
 	
 	public void savePost(Post post);
