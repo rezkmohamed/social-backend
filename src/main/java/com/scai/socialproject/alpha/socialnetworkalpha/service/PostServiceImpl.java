@@ -153,8 +153,12 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
 	public List<PostDTO> getHomepage(String idProfile, int startingIndex) {
-		int lastPost = 6;
+		//int lastPost = 6;
 		List<PostDTO> posts = new LinkedList<>();
+		
+		posts = postRepo.getNextPostsHomepage(idProfile, startingIndex);
+		
+		/*
 		List<FollowDTO> following = followRepo.findFollowingForProfile(idProfile);
 		for(FollowDTO follow : following) {
 			String id = follow.getIdFollowed();
@@ -178,12 +182,8 @@ public class PostServiceImpl implements PostService {
 		/**
 		 * COMMENT'S LIKE CHECK., ADJUSTING PROPIC
 		 */
-		postsRis.stream()
+		posts.stream()
 		.forEach( p -> {
-			try {
-				p.setUrlImg(imgUtils.fileImgToBase64Encoding(p.getUrlImg()));
-			} catch (IOException e) {
-			}
 			p.getComments().forEach( c -> {
 				c.getCommentLikes().forEach(cl -> {
 					if(cl.getIdProfile().equals(idProfile)) {
@@ -192,20 +192,16 @@ public class PostServiceImpl implements PostService {
 				});
 			});
 		});
-
-		/**
-		 * SORTING LIKES.
-		 */
 		
-		postsRis.stream().forEach( p -> {
+		posts.stream().forEach( p -> {
 			p.getLikes().forEach(l -> {
 				if(l.getIdProfile().equals(idProfile)) {
 					p.setLiked(true);
 				}
 			});
-		});
+		}); 
 
-		return postsRis;
+		return posts;
 	}
 
 

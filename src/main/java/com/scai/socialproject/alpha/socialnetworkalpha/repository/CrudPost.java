@@ -12,7 +12,7 @@ public interface CrudPost {
 	
 	public List<PostDTO> findPostsProfilePage(String idProfile);
 	
-	//public List<PostDTO> getHomepage(String idProfile);
+	public List<PostDTO> getNextPostsHomepage(String idProfile, int startingIndex);
 	
 	public List<PostDTO> loadNextPostsForProfile(String idProfile, int startingIndex);
 	

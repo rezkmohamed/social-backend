@@ -21,6 +21,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
@@ -119,6 +120,8 @@ public class CrudPostImpl implements CrudPost {
 	}
 	
 	
+	
+	
 	@Override
 	public List<PostDTO> getPosts(String idProfile){
 		Session session = entityManager.unwrap(Session.class);
@@ -173,6 +176,28 @@ public class CrudPostImpl implements CrudPost {
 		}
 		
 		System.out.println(postsDTO);
+		
+		return postsDTO;
+	}
+
+
+	@Override
+	public List<PostDTO> getNextPostsHomepage(String idProfile ,int startingIndex) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Follow> queryFollow = session.createQuery("from Follow where id_follower = :idProfile");
+		queryFollow.setParameter("idProfile", idProfile);
+		List<Follow> following = queryFollow.getResultList();
+		List<String> followingIds = following.stream().map(f -> f.getFollowed().getIdProfile()).collect(Collectors.toList());
+		
+		Query<Post> query = session.createQuery("from Post where id_profile in (:profiles) ORDER BY date DESC");
+		query.setParameterList("profiles", followingIds);
+		query.setFirstResult(startingIndex);
+		query.setMaxResults(6);
+		List<Post> posts = query.getResultList();
+		List<PostDTO> postsDTO = new LinkedList<>();
+		for(Post post : posts) {
+			postsDTO.add(DTOPostUtils.fillPostCompleteDTO(post, imgUtils));
+		}
 		
 		return postsDTO;
 	}

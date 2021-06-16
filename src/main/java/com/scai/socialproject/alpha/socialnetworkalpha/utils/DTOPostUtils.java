@@ -42,7 +42,12 @@ public class DTOPostUtils {
 		Profile p = post.getProfile();
 		postDTO.setProfile(DTOProfileUtils.profileToDTO(p));
 		try {
-			postDTO.getProfile().setProPic(imgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
+			if(postDTO.getProfile().getProPic() != null) {
+				postDTO.getProfile().setProPic(imgUtils.fileImgToBase64Encoding(postDTO.getProfile().getProPic()));
+			}
+			if(postDTO.getUrlImg() != null) {
+				postDTO.setUrlImg(imgUtils.fileImgToBase64Encoding(postDTO.getUrlImg()));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
