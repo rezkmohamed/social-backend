@@ -204,8 +204,8 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public List<ProfileDTO> searchProfilesByName(String profileName) {
-		return profileRepo.searchProfilesByName(profileName);
+	public List<ProfileDTO> searchProfilesByName(String profileName, int startingIndex) {
+		return profileRepo.searchProfilesByName(profileName, startingIndex);
 	}
 
 	@Override

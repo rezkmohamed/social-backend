@@ -21,7 +21,7 @@ public interface ProfileService {
 	
 	public List<ProfileDTO> findFollowingProfile(String idProfile);
 	
-	public List<ProfileDTO> searchProfilesByName(String profileName);
+	public List<ProfileDTO> searchProfilesByName(String profileName, int startingIndex);
 	
 	public ProfileDTO findProfileById(String idProfile) throws IOException;
 	

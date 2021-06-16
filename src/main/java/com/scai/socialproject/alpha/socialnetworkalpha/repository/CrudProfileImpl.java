@@ -169,10 +169,13 @@ public class CrudProfileImpl implements CrudProfile {
 	}
 
 	@Override
-	public List<ProfileDTO> searchProfilesByName(String profileName) {
+	public List<ProfileDTO> searchProfilesByName(String profileName, int startingIndex) {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Profile> query = session.createQuery("from Profile where nickname like :string");
 		query.setParameter("string", '%'+profileName+'%');
+		query.setFirstResult(startingIndex);
+		query.setMaxResults(10);
+		
 		List<Profile> profiles = query.getResultList();
 		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles, imgUtils);		
 		

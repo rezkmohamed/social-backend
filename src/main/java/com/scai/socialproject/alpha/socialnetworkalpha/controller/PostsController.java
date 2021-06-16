@@ -72,11 +72,7 @@ public class PostsController {
 	
 	@GetMapping("/next/{startingPost}")
 	public ResponseEntity<List<PostDTO>> loadNextPostsForProfile(@PathVariable int startingPost, HttpServletRequest request){
-		String idProfile = requestUtils.idProfileFromToken(request);
-		
-		
-		
-		
+		String idProfile = requestUtils.idProfileFromToken(request);		
 		return new ResponseEntity<>(postService.getNextPostsForProfilePage(idProfile, startingPost), HttpStatus.OK);
 	}
 	

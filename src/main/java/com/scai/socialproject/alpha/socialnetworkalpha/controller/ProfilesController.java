@@ -70,9 +70,9 @@ public class ProfilesController {
 	}
 	
 	//OK!
-	@GetMapping("/search/{profileName}")
-	public List<ProfileDTO> searchProfilesByName(@PathVariable String profileName){
-		return profileService.searchProfilesByName(profileName);
+	@GetMapping("/search/{profileName}/{startingIndex}")
+	public List<ProfileDTO> searchProfilesByName(@PathVariable String profileName, @PathVariable int startingIndex){
+		return profileService.searchProfilesByName(profileName, startingIndex);
 	}
 
 	@PostMapping("/updategeneraldata")
