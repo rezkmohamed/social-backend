@@ -30,7 +30,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOProfileUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/profiles")
 public class ProfilesController {

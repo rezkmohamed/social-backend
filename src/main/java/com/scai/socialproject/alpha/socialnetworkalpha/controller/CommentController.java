@@ -22,7 +22,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.service.CommentLikeServic
 import com.scai.socialproject.alpha.socialnetworkalpha.service.CommentService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/comments")
 public class CommentController {

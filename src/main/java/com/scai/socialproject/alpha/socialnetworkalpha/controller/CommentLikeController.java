@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.CommentLikeService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("commentlike")
 public class CommentLikeController {

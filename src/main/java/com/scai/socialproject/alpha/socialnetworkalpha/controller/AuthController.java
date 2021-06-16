@@ -16,7 +16,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController("")
 public class AuthController {
 	private ProfileService profileService;

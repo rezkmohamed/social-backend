@@ -26,7 +26,12 @@ public class SocialnetworkalphaApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*").exposedHeaders("Authentication");
+				registry.addMapping("/**")
+				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("*")
+				.allowedMethods("*")
+				.allowedHeaders("*")
+				.exposedHeaders("Authentication");
 			}
 		};
 	}
