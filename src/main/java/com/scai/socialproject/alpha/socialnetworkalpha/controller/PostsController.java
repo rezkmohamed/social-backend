@@ -70,9 +70,9 @@ public class PostsController {
 		return post;
 	}
 	
-	@GetMapping("/next/{startingPost}")
-	public ResponseEntity<List<PostDTO>> loadNextPostsForProfile(@PathVariable int startingPost, HttpServletRequest request){
-		String idProfile = requestUtils.idProfileFromToken(request);		
+	@GetMapping("/next/{idProfile}/{startingPost}")
+	public ResponseEntity<List<PostDTO>> loadNextPostsForProfile(@PathVariable String idProfile ,@PathVariable int startingPost, HttpServletRequest request){
+		//String idProfile = requestUtils.idProfileFromToken(request);		
 		return new ResponseEntity<>(postService.getNextPostsForProfilePage(idProfile, startingPost), HttpStatus.OK);
 	}
 	
