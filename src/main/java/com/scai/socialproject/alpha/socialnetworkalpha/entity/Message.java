@@ -1,6 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
 
@@ -52,9 +53,14 @@ public class Message {
 		
 	}
 
-	public Message(LocalDateTime date, boolean isSeen) {
-		this.date = date;
+	public Message(String date, boolean isSeen) {
 		this.isSeen = isSeen;
+		int endOfString = 19;
+		date = date.substring(0, endOfString);
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
+		this.date = dateInput;
 	}
 
 	public String getIdMessage() {
@@ -83,6 +89,10 @@ public class Message {
 
 	public LocalDateTime getDate() {
 		return date;
+	}
+	
+	public String getDateString() {
+		return date.toString();
 	}
 
 	public void setDate(LocalDateTime date) {
