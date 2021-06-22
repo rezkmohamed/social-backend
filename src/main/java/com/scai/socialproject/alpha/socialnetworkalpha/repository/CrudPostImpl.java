@@ -162,7 +162,6 @@ public class CrudPostImpl implements CrudPost {
 			try {
 				p.setUrlImg(imgUtils.fileImgToBase64Encoding(p.getUrlImg()));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
