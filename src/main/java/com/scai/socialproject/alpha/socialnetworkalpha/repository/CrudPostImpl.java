@@ -2,27 +2,19 @@ package com.scai.socialproject.alpha.socialnetworkalpha.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
-import org.aspectj.weaver.NewParentTypeMunger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentDTO;
-import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentLikeDTO;
-import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
-import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
-import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
-import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOCommentUtils;
