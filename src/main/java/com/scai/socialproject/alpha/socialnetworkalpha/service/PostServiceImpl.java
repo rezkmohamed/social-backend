@@ -30,7 +30,6 @@ public class PostServiceImpl implements PostService {
 	private CrudPost postRepo;
 	private CrudFollow followRepo;
 	private CrudProfile profileRepo;
-	//private String basePathFileSystem = "C:\\immagini\\";
 	@Value("${basePathFileSystem}")
 	private String basePathFileSystem;
 	private ImgUtils imgUtils;
@@ -55,11 +54,6 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	public PostDTO findPostById(String idPost, String idProfileLogged) {
 		PostDTO ris = postRepo.findPostById(idPost);
-		
-		try {
-			ris.setUrlImg(imgUtils.fileImgToBase64Encoding(ris.getUrlImg()));
-		} catch (IOException e) {
-		}
 		
 		ris.getLikes().stream()
 		.forEach( l -> {
@@ -118,36 +112,10 @@ public class PostServiceImpl implements PostService {
 		postRepo.savePost(postDTO);
 	}
 	
+	
 	@Override
 	public List<PostDTO> getNextPostsForProfilePage(String idProfile, int startingIndex) {
-		int lastPost = 3;
-
-		Profile profile = profileRepo.findProfile(idProfile);
-		
 		return postRepo.loadNextPostsForProfile(idProfile, startingIndex);
-		/*
-		List<PostDTO> postsSorted = 
-			profile.getPosts().stream()
-			.map(p -> {
-				PostDTO pdto = DTOPostUtils.postToDTO(p);
-				try {
-					pdto.setUrlImg(imgUtils.fileImgToBase64Encoding(pdto.getUrlImg()));
-				} catch (Exception e) {
-				}
-				return pdto;
-			})
-			.sorted(Comparator.comparing(
-					PostDTO::getLocalDate,
-					Comparator.reverseOrder()
-					))
-			.collect(Collectors.toList());
-		
-		List<PostDTO> postsResponse = new ArrayList<>();
-		for(int i = startingIndex; (i < startingIndex + lastPost) && i < postsSorted.size() ; i++) {
-			postsResponse.add(postsSorted.get(i));
-		}
-		
-		return postsResponse;*/
 	}
 
 	@Override

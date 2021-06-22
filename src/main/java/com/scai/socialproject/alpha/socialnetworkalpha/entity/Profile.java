@@ -5,12 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 
@@ -77,6 +72,16 @@ public class Profile {
 			   cascade=CascadeType.ALL,
 			   fetch=FetchType.LAZY)
 	private List<CommentLike> commentLikes;
+	
+	@OneToMany(mappedBy="profileSender", 
+			   cascade=CascadeType.ALL,
+			   fetch=FetchType.LAZY)
+	private List<Message> messagesSented;
+	
+	@OneToMany(mappedBy="profileReciver",
+			   cascade=CascadeType.ALL,
+			   fetch=FetchType.LAZY)
+	private List<Message> messagesRecived;
 	
 	public Profile() {}
 
@@ -162,7 +167,6 @@ public class Profile {
 		this.posts.add(post);
 	}
 	
-	@JsonIgnore
 	public List<Follow> getFollowers() {
 		return followers;
 	}
@@ -179,8 +183,6 @@ public class Profile {
 		followers.add(follow);
 	}
 	
-	
-	@JsonIgnore
 	public List<Follow> getFollowing() {
 		return following;
 	}
@@ -197,7 +199,6 @@ public class Profile {
 		following.add(follow);
 	}
 	
-	@JsonIgnore
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -214,7 +215,6 @@ public class Profile {
 		comments.add(comment);
 	}
 	
-	@JsonIgnore
 	public List<CommentLike> getCommentLikes() {
 		return commentLikes;
 	}
@@ -229,6 +229,22 @@ public class Profile {
 		}
 		
 		this.commentLikes.add(commentLike);
+	}
+	
+	public List<Message> getMessagesSented() {
+		return messagesSented;
+	}
+
+	public void setMessagesSented(List<Message> messagesSented) {
+		this.messagesSented = messagesSented;
+	}
+
+	public List<Message> getMessagesRecived() {
+		return messagesRecived;
+	}
+
+	public void setMessagesRecived(List<Message> messagesRecived) {
+		this.messagesRecived = messagesRecived;
 	}
 	
 	@Override
