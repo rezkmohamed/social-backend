@@ -49,6 +49,13 @@ public class Message {
 	@Column(name="isseen")
 	private boolean isSeen;
 	
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
+            CascadeType.REFRESH, CascadeType.DETACH})
+	@JoinColumn(name="id_conversation")
+	private Conversation conversation;
+	
+	// id conversation 
+	
 	public Message() {
 		
 	}
@@ -107,6 +114,14 @@ public class Message {
 		this.isSeen = isSeen;
 	}
 
+	public Conversation getConversation() {
+		return conversation;
+	}
+
+	public void setConversation(Conversation conversation) {
+		this.conversation = conversation;
+	}
+	
 	@Override
 	public String toString() {
 		return "Message [idMessage=" + idMessage + ", profileSender=" + profileSender + ", profileReciver="

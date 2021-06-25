@@ -71,8 +71,8 @@ public class ProfilesController {
 	
 	//OK!
 	@GetMapping("/search/{profileName}/{startingIndex}")
-	public List<ProfileDTO> searchProfilesByName(@PathVariable String profileName, @PathVariable int startingIndex){
-		return profileService.searchProfilesByName(profileName, startingIndex);
+	public ResponseEntity<List<ProfileDTO>> searchProfilesByName(@PathVariable String profileName, @PathVariable int startingIndex){
+		return new ResponseEntity<>(profileService.searchProfilesByName(profileName, startingIndex), HttpStatus.OK);
 	}
 
 	@PostMapping("/updategeneraldata")

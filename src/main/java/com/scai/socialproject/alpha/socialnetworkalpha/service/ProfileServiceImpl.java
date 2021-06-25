@@ -123,13 +123,10 @@ public class ProfileServiceImpl implements ProfileService {
 	@Transactional
 	public boolean uploadProfilePicture(MultipartFile file, String idProfile) throws IllegalStateException, IOException {
 		String filename = file.getOriginalFilename();
-		System.out.println(file.getOriginalFilename());
 		String extension  = filename.substring(filename.lastIndexOf(".") + 1);
-		System.out.println(filename);
-		System.out.println(extension);
 		
 
-		if(extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
+		if(extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("jpg")) {
 			String newProfilePic = UUID.randomUUID().toString()+ "." + extension;
 			file.transferTo(new File(basePathFileSystem + newProfilePic));
 			Profile profile = profileRepo.findProfile(idProfile);
@@ -159,12 +156,19 @@ public class ProfileServiceImpl implements ProfileService {
 		return profileRepo.getUserAuth(email, pass);
 	}
 
+
+	@Override
+	@Transactional
+	public User loginTest(String email, String pass) {
+		User user = profileRepo.getUserAuth(email, pass);
+		return user;
+	}
 	
 	@Override
 	@Transactional
 	public ResponseEntity<User> login(String email, String pass) {
 		User user = profileRepo.getUserAuth(email, pass);
-		
+
 		
 		if(user != null) {
 			HttpHeaders headers = new HttpHeaders();
@@ -175,7 +179,7 @@ public class ProfileServiceImpl implements ProfileService {
 					.addClaims(addedValues)
 					.setIssuedAt(new Date(System.currentTimeMillis()))
 					.setExpiration(new Date(System.currentTimeMillis() + 120 * 60 * 1000))
-					.signWith(SignatureAlgorithm.HS512, "ciao").compact();
+					.signWith(SignatureAlgorithm.HS512, this.signingKey).compact();
 			headers.add("Authentication", "Bearer " + token);
 			return ResponseEntity.ok().headers(headers).build();
 		}
@@ -205,6 +209,9 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	@Transactional
 	public List<ProfileDTO> searchProfilesByName(String profileName, int startingIndex) {
+		if(startingIndex > profileRepo.countTotalProfileToSearch(profileName)) {
+			return null;
+		}
 		return profileRepo.searchProfilesByName(profileName, startingIndex);
 	}
 

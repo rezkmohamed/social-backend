@@ -167,6 +167,16 @@ public class CrudProfileImpl implements CrudProfile {
 
 		return profilesDTO;
 	}
+	
+	@Override
+	public long countTotalProfileToSearch(String profileName) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Long> totalProfiles = session.createQuery("select count(*) from Profile where nickname like :string");
+		totalProfiles.setParameter("string", '%'+profileName+'%');
+		long totalProfilesL = (long) totalProfiles.uniqueResult();
+
+		return totalProfilesL;
+	}
 
 	@Override
 	public List<ProfileDTO> searchProfilesByName(String profileName, int startingIndex) {

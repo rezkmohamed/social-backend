@@ -37,6 +37,8 @@ public interface ProfileService {
 	
 	public ResponseEntity<User> login(String email, String pass);
 	
+	public User loginTest(String email, String pass);
+	
 	public boolean checkEmail(User user);
 	
 	public boolean updatePassword(NewPasswordDTO newPasswordDTO);
