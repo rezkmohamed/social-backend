@@ -42,6 +42,7 @@ public class CrudMessageImp implements CrudMessage {
 		return messagesDTO;
 	}
 
+	/*
 	@Override
 	public List<MessageDTO> getMessagesInterface(String idProfileLogged) {
 		Session session = entityManager.unwrap(Session.class);
@@ -54,10 +55,9 @@ public class CrudMessageImp implements CrudMessage {
 		List<Message> messages = query.getResultList();
 		List<MessageDTO> messagesDTO = DTOMessageUtils.messageToDTO(messages);
 		
-		
 		return messagesDTO;
 	}
-
+	*/
 	@Override
 	public boolean addMessage(Message message) {
 		Session session = entityManager.unwrap(Session.class);
@@ -65,5 +65,4 @@ public class CrudMessageImp implements CrudMessage {
 		
 		return true;
 	}
-
 }

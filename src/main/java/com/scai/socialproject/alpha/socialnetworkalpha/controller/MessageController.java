@@ -17,14 +17,17 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 @RestController
 public class MessageController {
 	@Autowired
-	private SimpMessagingTemplate simpMessagingTemplate;
-	@Autowired
 	private MessageService messageService;
 	@Autowired
 	private RequestUtils requestUtils;
 
 	
-	@MessageMapping("/chat/{to}")
+	
+	
+	
+	
+	
+	/*@MessageMapping("/chat/{to}")
 	public ResponseEntity<HttpStatus> sendMessage(@DestinationVariable String to, MessageDTO message, HttpServletRequest request){
 		String idProfile = requestUtils.idProfileFromToken(request);
 
@@ -36,6 +39,5 @@ public class MessageController {
 		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
+	}*/
 }

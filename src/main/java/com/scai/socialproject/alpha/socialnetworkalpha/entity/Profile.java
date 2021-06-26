@@ -88,8 +88,6 @@ public class Profile {
 			   fetch=FetchType.LAZY)
 	private List<Conversation> conversations;
 	
-	
-	
 	public Profile() {}
 
 	public Profile(String name, String nickname, String bio, String proPic, String email, String password) {
