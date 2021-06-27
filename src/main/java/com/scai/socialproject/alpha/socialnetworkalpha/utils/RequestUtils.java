@@ -22,4 +22,13 @@ public class RequestUtils {
 		
 		return idProfile;
 	}
+	
+	public String idProfileFromToken(String token) {
+		token = token.replace("Bearer ", "");
+		Jws<Claims> result =  Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token);		
+		String idProfile = result.getBody().get("idUser", String.class);
+
+		return idProfile;
+	}
+	
 }

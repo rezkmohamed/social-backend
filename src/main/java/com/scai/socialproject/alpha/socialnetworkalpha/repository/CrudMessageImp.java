@@ -9,8 +9,12 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.ConversationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Conversation;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Message;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOConversationUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOMessageUtils;
 
 @Repository
@@ -42,27 +46,33 @@ public class CrudMessageImp implements CrudMessage {
 		return messagesDTO;
 	}
 
-	/*
-	@Override
-	public List<MessageDTO> getMessagesInterface(String idProfileLogged) {
-		Session session = entityManager.unwrap(Session.class);
-		Query<Message> query = session
-				.createQuery("from Message where id_profile_reciver = :idProfileLogged ORDER BY date_message DESC");
-		query.setParameter("idProfileLogged", idProfileLogged);
-		query.setFirstResult(0);
-		query.setMaxResults(20);
-		
-		List<Message> messages = query.getResultList();
-		List<MessageDTO> messagesDTO = DTOMessageUtils.messageToDTO(messages);
-		
-		return messagesDTO;
-	}
-	*/
 	@Override
 	public boolean addMessage(Message message) {
 		Session session = entityManager.unwrap(Session.class);
 		session.save(message);
 		
 		return true;
+	}
+
+	@Override
+	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Conversation> query = session.createQuery("from Conversation where id_profile1 = :idProfile OR id_profile2 = :idProfile");
+		query.setParameter("idProfile", idProfileLogged);
+		List<Conversation> conversations = query.getResultList();
+		List<ConversationDTO> conversationsDTO = DTOConversationUtils.conversationToDTO(conversations);
+		
+		return conversationsDTO;
+	}
+
+	@Override
+	public String createNewConversation(Conversation conversation) {
+		Session session = entityManager.unwrap(Session.class);
+		String idNewConversation = (String) session.save(conversation);
+		if(!idNewConversation.equals("")) {
+			return idNewConversation;
+		}
+		
+		return null;
 	}
 }

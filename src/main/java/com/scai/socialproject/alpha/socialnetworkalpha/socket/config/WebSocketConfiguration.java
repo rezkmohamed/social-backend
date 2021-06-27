@@ -19,7 +19,6 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(getChatWebSocketHandler(), CHAT_ENDPOINT).setAllowedOrigins("*");
 	}
-
 	
 	@Bean
 	public WebSocketHandler getChatWebSocketHandler() {

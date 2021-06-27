@@ -124,7 +124,6 @@ public class CrudFollowImpl implements CrudFollow {
 			Follow follow = query.getSingleResult();
 			return DTOFollowUtils.followToDTO(follow);
 		} catch (Exception e) {
-			System.out.println("non c'e il follow");
 		}
 		return null;
 	}

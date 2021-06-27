@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.ConversationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Conversation;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Message;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudMessage;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOConversationUtils;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -33,12 +36,6 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	@Transactional
-	public List<MessageDTO> getMessagesInterface(String idProfileLogged) {
-		return messagesRepo.getMessagesInterface(idProfileLogged);
-	}
-
-	@Override
-	@Transactional
 	public boolean addMessage(MessageDTO message) {
 		Profile profile1 = profilesRepo.findProfile(message.getIdProfileSender());
 		if(profile1 == null) {
@@ -54,6 +51,30 @@ public class MessageServiceImpl implements MessageService {
 		messagesRepo.addMessage(msg);
 		
 		return false;
+	}
+
+	@Override
+	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged) {
+		return messagesRepo.getConversationsForProfile(idProfileLogged);
+	}
+
+	@Override
+	public ConversationDTO createNewConversation(String idFirstProfile, String idSecondProfile) {
+		Profile firstProfile = profilesRepo.findProfile(idFirstProfile);
+		if(firstProfile == null) {
+			return null;
+		}
+		Profile secondProfile = profilesRepo.findProfile(idSecondProfile);
+		if(secondProfile == null) {
+			return null;
+		}
+		Conversation conversation = new Conversation();
+		conversation.setFirstProfile(firstProfile); conversation.setSecondProfile(secondProfile);
+		String idConversation = messagesRepo.createNewConversation(conversation);
+		ConversationDTO ris = DTOConversationUtils.conversationToDTO(conversation);
+		ris.setIdConversation(idConversation);
+		
+		return ris;
 	}
 
 }
