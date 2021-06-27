@@ -25,6 +25,8 @@ public class RequestUtils {
 	
 	public String idProfileFromToken(String token) {
 		token = token.replace("Bearer ", "");
+		token = token.replace("\"","");
+		
 		Jws<Claims> result =  Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token);		
 		String idProfile = result.getBody().get("idUser", String.class);
 

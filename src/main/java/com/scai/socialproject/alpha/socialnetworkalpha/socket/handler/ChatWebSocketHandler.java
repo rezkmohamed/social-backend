@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -14,6 +16,10 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler{
@@ -29,10 +35,10 @@ public class ChatWebSocketHandler extends TextWebSocketHandler{
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		if(message.toString().contains("token")) {
-			System.out.println("token::::");
-			String idProfile = requestUtils.idProfileFromToken(message.toString());
-			System.out.println(idProfile);
+		if(message.toString().contains("Bearer ")) {
+			System.out.println(message.getPayload());
+			String idProfile = requestUtils.idProfileFromToken(message.getPayload().toString());
+			webSocketSessions.put(idProfile, session);
 		}
 		
 	}
@@ -46,5 +52,4 @@ public class ChatWebSocketHandler extends TextWebSocketHandler{
 			}
 		}
 	}
-
 }
