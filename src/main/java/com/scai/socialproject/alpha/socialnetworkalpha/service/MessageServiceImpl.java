@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ConversationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Conversation;
@@ -68,33 +67,32 @@ public class MessageServiceImpl implements MessageService {
 	
 	@Override
 	@Transactional
-	public boolean addMessage(String message) {
-		System.out.println(message);
+	public MessageDTO addMessage(String message) {
 		ObjectMapper om = new ObjectMapper();
 		try {
 			MessageDTO msgDTO = om.readValue(message, MessageDTO.class);
-			System.out.println(msgDTO);
+
 			String idProfile1 = requestUtils.idProfileFromToken(msgDTO.getIdProfileSender());
 			Profile profile1 = profilesRepo.findProfile(idProfile1);
 			if(profile1 == null) {
-				return false;
+				return null;
 			}
 			Profile profile2 = profilesRepo.findProfile(msgDTO.getIdProfileReciver());
 			if(profile2 == null) {
-				return false;
+				return null;
 			}
 			Message msg = new Message(msgDTO.getDate().toString(), msgDTO.isSeen());
 			msg.setMessage(msgDTO.getMessage());
 			msg.setProfileSender(profile1);
 			msg.setProfileReciver(profile2);
-			/**
-			 * FIXME
-			 * ADD CONVERSATION
-			 */
+
 			Conversation conversation = messagesRepo.getConversation(msgDTO.getIdConversation());
 			msg.setConversation(conversation);
-			System.out.println(msg);
-			messagesRepo.addMessage(msg);
+			String newIdMsg = messagesRepo.addMessage(msg);
+			System.out.println(newIdMsg);
+			msgDTO.setIdMessage(newIdMsg);
+			return msgDTO;
+			
 
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
@@ -102,7 +100,7 @@ public class MessageServiceImpl implements MessageService {
 			e.printStackTrace();
 		}
 		
-		return false;
+		return null;
 	}
 
 	@Override

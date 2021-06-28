@@ -19,7 +19,7 @@ public interface CrudMessage {
 	
 	public Conversation getConversation(String idProfile1, String idProfile2);
 	
-	public boolean addMessage(Message message);
+	public String addMessage(Message message);
 	
 	public String createNewConversation(Conversation conversation);
 }

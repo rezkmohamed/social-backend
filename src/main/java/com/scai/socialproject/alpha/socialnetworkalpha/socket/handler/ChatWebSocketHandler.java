@@ -35,23 +35,27 @@ public class ChatWebSocketHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		if(message.toString().contains("Bearer ")) {
-			System.out.println(message.getPayload());
 			String idProfile = requestUtils.idProfileFromToken(message.getPayload().toString());
-			webSocketSessions.put(idProfile, session);
+			
+			for(Map.Entry<String, WebSocketSession> entry : webSocketSessions.entrySet()) {
+				if(entry.getValue().equals(session)) {
+					String key = entry.getKey();
+					webSocketSessions.remove(key);
+					webSocketSessions.put(idProfile, session);
+					return;
+				}
+			}
+			
 		}
 		else {
 			String msg = message.getPayload();
-			System.out.println(msg);
-			messageService.addMessage(msg);
-//			Gson gson = new Gson();
-//			MessageDTO msgDTO = gson.fromJson(msg, MessageDTO.class);
-//			System.out.println(msgDTO);
-//			try {
-////				webSocketSessions.get(msgDTO.getIdProfileReciver()).sendMessage(message);
-////				messageService.addMessage(msgDTO);
-//			} catch (Exception e) {
-//				System.out.println("other profile not found");
-//			}
+			MessageDTO msgToSend = messageService.addMessage(msg);
+			if(msgToSend != null) {
+				System.out.println(webSocketSessions);
+				if(webSocketSessions.containsKey(msgToSend.getIdProfileReciver())) {
+					webSocketSessions.get(msgToSend.getIdProfileReciver()).sendMessage(message);
+				}
+			}
 		}
 		
 	}

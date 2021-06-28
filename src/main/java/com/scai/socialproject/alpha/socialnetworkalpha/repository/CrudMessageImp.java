@@ -47,11 +47,11 @@ public class CrudMessageImp implements CrudMessage {
 	}
 
 	@Override
-	public boolean addMessage(Message message) {
+	public String addMessage(Message message) {
 		Session session = entityManager.unwrap(Session.class);
 		session.save(message);
 		
-		return true;
+		return (String) session.save(message);
 	}
 
 	@Override
