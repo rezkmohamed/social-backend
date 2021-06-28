@@ -31,7 +31,7 @@ public class ConversationsController {
 	public ResponseEntity<List<ConversationDTO>> getConversationsForProfile(HttpServletRequest request){
 		String idProfile = requestUtils.idProfileFromToken(request);
 		return new ResponseEntity<>(messageService.getConversationsForProfile(idProfile), HttpStatus.OK);
-	}
+	}	
 	
 	@PostMapping("/new/{idSecondProfile}")
 	public ResponseEntity<ConversationDTO> createNewConversation(@PathVariable String idSecondProfile, HttpServletRequest request){

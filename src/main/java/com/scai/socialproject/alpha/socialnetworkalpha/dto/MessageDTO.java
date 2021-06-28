@@ -91,10 +91,11 @@ public class MessageDTO {
 	public void setIdConversation(String idConversation) {
 		this.idConversation = idConversation;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "MessageDTO [idMessage=" + idMessage + ", idProfileSender=" + idProfileSender + ", idProfileReciver="
-				+ idProfileReciver + ", date=" + date + ", isSeen=" + isSeen + "]";
+				+ idProfileReciver + ", message=" + message + ", idConversation=" + idConversation + ", date=" + date
+				+ ", isSeen=" + isSeen + "]";
 	}
 }

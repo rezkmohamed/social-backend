@@ -1,6 +1,9 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.service;
 
+import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudMessage;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOConversationUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.ImgUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 @Service
@@ -28,6 +32,8 @@ public class MessageServiceImpl implements MessageService {
 	private CrudProfile profilesRepo;
 	@Autowired
 	private RequestUtils requestUtils;
+	@Autowired
+	private ImgUtils imgUtils;
 
 	@Override
 	@Transactional
@@ -69,7 +75,6 @@ public class MessageServiceImpl implements MessageService {
 			MessageDTO msgDTO = om.readValue(message, MessageDTO.class);
 			System.out.println(msgDTO);
 			String idProfile1 = requestUtils.idProfileFromToken(msgDTO.getIdProfileSender());
-			System.out.println(idProfile1);
 			Profile profile1 = profilesRepo.findProfile(idProfile1);
 			if(profile1 == null) {
 				return false;
@@ -79,21 +84,21 @@ public class MessageServiceImpl implements MessageService {
 				return false;
 			}
 			Message msg = new Message(msgDTO.getDate().toString(), msgDTO.isSeen());
+			msg.setMessage(msgDTO.getMessage());
 			msg.setProfileSender(profile1);
 			msg.setProfileReciver(profile2);
 			/**
 			 * FIXME
 			 * ADD CONVERSATION
 			 */
-			Conversation conversation = messagesRepo.getConversation("1");
+			Conversation conversation = messagesRepo.getConversation(msgDTO.getIdConversation());
 			msg.setConversation(conversation);
+			System.out.println(msg);
 			messagesRepo.addMessage(msg);
 
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -103,7 +108,32 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	@Transactional
 	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged) {
-		return messagesRepo.getConversationsForProfile(idProfileLogged);
+		List<ConversationDTO> ris = messagesRepo.getConversationsForProfile(idProfileLogged);
+		for(ConversationDTO conv : ris) {
+			conv.setMessages( conv.getMessages().stream().sorted(Comparator.comparing(
+					MessageDTO::getDate,
+					Comparator.reverseOrder()
+					))
+					.collect(Collectors.toList())
+					);
+			
+			if(conv.getFirstProfile().getProPic() != null ) {
+				try {
+					conv.getFirstProfile().setProPic(imgUtils.fileImgToBase64Encoding(conv.getFirstProfile().getProPic()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conv.getSecondProfile().getProPic() != null) {
+				try {
+					conv.getSecondProfile().setProPic(imgUtils.fileImgToBase64Encoding(conv.getSecondProfile().getProPic()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return ris;
 	}
 
 	@Override
