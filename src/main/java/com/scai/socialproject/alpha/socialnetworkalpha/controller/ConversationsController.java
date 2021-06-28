@@ -36,6 +36,10 @@ public class ConversationsController {
 	@PostMapping("/new/{idSecondProfile}")
 	public ResponseEntity<ConversationDTO> createNewConversation(@PathVariable String idSecondProfile, HttpServletRequest request){
 		String idFirstProfile = requestUtils.idProfileFromToken(request);
+		ConversationDTO conversation = messageService.getConversation(idFirstProfile, idSecondProfile);
+		if(conversation != null) {
+			return new ResponseEntity<>(conversation, HttpStatus.OK);
+		}
 		ConversationDTO newConversation = 
 		messageService.createNewConversation(idFirstProfile, idSecondProfile);
 		if(newConversation == null) {

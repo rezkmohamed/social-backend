@@ -13,6 +13,8 @@ public interface MessageService {
 	
 	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged);
 	
+	public ConversationDTO getConversation(String idProfile1, String idProfile2);
+	
 	public boolean addMessage(MessageDTO message);
 	
 	public boolean addMessage(String message);

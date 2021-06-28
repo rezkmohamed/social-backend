@@ -11,8 +11,10 @@ public class DTOConversationUtils {
 		ConversationDTO ris = new ConversationDTO();
 		ris.setIdConversation(conversation.getIdConversation());
 		ris.setFirstProfile(DTOProfileUtils.profileToDTO(conversation.getFirstProfile()));
-		ris.setSecondProfile(DTOProfileUtils.profileToDTO(conversation.getSecondProfile()));		
-		ris.setMessages(DTOMessageUtils.messageToDTO(conversation.getMessages()));
+		ris.setSecondProfile(DTOProfileUtils.profileToDTO(conversation.getSecondProfile()));	
+		if(conversation.getMessages() != null) {
+			ris.setMessages(DTOMessageUtils.messageToDTO(conversation.getMessages()));
+		}
 		
 		return ris;
 	}
