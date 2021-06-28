@@ -15,6 +15,8 @@ public interface CrudMessage {
 		
 	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged);
 	
+	public Conversation getConversation(String idConversation);
+	
 	public boolean addMessage(Message message);
 	
 	public String createNewConversation(Conversation conversation);

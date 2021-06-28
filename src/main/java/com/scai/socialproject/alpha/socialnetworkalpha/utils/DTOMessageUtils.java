@@ -11,7 +11,8 @@ public class DTOMessageUtils {
 		MessageDTO ris = new MessageDTO(message.getIdMessage(),
 				message.getProfileSender().getIdProfile(), 
 				message.getProfileReciver().getIdProfile(),
-				message.getDate(), message.isSeen());
+				message.getMessage(),
+				message.getDate().toString(), message.isSeen());
 		return ris;
 	}
 	

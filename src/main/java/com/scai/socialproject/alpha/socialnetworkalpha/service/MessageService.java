@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ConversationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Conversation;
 
 public interface MessageService {
 	public List<MessageDTO> getAllMessages();
@@ -13,6 +14,8 @@ public interface MessageService {
 	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged);
 	
 	public boolean addMessage(MessageDTO message);
+	
+	public boolean addMessage(String message);
 	
 	/**
 	 * returns ConversationDTO with the generated id of the new conversation

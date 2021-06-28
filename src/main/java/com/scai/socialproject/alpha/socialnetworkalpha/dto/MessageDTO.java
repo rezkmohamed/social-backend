@@ -1,24 +1,33 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MessageDTO {
 	private String idMessage;
 	private String idProfileSender;
 	private String idProfileReciver;
+	private String message;
+	private String idConversation;
 	private LocalDateTime date;
 	private boolean isSeen;
 	
 	public MessageDTO() {
 	}
-
-	public MessageDTO(String idMessage, String idProfileSender, String idProfileReciver, LocalDateTime date,
-			boolean isSeen) {
+	
+	public MessageDTO(String idMessage, String idProfileSender, String idProfileReciver, String message,
+			String date, boolean isSeen) {
 		super();
 		this.idMessage = idMessage;
 		this.idProfileSender = idProfileSender;
 		this.idProfileReciver = idProfileReciver;
-		this.date = date;
+		this.message = message;
+		int endOfString = 19;
+		date = date.substring(0, endOfString);
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
+		this.date = dateInput;
 		this.isSeen = isSeen;
 	}
 
@@ -50,18 +59,39 @@ public class MessageDTO {
 		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
-		this.date = date;
+	public void setDate(String date) {
+		int endOfString = 19;
+		date = date.substring(0, endOfString);
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
+		this.date = dateInput;
 	}
 
 	public boolean isSeen() {
 		return isSeen;
 	}
 
-	public void setSeen(boolean isSeen) {
+	public void setIsSeen(boolean isSeen) {
 		this.isSeen = isSeen;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public String getIdConversation() {
+		return idConversation;
+	}
+
+	public void setIdConversation(String idConversation) {
+		this.idConversation = idConversation;
+	}
+	
 	@Override
 	public String toString() {
 		return "MessageDTO [idMessage=" + idMessage + ", idProfileSender=" + idProfileSender + ", idProfileReciver="

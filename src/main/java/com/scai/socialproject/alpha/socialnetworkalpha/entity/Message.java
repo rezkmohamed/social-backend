@@ -43,6 +43,9 @@ public class Message {
 	@JoinColumn(name="id_profile_reciver")
 	private Profile profileReciver;
 	
+	@Column(name="message")
+	private String message;
+	
 	@Column(name="date_message")
 	private LocalDateTime date;
 	
@@ -120,6 +123,14 @@ public class Message {
 
 	public void setConversation(Conversation conversation) {
 		this.conversation = conversation;
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 	@Override

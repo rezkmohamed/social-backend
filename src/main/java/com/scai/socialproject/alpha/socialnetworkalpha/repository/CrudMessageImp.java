@@ -75,4 +75,14 @@ public class CrudMessageImp implements CrudMessage {
 		
 		return null;
 	}
+
+	@Override
+	public Conversation getConversation(String idConversation) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<Conversation> query = session.createQuery("from Conversation where id_conversation = :idConv");
+		query.setParameter("idConv", idConversation);
+		Conversation conv = query.getSingleResult();
+		
+		return conv;
+	}
 }
