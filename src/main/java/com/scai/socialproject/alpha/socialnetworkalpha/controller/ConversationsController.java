@@ -31,7 +31,7 @@ public class ConversationsController {
 	public ResponseEntity<List<ConversationDTO>> getConversationsForProfile(HttpServletRequest request){
 		String idProfile = requestUtils.idProfileFromToken(request);
 		return new ResponseEntity<>(messageService.getConversationsForProfile(idProfile), HttpStatus.OK);
-	}	
+	}
 	
 	@PostMapping("/new/{idSecondProfile}")
 	public ResponseEntity<ConversationDTO> createNewConversation(@PathVariable String idSecondProfile, HttpServletRequest request){
@@ -40,8 +40,8 @@ public class ConversationsController {
 		if(conversation != null) {
 			return new ResponseEntity<>(conversation, HttpStatus.OK);
 		}
-		ConversationDTO newConversation = 
-		messageService.createNewConversation(idFirstProfile, idSecondProfile);
+		ConversationDTO newConversation = messageService.createNewConversation(idFirstProfile, idSecondProfile);
+		System.out.println(newConversation);
 		if(newConversation == null) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
@@ -49,12 +49,12 @@ public class ConversationsController {
 		return new ResponseEntity<>(newConversation, HttpStatus.OK);
 	}
 	
-	@PostMapping("/addmessage/{idSecondProfile}")
+	/*@PostMapping("/addmessage/{idSecondProfile}")
 	public ResponseEntity<HttpStatus> addNewMessage(@PathVariable String idSecondProfile,@RequestBody MessageDTO message ,HttpServletRequest request){
 		if(messageService.addMessage(message)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
+	}*/
 }

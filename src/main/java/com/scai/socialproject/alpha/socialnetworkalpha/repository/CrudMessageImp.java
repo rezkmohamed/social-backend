@@ -57,8 +57,8 @@ public class CrudMessageImp implements CrudMessage {
 	@Override
 	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged) {
 		Session session = entityManager.unwrap(Session.class);
-		Query<Conversation> query = session.createQuery("from Conversation where id_profile1 = :idProfile OR id_profile2 = :idProfile");
-		query.setParameter("idProfile", idProfileLogged);
+		Query<Conversation> query = session.createQuery("from Conversation where id_profile1 = :idProfile1 OR id_profile2 = :idProfile2");
+		query.setParameter("idProfile1", idProfileLogged); query.setParameter("idProfile2", idProfileLogged);
 		List<Conversation> conversations = query.getResultList();
 		List<ConversationDTO> conversationsDTO = DTOConversationUtils.conversationToDTO(conversations);
 		
@@ -83,9 +83,7 @@ public class CrudMessageImp implements CrudMessage {
 		query.setParameter("idConv", idConversation);
 		try {
 			Conversation conv = query.getSingleResult();
-			
 			return conv;
-
 		} catch (Exception e) {
 		}
 		return null;
@@ -94,18 +92,20 @@ public class CrudMessageImp implements CrudMessage {
 	@Override
 	public Conversation getConversation(String idProfile1, String idProfile2) {
 		Session session = entityManager.unwrap(Session.class);
-		Query<Conversation> query = session.createQuery("from Conversation where id_profile1 = :idProfile1 OR id_profile2 = :idProfile2");
+		Query<Conversation> query = session.createQuery("from Conversation where id_profile1 = :idProfile1 AND id_profile2 = :idProfile2");
 		query.setParameter("idProfile1", idProfile1); query.setParameter("idProfile2", idProfile2);
-		Conversation conv = query.getSingleResult();
-		if(conv == null) {
-			Query<Conversation> query2 = session.createQuery("from Conversation where id_profile1 = :idProfile2 OR id_profile2 = :idProfile1");
+		try {
+			Conversation conv = query.getSingleResult();
+			return conv;
+		} catch (Exception e) {
+			Query<Conversation> query2 = session.createQuery("from Conversation where id_profile1 = :idProfile2 AND id_profile2 = :idProfile1");
 			query2.setParameter("idProfile1", idProfile1); query2.setParameter("idProfile2", idProfile2);
-			conv = query.getSingleResult();
-			if(conv != null) {
+			try {
+				Conversation conv = query2.getSingleResult();
 				return conv;
+			} catch (Exception e2) {
 			}
 		}
-
 		return null;
 	}
 }

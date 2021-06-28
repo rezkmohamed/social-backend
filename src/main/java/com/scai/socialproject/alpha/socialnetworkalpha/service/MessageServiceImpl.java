@@ -146,9 +146,7 @@ public class MessageServiceImpl implements MessageService {
 			return null;
 		}
 		Conversation conversation = new Conversation();
-		
-		Conversation conv = messagesRepo.getConversation("");
-		
+				
 		conversation.setFirstProfile(firstProfile); conversation.setSecondProfile(secondProfile);
 		String idConversation = messagesRepo.createNewConversation(conversation);
 		ConversationDTO ris = DTOConversationUtils.conversationToDTO(conversation);
@@ -158,6 +156,7 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
+	@Transactional
 	public ConversationDTO getConversation(String idProfile1, String idProfile2) {
 		Conversation conversation = messagesRepo.getConversation(idProfile1, idProfile2);
 		if(conversation == null) {
