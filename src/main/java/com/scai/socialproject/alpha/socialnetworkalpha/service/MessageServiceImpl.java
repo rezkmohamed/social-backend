@@ -45,7 +45,7 @@ public class MessageServiceImpl implements MessageService {
 	public List<MessageDTO> getMessagesOfChat(String idConversation) {
 		List<MessageDTO> ris = messagesRepo.getMessagesOfChat(idConversation);
 		ris = ris.stream().sorted(Comparator.comparing(MessageDTO::getDate,
-				Comparator.reverseOrder()
+				Comparator.naturalOrder()
 				)).collect(Collectors.toList());
 		return ris;
 	}
@@ -75,6 +75,7 @@ public class MessageServiceImpl implements MessageService {
 		ObjectMapper om = new ObjectMapper();
 		try {
 			MessageDTO msgDTO = om.readValue(message, MessageDTO.class);
+			System.out.println(msgDTO);
 
 			String idProfile1 = requestUtils.idProfileFromToken(msgDTO.getIdProfileSender());
 			Profile profile1 = profilesRepo.findProfile(idProfile1);
@@ -93,8 +94,8 @@ public class MessageServiceImpl implements MessageService {
 			Conversation conversation = messagesRepo.getConversation(msgDTO.getIdConversation());
 			msg.setConversation(conversation);
 			String newIdMsg = messagesRepo.addMessage(msg);
-			System.out.println(newIdMsg);
 			msgDTO.setIdMessage(newIdMsg);
+			System.out.println(msgDTO);
 			return msgDTO;
 			
 

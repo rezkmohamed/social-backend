@@ -22,12 +22,27 @@ public class MessageDTO {
 		this.idProfileSender = idProfileSender;
 		this.idProfileReciver = idProfileReciver;
 		this.message = message;
-		int endOfString = 19;
+		System.out.println("DATE: " + date);
+	    int endOfString = 19;
+	    if(date.length() < 19) {
+	    	date = date.concat(":00");
+	    }
 		date = date.substring(0, endOfString);
 		DateTimeFormatter formatter = DateTimeFormatter
 				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
 		this.date = dateInput;
+		this.isSeen = isSeen;
+	}
+
+	public MessageDTO(String idMessage, String idProfileSender, String idProfileReciver, String message,
+			LocalDateTime date, boolean isSeen) {
+		super();
+		this.idMessage = idMessage;
+		this.idProfileSender = idProfileSender;
+		this.idProfileReciver = idProfileReciver;
+		this.message = message;
+		this.date = date;
 		this.isSeen = isSeen;
 	}
 
