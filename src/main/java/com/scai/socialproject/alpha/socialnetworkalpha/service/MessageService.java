@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ConversationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
-import com.scai.socialproject.alpha.socialnetworkalpha.entity.Conversation;
 
 public interface MessageService {
 	public List<MessageDTO> getAllMessages();
@@ -26,4 +25,6 @@ public interface MessageService {
 	 * @return
 	 */
 	public ConversationDTO createNewConversation(String idFirstProfile, String idSecondProfile);
+	
+	public boolean setMessagesAsSeen(String idConversation, String idLoggedProfile);
 }

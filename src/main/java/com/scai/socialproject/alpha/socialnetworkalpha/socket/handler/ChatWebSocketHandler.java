@@ -13,7 +13,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.google.gson.Gson;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.MessageService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;

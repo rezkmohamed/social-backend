@@ -44,8 +44,7 @@ public class MessageServiceImpl implements MessageService {
 	@Transactional
 	public List<MessageDTO> getMessagesOfChat(String idConversation) {
 		List<MessageDTO> ris = messagesRepo.getMessagesOfChat(idConversation);
-		ris = 
-		ris.stream().sorted(Comparator.comparing(MessageDTO::getDate,
+		ris = ris.stream().sorted(Comparator.comparing(MessageDTO::getDate,
 				Comparator.reverseOrder()
 				)).collect(Collectors.toList());
 		return ris;
@@ -119,6 +118,9 @@ public class MessageServiceImpl implements MessageService {
 					))
 					.collect(Collectors.toList())
 					);
+			if(conv.getMessages().size() > 0) {
+				conv.setLatestMessage(conv.getMessages().get(0).getMessage());
+			}
 			
 			if(conv.getFirstProfile().getProPic() != null ) {
 				try {
@@ -169,6 +171,18 @@ public class MessageServiceImpl implements MessageService {
 		}
 		
 		return DTOConversationUtils.conversationToDTO(conversation);
+	}
+
+	@Override
+	@Transactional
+	public boolean setMessagesAsSeen(String idConversation, String idLoggedProfile) {
+		Conversation conversation = messagesRepo.getConversation(idConversation);
+		if(!conversation.getFirstProfile().getIdProfile().equals(idLoggedProfile) && 
+				!conversation.getSecondProfile().getIdProfile().equals(idLoggedProfile)) {
+			return false;
+		}
+		
+		return messagesRepo.setMessagesAsSeen(idConversation);
 	}
 
 }

@@ -6,7 +6,6 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.ConversationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Conversation;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Message;
-import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 
 public interface CrudMessage {
 	public List<MessageDTO> getAllMessages();
@@ -18,6 +17,8 @@ public interface CrudMessage {
 	public Conversation getConversation(String idConversation);
 	
 	public Conversation getConversation(String idProfile1, String idProfile2);
+	
+	public boolean setMessagesAsSeen(String idConversation);
 	
 	public String addMessage(Message message);
 	

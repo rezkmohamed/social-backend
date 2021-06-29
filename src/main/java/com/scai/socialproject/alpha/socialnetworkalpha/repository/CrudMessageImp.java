@@ -13,7 +13,6 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.ConversationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Conversation;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Message;
-import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOConversationUtils;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOMessageUtils;
 
@@ -106,5 +105,18 @@ public class CrudMessageImp implements CrudMessage {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean setMessagesAsSeen(String idConversation) {
+		Session session = entityManager.unwrap(Session.class);
+		Query query = session.createQuery("update Message set isseen = 1 where id_conversation = :idConversation AND isseen = 0 ");
+		query.setParameter("idConversation", idConversation);
+		int ris = query.executeUpdate();
+		if(ris < 1) {
+			return false;
+		}
+		
+		return true;
 	}
 }
