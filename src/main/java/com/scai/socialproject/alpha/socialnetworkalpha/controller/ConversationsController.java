@@ -33,6 +33,11 @@ public class ConversationsController {
 		return new ResponseEntity<>(messageService.getConversationsForProfile(idProfile), HttpStatus.OK);
 	}
 	
+	@GetMapping("/messages/{idConversation}")
+	public ResponseEntity<List<MessageDTO>> getMessagesForConversation(@PathVariable String idConversation ,HttpServletRequest request){
+		return new ResponseEntity<>(messageService.getMessagesOfChat(idConversation), HttpStatus.OK);
+	}
+	
 	@PostMapping("/new/{idSecondProfile}")
 	public ResponseEntity<ConversationDTO> createNewConversation(@PathVariable String idSecondProfile, HttpServletRequest request){
 		String idFirstProfile = requestUtils.idProfileFromToken(request);
@@ -48,13 +53,4 @@ public class ConversationsController {
 		
 		return new ResponseEntity<>(newConversation, HttpStatus.OK);
 	}
-	
-	/*@PostMapping("/addmessage/{idSecondProfile}")
-	public ResponseEntity<HttpStatus> addNewMessage(@PathVariable String idSecondProfile,@RequestBody MessageDTO message ,HttpServletRequest request){
-		if(messageService.addMessage(message)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}*/
 }

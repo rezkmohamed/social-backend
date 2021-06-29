@@ -33,13 +33,12 @@ public class CrudMessageImp implements CrudMessage {
 	}
 
 	@Override
-	public List<MessageDTO> getMessagesOfChat(String idProfileLogged, String idOtherProfile) {
+	public List<MessageDTO> getMessagesOfChat(String idConversation) {
 		Session session = entityManager.unwrap(Session.class);
 		Query<Message> query = session
-				.createQuery("from Message where id_profile_sender = :idProfileLogged AND id_profile_reciver = :idOtherProfile",
+				.createQuery("from Message where id_conversation = :idConversation",
 						Message.class);
-		query.setParameter("idProfileLogged", idProfileLogged);
-		query.setParameter("idOtherProfile", idOtherProfile);
+		query.setParameter("idConversation", idConversation);
 		List<Message> messages = query.getResultList();
 		List<MessageDTO> messagesDTO = DTOMessageUtils.messageToDTO(messages);
 		

@@ -11,7 +11,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 public interface CrudMessage {
 	public List<MessageDTO> getAllMessages();
 	
-	public List<MessageDTO> getMessagesOfChat(String idProfileLogged, String idOtherProfile);
+	public List<MessageDTO> getMessagesOfChat(String idConversation);
 		
 	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged);
 	

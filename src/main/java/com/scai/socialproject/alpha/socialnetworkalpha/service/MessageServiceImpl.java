@@ -42,8 +42,13 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	@Transactional
-	public List<MessageDTO> getMessagesOfChat(String idProfileLogged, String idOtherProfile) {
-		return messagesRepo.getMessagesOfChat(idProfileLogged, idOtherProfile);
+	public List<MessageDTO> getMessagesOfChat(String idConversation) {
+		List<MessageDTO> ris = messagesRepo.getMessagesOfChat(idConversation);
+		ris = 
+		ris.stream().sorted(Comparator.comparing(MessageDTO::getDate,
+				Comparator.reverseOrder()
+				)).collect(Collectors.toList());
+		return ris;
 	}
 
 	@Override

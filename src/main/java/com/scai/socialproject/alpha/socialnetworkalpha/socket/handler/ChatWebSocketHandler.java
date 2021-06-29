@@ -53,6 +53,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler{
 			if(msgToSend != null) {
 				System.out.println(webSocketSessions);
 				if(webSocketSessions.containsKey(msgToSend.getIdProfileReciver())) {
+					System.out.println("profilo ce con id: " + msgToSend.getIdProfileReciver());
 					webSocketSessions.get(msgToSend.getIdProfileReciver()).sendMessage(message);
 				}
 			}
