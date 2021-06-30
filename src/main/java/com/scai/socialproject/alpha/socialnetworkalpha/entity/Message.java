@@ -93,9 +93,9 @@ public class Message {
 		return date.getTime();
 	}
 	
-	public Date getDate() {
-		return date;
-	}
+//	public Date getDate() {
+//		return date;
+//	}
 
 	public void setDate(Date date) {
 		this.date = date;
@@ -123,12 +123,5 @@ public class Message {
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	@Override
-	public String toString() {
-		return "Message [idMessage=" + idMessage + ", profileSender=" + profileSender + ", profileReciver="
-				+ profileReciver + ", message=" + message + ", date=" + date + ", isSeen=" + isSeen + ", conversation="
-				+ conversation + "]";
 	}
 }

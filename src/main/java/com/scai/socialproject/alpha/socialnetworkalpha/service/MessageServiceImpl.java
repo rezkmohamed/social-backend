@@ -45,7 +45,7 @@ public class MessageServiceImpl implements MessageService {
 	public List<MessageDTO> getMessagesOfChat(String idConversation) {
 		List<MessageDTO> ris = messagesRepo.getMessagesOfChat(idConversation);
 		ris = ris.stream().sorted(Comparator.comparing(MessageDTO::getDate,
-				Comparator.naturalOrder()
+				Comparator.reverseOrder()
 				)).collect(Collectors.toList());
 		return ris;
 	}
@@ -58,7 +58,7 @@ public class MessageServiceImpl implements MessageService {
 		if(profile2 == null) {
 			return null;
 		}
-		Message msg = new Message(message.getDateMillis(), message.isSeen());
+		Message msg = new Message(message.getDateMillis(), false);
 		msg.setMessage(message.getMessage());
 		msg.setProfileSender(profile1);
 		msg.setProfileReciver(profile2);
@@ -71,46 +71,6 @@ public class MessageServiceImpl implements MessageService {
 		
 		return message;
 	}
-	
-//	@Override
-//	@Transactional
-//	public MessageDTO addMessage(String message) {
-//		ObjectMapper om = new ObjectMapper();
-//		try {
-//			MessageDTO msgDTO = om.readValue(message, MessageDTO.class);
-//			System.out.println(msgDTO);
-//
-//			//String idProfile1 = requestUtils.idProfileFromToken(msgDTO.getIdProfileSender());
-//			String idProfile1 = msgDTO.getIdProfileSender();
-//			Profile profile1 = profilesRepo.findProfile(idProfile1);
-//			if(profile1 == null) {
-//				return null;
-//			}
-//			Profile profile2 = profilesRepo.findProfile(msgDTO.getIdProfileReciver());
-//			if(profile2 == null) {
-//				return null;
-//			}
-//			Message msg = new Message(msgDTO.getDateMillis(), msgDTO.isSeen());
-//			msg.setMessage(msgDTO.getMessage());
-//			msg.setProfileSender(profile1);
-//			msg.setProfileReciver(profile2);
-//
-//			Conversation conversation = messagesRepo.getConversation(msgDTO.getIdConversation());
-//			msg.setConversation(conversation);
-//			String newIdMsg = messagesRepo.addMessage(msg);
-//			msgDTO.setIdMessage(newIdMsg);
-//			System.out.println(msgDTO);
-//			return msgDTO;
-//			
-//
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		} catch (JsonProcessingException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return null;
-//	}
 
 	@Override
 	@Transactional
