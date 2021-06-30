@@ -14,7 +14,7 @@ public class DTOMessageUtils {
 				message.getProfileSender().getIdProfile(), 
 				message.getProfileReciver().getIdProfile(),
 				message.getMessage(),
-				message.getDate(), message.isSeen());
+				message.getDateMillis(), message.isSeen());
 		ris.setIdConversation(message.getConversation().getIdConversation());
 		return ris;
 	}

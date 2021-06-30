@@ -1,7 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class MessageDTO {
 	private String idMessage;
@@ -9,34 +8,25 @@ public class MessageDTO {
 	private String idProfileReciver;
 	private String message;
 	private String idConversation;
-	private LocalDateTime date;
+	private Date date;
 	private boolean isSeen;
 	
 	public MessageDTO() {
 	}
 	
-	public MessageDTO(String idMessage, String idProfileSender, String idProfileReciver, String message,
-			String date, boolean isSeen) {
+	public MessageDTO(String idMessage, String idProfileSender, String idProfileReciver, String message, Long date,
+			boolean isSeen) {
 		super();
 		this.idMessage = idMessage;
 		this.idProfileSender = idProfileSender;
 		this.idProfileReciver = idProfileReciver;
 		this.message = message;
-		System.out.println("DATE: " + date);
-	    int endOfString = 19;
-	    if(date.length() < 19) {
-	    	date = date.concat(":00");
-	    }
-		date = date.substring(0, endOfString);
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
-		this.date = dateInput;
+		this.date = new Date(date);
 		this.isSeen = isSeen;
 	}
 
-	public MessageDTO(String idMessage, String idProfileSender, String idProfileReciver, String message,
-			LocalDateTime date, boolean isSeen) {
+	public MessageDTO(String idMessage, String idProfileSender, String idProfileReciver, String message, Date date,
+		boolean isSeen) {
 		super();
 		this.idMessage = idMessage;
 		this.idProfileSender = idProfileSender;
@@ -45,10 +35,23 @@ public class MessageDTO {
 		this.date = date;
 		this.isSeen = isSeen;
 	}
+	
+	public MessageDTO(String idMessage, String idProfileSender, String idProfileReciver, String message,
+			String idConversation, Date date, boolean isSeen) {
+		super();
+		this.idMessage = idMessage;
+		this.idProfileSender = idProfileSender;
+		this.idProfileReciver = idProfileReciver;
+		this.message = message;
+		this.idConversation = idConversation;
+		this.date = date;
+		this.isSeen = isSeen;
+	}
 
 	public String getIdMessage() {
 		return idMessage;
 	}
+
 
 	public void setIdMessage(String idMessage) {
 		this.idMessage = idMessage;
@@ -69,20 +72,19 @@ public class MessageDTO {
 	public void setIdProfileReciver(String idProfileReciver) {
 		this.idProfileReciver = idProfileReciver;
 	}
-
-	public LocalDateTime getDate() {
+	
+	public Long getDateMillis() {
+		return date.getTime();
+	}
+	
+	public Date getDate() {
 		return date;
 	}
-
-	public void setDate(String date) {
-		int endOfString = 19;
-		date = date.substring(0, endOfString);
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
-		this.date = dateInput;
+	
+	public void setDate(Long date) {
+		this.date = new Date(date);
 	}
-
+	
 	public boolean isSeen() {
 		return isSeen;
 	}

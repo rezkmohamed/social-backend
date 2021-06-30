@@ -1,7 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.entity;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -47,7 +46,7 @@ public class Message {
 	private String message;
 	
 	@Column(name="date_message")
-	private LocalDateTime date;
+	private Date date;
 	
 	@Column(name="isseen")
 	private boolean isSeen;
@@ -56,21 +55,14 @@ public class Message {
             CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name="id_conversation")
 	private Conversation conversation;
-	
-	// id conversation 
-	
+		
 	public Message() {
 		
 	}
 
-	public Message(String date, boolean isSeen) {
+	public Message(Long dateInMillis, boolean isSeen) {
 		this.isSeen = isSeen;
-		int endOfString = 19;
-		date = date.substring(0, endOfString);
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
-		this.date = dateInput;
+		this.date = new Date(dateInMillis);
 	}
 
 	public String getIdMessage() {
@@ -96,16 +88,16 @@ public class Message {
 	public void setProfileReciver(Profile profileReciver) {
 		this.profileReciver = profileReciver;
 	}
-
-	public LocalDateTime getDate() {
-		return date;
+	
+	public Long getDateMillis() {
+		return date.getTime();
 	}
 	
-	public String getDateString() {
-		return date.toString();
+	public Date getDate() {
+		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

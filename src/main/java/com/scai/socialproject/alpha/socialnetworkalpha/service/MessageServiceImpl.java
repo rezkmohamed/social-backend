@@ -61,7 +61,7 @@ public class MessageServiceImpl implements MessageService {
 		if(profile2 == null) {
 			return false;
 		}
-		Message msg = new Message(message.getDate().toString(), message.isSeen());
+		Message msg = new Message(message.getDateMillis(), message.isSeen());
 		msg.setProfileSender(profile1);
 		msg.setProfileReciver(profile2);
 		messagesRepo.addMessage(msg);
@@ -86,7 +86,7 @@ public class MessageServiceImpl implements MessageService {
 			if(profile2 == null) {
 				return null;
 			}
-			Message msg = new Message(msgDTO.getDate().toString(), msgDTO.isSeen());
+			Message msg = new Message(msgDTO.getDateMillis(), msgDTO.isSeen());
 			msg.setMessage(msgDTO.getMessage());
 			msg.setProfileSender(profile1);
 			msg.setProfileReciver(profile2);
