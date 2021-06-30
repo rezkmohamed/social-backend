@@ -52,61 +52,65 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	@Transactional
-	public boolean addMessage(MessageDTO message) {
+	public MessageDTO addMessage(MessageDTO message) {
 		Profile profile1 = profilesRepo.findProfile(message.getIdProfileSender());
-		if(profile1 == null) {
-			return false;
-		}
 		Profile profile2 = profilesRepo.findProfile(message.getIdProfileReciver());
 		if(profile2 == null) {
-			return false;
+			return null;
 		}
 		Message msg = new Message(message.getDateMillis(), message.isSeen());
+		msg.setMessage(message.getMessage());
 		msg.setProfileSender(profile1);
 		msg.setProfileReciver(profile2);
+		
+		Conversation conversation = messagesRepo.getConversation(message.getIdConversation());
+		msg.setConversation(conversation);
+		String newIdMsg = messagesRepo.addMessage(msg);
+		message.setIdMessage(newIdMsg);
 		messagesRepo.addMessage(msg);
 		
-		return false;
+		return message;
 	}
 	
-	@Override
-	@Transactional
-	public MessageDTO addMessage(String message) {
-		ObjectMapper om = new ObjectMapper();
-		try {
-			MessageDTO msgDTO = om.readValue(message, MessageDTO.class);
-			System.out.println(msgDTO);
-
-			String idProfile1 = requestUtils.idProfileFromToken(msgDTO.getIdProfileSender());
-			Profile profile1 = profilesRepo.findProfile(idProfile1);
-			if(profile1 == null) {
-				return null;
-			}
-			Profile profile2 = profilesRepo.findProfile(msgDTO.getIdProfileReciver());
-			if(profile2 == null) {
-				return null;
-			}
-			Message msg = new Message(msgDTO.getDateMillis(), msgDTO.isSeen());
-			msg.setMessage(msgDTO.getMessage());
-			msg.setProfileSender(profile1);
-			msg.setProfileReciver(profile2);
-
-			Conversation conversation = messagesRepo.getConversation(msgDTO.getIdConversation());
-			msg.setConversation(conversation);
-			String newIdMsg = messagesRepo.addMessage(msg);
-			msgDTO.setIdMessage(newIdMsg);
-			System.out.println(msgDTO);
-			return msgDTO;
-			
-
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
+//	@Override
+//	@Transactional
+//	public MessageDTO addMessage(String message) {
+//		ObjectMapper om = new ObjectMapper();
+//		try {
+//			MessageDTO msgDTO = om.readValue(message, MessageDTO.class);
+//			System.out.println(msgDTO);
+//
+//			//String idProfile1 = requestUtils.idProfileFromToken(msgDTO.getIdProfileSender());
+//			String idProfile1 = msgDTO.getIdProfileSender();
+//			Profile profile1 = profilesRepo.findProfile(idProfile1);
+//			if(profile1 == null) {
+//				return null;
+//			}
+//			Profile profile2 = profilesRepo.findProfile(msgDTO.getIdProfileReciver());
+//			if(profile2 == null) {
+//				return null;
+//			}
+//			Message msg = new Message(msgDTO.getDateMillis(), msgDTO.isSeen());
+//			msg.setMessage(msgDTO.getMessage());
+//			msg.setProfileSender(profile1);
+//			msg.setProfileReciver(profile2);
+//
+//			Conversation conversation = messagesRepo.getConversation(msgDTO.getIdConversation());
+//			msg.setConversation(conversation);
+//			String newIdMsg = messagesRepo.addMessage(msg);
+//			msgDTO.setIdMessage(newIdMsg);
+//			System.out.println(msgDTO);
+//			return msgDTO;
+//			
+//
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return null;
+//	}
 
 	@Override
 	@Transactional

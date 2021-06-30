@@ -14,9 +14,9 @@ public interface MessageService {
 	
 	public ConversationDTO getConversation(String idProfile1, String idProfile2);
 	
-	public boolean addMessage(MessageDTO message);
+	public MessageDTO addMessage(MessageDTO message);
 	
-	public MessageDTO addMessage(String message);
+//	public MessageDTO addMessage(String message);
 	
 	/**
 	 * returns ConversationDTO with the generated id of the new conversation
