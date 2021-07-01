@@ -47,7 +47,6 @@ public class ConversationsController {
 			return new ResponseEntity<>(conversation, HttpStatus.OK);
 		}
 		ConversationDTO newConversation = messageService.createNewConversation(idFirstProfile, idSecondProfile);
-		System.out.println(newConversation);
 		if(newConversation == null) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}

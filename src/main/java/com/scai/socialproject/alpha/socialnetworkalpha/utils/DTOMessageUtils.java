@@ -1,6 +1,5 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.utils;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Message;
 
 public class DTOMessageUtils {
 	public static MessageDTO messageToDTO(Message message) {
-		System.out.println(new Date(message.getDateMillis()));
 		MessageDTO ris = new MessageDTO(message.getIdMessage(),
 				message.getProfileSender().getIdProfile(), 
 				message.getProfileReciver().getIdProfile(),

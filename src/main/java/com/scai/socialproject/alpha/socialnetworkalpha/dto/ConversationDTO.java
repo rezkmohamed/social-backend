@@ -1,5 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.util.Date;
 import java.util.List;
 
 public class ConversationDTO {
@@ -7,6 +8,7 @@ public class ConversationDTO {
 	private ProfileDTO firstProfile;
 	private ProfileDTO secondProfile;
 	private String latestMessage;
+	private Date latestMessageDate;
 	private List<MessageDTO> messages;
 	
 	public ConversationDTO(){}
@@ -49,5 +51,16 @@ public class ConversationDTO {
 
 	public void setMessages(List<MessageDTO> messages) {
 		this.messages = messages;
+	}
+
+	public Long getLatestMessageDate() {
+		if(this.latestMessageDate == null) {
+			return 0l;
+		}
+		return latestMessageDate.getTime();
+	}
+
+	public void setLatestMessageDate(Long latestMessageDate) {
+		this.latestMessageDate = new Date(latestMessageDate);
 	}
 }

@@ -29,8 +29,8 @@ public class MessageServiceImpl implements MessageService {
 	private CrudMessage messagesRepo;
 	@Autowired
 	private CrudProfile profilesRepo;
-	@Autowired
-	private RequestUtils requestUtils;
+//	@Autowired
+//	private RequestUtils requestUtils;
 	@Autowired
 	private ImgUtils imgUtils;
 
@@ -76,6 +76,7 @@ public class MessageServiceImpl implements MessageService {
 	@Transactional
 	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged) {
 		List<ConversationDTO> ris = messagesRepo.getConversationsForProfile(idProfileLogged);
+		
 		for(ConversationDTO conv : ris) {
 			conv.setMessages( conv.getMessages().stream().sorted(Comparator.comparing(
 					MessageDTO::getDate,
@@ -84,7 +85,9 @@ public class MessageServiceImpl implements MessageService {
 					.collect(Collectors.toList())
 					);
 			if(conv.getMessages().size() > 0) {
-				conv.setLatestMessage(conv.getMessages().get(0).getMessage());
+				MessageDTO latestMsg = conv.getMessages().get(0);
+				conv.setLatestMessage(latestMsg.getMessage());
+				conv.setLatestMessageDate(latestMsg.getDateMillis());
 			}
 			
 			if(conv.getFirstProfile().getProPic() != null ) {
@@ -102,8 +105,10 @@ public class MessageServiceImpl implements MessageService {
 				}
 			}
 		}
-
-		return ris;
+		
+		return ris.stream().sorted(Comparator.comparing(
+				ConversationDTO::getLatestMessageDate,
+				Comparator.reverseOrder())).collect(Collectors.toList());
 	}
 
 	@Override
