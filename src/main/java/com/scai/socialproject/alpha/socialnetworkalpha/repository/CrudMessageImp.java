@@ -108,9 +108,10 @@ public class CrudMessageImp implements CrudMessage {
 	}
 
 	@Override
-	public boolean setMessagesAsSeen(String idConversation) {
+	public boolean setMessagesAsSeen(String idConversation, String idLoggedProfile) {
 		Session session = entityManager.unwrap(Session.class);
-		Query query = session.createQuery("update Message set isseen = 1 where id_conversation = :idConversation");
+		Query query = session.createQuery("update Message set isseen = 1 where id_conversation = :idConversation AND id_profile_reciver = :idProfile AND isseen = 0");
+		query.setParameter("idProfile", idLoggedProfile);
 		query.setParameter("idConversation", idConversation);
 		int ris = query.executeUpdate();
 		if(ris < 1) {

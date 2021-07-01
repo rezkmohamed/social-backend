@@ -147,7 +147,7 @@ public class MessageServiceImpl implements MessageService {
 			return false;
 		}
 		
-		return messagesRepo.setMessagesAsSeen(idConversation);
+		return messagesRepo.setMessagesAsSeen(idConversation, idLoggedProfile);
 	}
 
 }

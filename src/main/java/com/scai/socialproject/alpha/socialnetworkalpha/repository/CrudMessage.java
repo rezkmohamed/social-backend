@@ -18,7 +18,7 @@ public interface CrudMessage {
 	
 	public Conversation getConversation(String idProfile1, String idProfile2);
 	
-	public boolean setMessagesAsSeen(String idConversation);
+	public boolean setMessagesAsSeen(String idConversation, String idLoggedProfile);
 	
 	public String addMessage(Message message);
 	
