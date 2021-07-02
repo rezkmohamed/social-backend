@@ -3,7 +3,6 @@ package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,15 +17,11 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
 @RestController("")
 public class AuthController {
+	@Autowired
 	private ProfileService profileService;
+	@Autowired
 	private RequestUtils requestUtils;
 
-	@Autowired
-	public AuthController(ProfileService profileService, RequestUtils requestUtils) {
-		this.profileService = profileService;
-		this.requestUtils = requestUtils;
-	}
-	
 	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody User user){	
 		return profileService.login(user.getEmail(), user.getPass());
@@ -44,7 +39,6 @@ public class AuthController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	//OK
 	@PostMapping("/register")
 	public ResponseEntity<HttpStatus> register(@RequestBody Profile profile) {
 		if(profileService.saveProfile(profile)) {

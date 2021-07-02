@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,30 +26,15 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.PostService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 
-//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/posts")
 public class PostsController {
-	private PostService postService;
-	private RequestUtils requestUtils;
-
 	@Autowired
-	public PostsController(PostService postService, RequestUtils requestUtils) {
-		this.postService = postService;
-		this.requestUtils = requestUtils;
-	}
+	private PostService postService;
+	@Autowired
+	private RequestUtils requestUtils;
 	
-	//OK!
-	@GetMapping("")
-	public List<PostDTO> findAllPosts(){
-		return postService.findAllPosts();
-	}
-	
-	//OK!
 	@GetMapping("/homepage/{startingIndex}")
 	public ResponseEntity<List<PostDTO>> getHomepage(@PathVariable int startingIndex, HttpServletRequest request, HttpServletResponse response ) throws IOException{
 		String idProfile = requestUtils.idProfileFromToken(request);
@@ -58,25 +42,22 @@ public class PostsController {
 		return new ResponseEntity<>(postService.getHomepage(idProfile, startingIndex), HttpStatus.OK);
 	}
 	
-	//OK!
 	@GetMapping("/{idPost}")
-	public PostDTO findPostById(@PathVariable String idPost, HttpServletRequest request) {
+	public ResponseEntity<PostDTO> findPostById(@PathVariable String idPost, HttpServletRequest request) {
 		String idProfile = requestUtils.idProfileFromToken(request);
 
 		PostDTO post = postService.findPostById(idPost, idProfile);
 		if(post == null) {
-			throw new RuntimeException("ERROR - POST WITH ID: " + idPost + " NOT FOUND");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		return post;
+		return new ResponseEntity<>(post, HttpStatus.OK);
 	}
 	
 	@GetMapping("/next/{idProfile}/{startingPost}")
 	public ResponseEntity<List<PostDTO>> loadNextPostsForProfile(@PathVariable String idProfile ,@PathVariable int startingPost, HttpServletRequest request){
-		//String idProfile = requestUtils.idProfileFromToken(request);		
 		return new ResponseEntity<>(postService.getNextPostsForProfilePage(idProfile, startingPost), HttpStatus.OK);
 	}
 	
-	//OK
 	@PostMapping("/newpost")
 	public ResponseEntity<PostDTO> addPostTest(
 			@RequestParam("myFile") MultipartFile file, 
@@ -93,7 +74,6 @@ public class PostsController {
 		return new ResponseEntity<>(newPost, HttpStatus.OK);
 	}
 	
-	//OK!
 	@DeleteMapping("/{idPost}")
 	public ResponseEntity<HttpStatus> deletePostById(@PathVariable String idPost, HttpServletRequest request) {
 		String idProfile = requestUtils.idProfileFromToken(request);

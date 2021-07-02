@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,24 +22,16 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 @RestController
 @RequestMapping("/comments")
 public class CommentController {
-	private CommentService commentService;
-	private RequestUtils requestUtils;
-
 	@Autowired
-	public CommentController(CommentService commentService, RequestUtils requestUtils) {
-		this.commentService = commentService;
-		this.requestUtils = requestUtils;
-		
-	}
+	private CommentService commentService;
+	@Autowired
+	private RequestUtils requestUtils;
 	
-	//OK
 	@GetMapping("/{idPost}")
 	public List<CommentDTO> findCommentsForPost(@PathVariable String idPost){
 		return commentService.findAllComments(idPost);
 	}
 	
-	
-	//OKAY
 	@PostMapping("")
 	public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
 		String idProfile = requestUtils.idProfileFromToken(request);
@@ -57,11 +48,5 @@ public class CommentController {
 		CommentDTO ris = commentService.updateComment(commentDTO);
 		
 		return new ResponseEntity<>(ris, HttpStatus.OK);
-	}
-	
-	//DELETE COMMENT
-	@DeleteMapping("/{idComment}")
-	public void deleteComment(@PathVariable String idComment) {
-		commentService.deleteComment(idComment);
 	}
 }

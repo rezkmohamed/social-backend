@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,34 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
-import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.LikeService;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.ProfileService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
-//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("likes")
 public class LikesController {
-	private LikeService likeService;
-	private ProfileService profileService;
-	private RequestUtils requestUtils;
-
-	
 	@Autowired
-	public LikesController(LikeService likeService, ProfileService profileService, RequestUtils requestUtils) {
-		this.likeService = likeService;
-		this.profileService = profileService;
-		this.requestUtils = requestUtils;
-	}
+	private LikeService likeService;
+	@Autowired
+	private ProfileService profileService;
+	@Autowired
+	private RequestUtils requestUtils;
 	
-	//OKS
 	@GetMapping("")
 	public List<LikeDTO> findAllLikes(){
 		return likeService.findAllLikes();
 	}
 	
-	//OK!
 	@GetMapping("/{idPost}")
 	public List<ProfileDTO> findProfilesLikesForPost(@PathVariable String idPost){
 		return profileService.findProfilesLikesPost(idPost);
@@ -61,7 +51,6 @@ public class LikesController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 		
-	//OKAY
 	@PostMapping("add/{idPost}")
 	public ResponseEntity<LikeDTO> addLike(@PathVariable String idPost, HttpServletRequest request) {
 		String idP = requestUtils.idProfileFromToken(request);
@@ -73,7 +62,6 @@ public class LikesController {
 		return new ResponseEntity<>(like, HttpStatus.OK);
 	}
 	
-	//OKAY
 	@DeleteMapping("/delete/{idPost}")
 	public ResponseEntity<HttpStatus> deleteLikeByPostAndProfile(@PathVariable String idPost, HttpServletRequest request) {
 		String idP = requestUtils.idProfileFromToken(request);
