@@ -8,7 +8,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
 public interface MessageService {
 	public List<MessageDTO> getAllMessages();
 	
-	public List<MessageDTO> getMessagesOfChat(String idConversation);
+	public List<MessageDTO> getMessagesOfChat(String idConversation, String idProfileLogged);
 	
 	public List<ConversationDTO> getConversationsForProfile(String idProfileLogged);
 	

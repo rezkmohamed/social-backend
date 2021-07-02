@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +35,15 @@ public class ConversationsController {
 	
 	@GetMapping("/messages/{idConversation}")
 	public ResponseEntity<List<MessageDTO>> getMessagesForConversation(@PathVariable String idConversation ,HttpServletRequest request){
-		return new ResponseEntity<>(messageService.getMessagesOfChat(idConversation), HttpStatus.OK);
+		String idProfile = requestUtils.idProfileFromToken(request);
+		
+		List<MessageDTO> messages = messageService.getMessagesOfChat(idConversation, idProfile);
+		if(messages == null) {
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		}
+		
+		
+		return new ResponseEntity<>(messages, HttpStatus.OK);
 	}
 	
 	@PostMapping("/new/{idSecondProfile}")

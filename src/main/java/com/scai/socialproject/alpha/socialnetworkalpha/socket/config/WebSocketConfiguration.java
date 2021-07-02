@@ -7,13 +7,15 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 import com.scai.socialproject.alpha.socialnetworkalpha.socket.handler.ChatWebSocketHandler;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableWebSocket
 public class WebSocketConfiguration implements WebSocketConfigurer {
-	private final static String CHAT_ENDPOINT = "/strange";
+	@Value("${chatEndpoint}")
+	private String CHAT_ENDPOINT;
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {

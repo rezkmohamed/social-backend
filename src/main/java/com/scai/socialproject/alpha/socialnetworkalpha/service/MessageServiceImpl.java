@@ -29,8 +29,6 @@ public class MessageServiceImpl implements MessageService {
 	private CrudMessage messagesRepo;
 	@Autowired
 	private CrudProfile profilesRepo;
-//	@Autowired
-//	private RequestUtils requestUtils;
 	@Autowired
 	private ImgUtils imgUtils;
 
@@ -42,7 +40,17 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	@Transactional
-	public List<MessageDTO> getMessagesOfChat(String idConversation) {
+	public List<MessageDTO> getMessagesOfChat(String idConversation, String idProfileLogged) {
+		Conversation cnv = messagesRepo.getConversation(idConversation);
+		if(cnv == null) {
+			return null;
+		}
+		
+		if(!cnv.getFirstProfile().getIdProfile().equals(idProfileLogged) &&
+				!cnv.getSecondProfile().getIdProfile().equals(idProfileLogged)) {
+			return null;
+		}
+		
 		List<MessageDTO> ris = messagesRepo.getMessagesOfChat(idConversation);
 		ris = ris.stream().sorted(Comparator.comparing(MessageDTO::getDate,
 				Comparator.reverseOrder()
