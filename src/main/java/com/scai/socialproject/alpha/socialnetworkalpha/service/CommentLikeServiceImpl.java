@@ -16,16 +16,13 @@ import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
 
 @Service
 public class CommentLikeServiceImpl implements CommentLikeService {
-	private CrudCommentLike commentLikeRepo;
-	private CrudComment commentRepo;
-	private CrudProfile profileRepo;
-	
 	@Autowired
-	public CommentLikeServiceImpl(CrudCommentLike commentLikeRepo, CrudComment commentRepo, CrudProfile profileRepo) {
-		this.commentLikeRepo = commentLikeRepo;
-		this.commentRepo = commentRepo;
-		this.profileRepo = profileRepo;
-	}
+	private CrudCommentLike commentLikeRepo;
+	@Autowired
+	private CrudComment commentRepo;
+	@Autowired
+	private CrudProfile profileRepo;
+
 
 	@Override
 	@Transactional

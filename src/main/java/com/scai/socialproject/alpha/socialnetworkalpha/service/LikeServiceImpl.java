@@ -7,18 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.LikeDTO;
-import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudLike;
 
 @Service
 public class LikeServiceImpl implements LikeService {
-	private CrudLike likeRepo;
-	
 	@Autowired
-	public LikeServiceImpl(CrudLike likeRepo) {
-		super();
-		this.likeRepo = likeRepo;
-	}
+	private CrudLike likeRepo;
+
 
 	@Override
 	@Transactional
@@ -38,12 +33,6 @@ public class LikeServiceImpl implements LikeService {
 		return likeRepo.addLike(idPost, idProfile);
 	}
 
-	/*@Override
-	@Transactional
-	public void deleteLike(String idLike) {
-		likeRepo.deleteLike(idLike);
-	}
-*/
 	@Override
 	@Transactional
 	public boolean deleteLike(String idPost, String idProfile) {

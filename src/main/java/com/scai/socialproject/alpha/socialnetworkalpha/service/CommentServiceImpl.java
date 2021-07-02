@@ -12,12 +12,9 @@ import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudComment;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+	@Autowired
 	private CrudComment commentRepo;
 	
-	@Autowired
-	public CommentServiceImpl(CrudComment commentRepo) {
-		this.commentRepo = commentRepo;
-	}
 
 	@Override
 	@Transactional

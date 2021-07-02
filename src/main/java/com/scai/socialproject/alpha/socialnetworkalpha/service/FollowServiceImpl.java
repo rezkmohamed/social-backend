@@ -3,7 +3,6 @@ package com.scai.socialproject.alpha.socialnetworkalpha.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,12 +12,9 @@ import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudFollow;
 
 @Service
 public class FollowServiceImpl implements FollowService {
-	private CrudFollow followRepo;
-	
 	@Autowired
-	public FollowServiceImpl(CrudFollow followRepo) {
-		this.followRepo = followRepo;
-	}
+	private CrudFollow followRepo;
+
 	
 	@Override
 	@Transactional
