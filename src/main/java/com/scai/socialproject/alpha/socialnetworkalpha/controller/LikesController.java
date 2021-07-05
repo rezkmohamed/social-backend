@@ -30,11 +30,6 @@ public class LikesController {
 	@Autowired
 	private RequestUtils requestUtils;
 	
-	@GetMapping("")
-	public List<LikeDTO> findAllLikes(){
-		return likeService.findAllLikes();
-	}
-	
 	@GetMapping("/{idPost}")
 	public List<ProfileDTO> findProfilesLikesForPost(@PathVariable String idPost){
 		return profileService.findProfilesLikesPost(idPost);

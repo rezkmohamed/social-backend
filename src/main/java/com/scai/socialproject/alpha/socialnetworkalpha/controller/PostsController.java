@@ -60,7 +60,7 @@ public class PostsController {
 	}
 	
 	@PostMapping("/newpost")
-	public ResponseEntity<PostDTO> addPostTest(
+	public ResponseEntity<PostDTO> addPost(
 			@RequestParam("myFile") MultipartFile file, 
 			@RequestParam("description") String description,
 			@RequestParam("date") String date,

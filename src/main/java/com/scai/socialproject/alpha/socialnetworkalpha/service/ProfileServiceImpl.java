@@ -38,19 +38,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
+	@Autowired
 	private CrudProfile profileRepo;
 	@Value("${basePathFileSystem}")
 	private String basePathFileSystem;
-	@Value("${signingKey}")
-	private String signingKey;
-	private ImgUtils imgUtils;
-	
 	@Autowired
-	public ProfileServiceImpl(CrudProfile profileRepo, ImgUtils imgUtils) {
-		this.profileRepo = profileRepo;
-		this.imgUtils = imgUtils;
-	}
-	
+	private ImgUtils imgUtils;
+
 	@Override
 	@Transactional
 	public List<ProfileDTO> findAllProfiles() {
@@ -159,32 +153,9 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public User loginTest(String email, String pass) {
+	public User login(String email, String pass) {
 		User user = profileRepo.getUserAuth(email, pass);
 		return user;
-	}
-	
-	@Override
-	@Transactional
-	public ResponseEntity<User> login(String email, String pass) {
-		User user = profileRepo.getUserAuth(email, pass);
-
-		
-		if(user != null) {
-			HttpHeaders headers = new HttpHeaders();
-        	HashMap<String, Object> addedValues = new HashMap<String, Object>();
-        	addedValues.put("idUser", user.getIdUser());
-        	addedValues.put("nickname", user.getNickname());
-			String token = Jwts.builder()
-					.addClaims(addedValues)
-					.setIssuedAt(new Date(System.currentTimeMillis()))
-					.setExpiration(new Date(System.currentTimeMillis() + 120 * 60 * 1000))
-					.signWith(SignatureAlgorithm.HS512, this.signingKey).compact();
-			headers.add("Authentication", "Bearer " + token);
-			return ResponseEntity.ok().headers(headers).build();
-		}
-		
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 
