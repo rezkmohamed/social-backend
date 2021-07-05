@@ -13,7 +13,7 @@ public class DTOCommentUtils {
 	private static CommentDTO DTOFromComment(Comment comment) {
 		CommentDTO commentDTO = new CommentDTO(comment.getIdComment(), 
 			    comment.getComment(), 
-			    comment.getDate(), 
+			    comment.getDateMillis(), 
 			    comment.getPost().getIdPost(), 
 			    comment.getWriter().getIdProfile(),
 			    comment.getWriter().getNickname());

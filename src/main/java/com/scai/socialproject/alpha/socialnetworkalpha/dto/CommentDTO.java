@@ -1,5 +1,6 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
@@ -8,7 +9,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOCommentsLikeUtil
 public class CommentDTO {
 	private String idComment;
 	private String comment;
-	private String date;
+	private Date date;
 	private String idPost;
 	private String idProfile;
 	private String nicknameProfile;
@@ -18,21 +19,21 @@ public class CommentDTO {
 	
 	public CommentDTO() {}
 
-	public CommentDTO(String idComment, String comment, String date, String idPost, String idProfile) {
+	public CommentDTO(String idComment,String comment, Long date ,String idPost, String idProfile) {
 		super();
 		this.idComment = idComment;
 		this.comment = comment;
-		this.date = date;
 		this.idPost = idPost;
+		this.date = new Date(date);
 		this.idProfile = idProfile;
 	}
 	
-	public CommentDTO(String idComment, String comment, String date, String idPost, String idProfile,
+	public CommentDTO(String idComment, String comment, Long date ,String idPost, String idProfile,
 			String nicknameProfile) {
 		super();
 		this.idComment = idComment;
 		this.comment = comment;
-		this.date = date;
+		this.date = new Date(date);
 		this.idPost = idPost;
 		this.idProfile = idProfile;
 		this.nicknameProfile = nicknameProfile;
@@ -54,12 +55,12 @@ public class CommentDTO {
 		this.comment = comment;
 	}
 
-	public String getDate() {
-		return date;
+	public Long getDateMillis() {
+		return date.getTime();
 	}
-
-	public void setDate(String date) {
-		this.date = date;
+	
+	public void setDate(Long date) {
+		this.date = new Date(date);
 	}
 
 	public String getIdPost() {

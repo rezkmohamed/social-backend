@@ -68,7 +68,7 @@ public class CrudCommentImpl implements CrudComment{
 	@Override
 	public CommentDTO addComment(CommentDTO commentDTO) {
 		Session session = entityManager.unwrap(Session.class);
-		Comment comment = new Comment(commentDTO.getComment(), commentDTO.getDate());
+		Comment comment = new Comment(commentDTO.getComment(), commentDTO.getDateMillis());
 		Query<Post> queryPost = session.createQuery("from Post where id_post=:idPost");
 		queryPost.setParameter("idPost", commentDTO.getIdPost());
 		Post post = queryPost.getSingleResult();
