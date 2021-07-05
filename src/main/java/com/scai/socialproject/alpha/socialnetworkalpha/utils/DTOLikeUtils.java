@@ -9,7 +9,6 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 public class DTOLikeUtils {
 	private static LikeDTO DTOFromLike(Like like) {
 		return new LikeDTO(like.getId(),
-								  like.getDate(),
 								  like.getPost().getIdPost(),
 								  like.getProfileLiker().getIdProfile());
 	}

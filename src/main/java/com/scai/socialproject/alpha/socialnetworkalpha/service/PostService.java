@@ -25,7 +25,7 @@ public interface PostService {
 	
 	public void savePost(PostDTO postDTO);
 	
-	public PostDTO savePostTest(MultipartFile img, String description, String date, String idProfile) throws IllegalStateException, IOException;
+	public PostDTO savePostTest(MultipartFile img, String description, long date, String idProfile) throws IllegalStateException, IOException;
 	
 	public boolean updatePost(PostDTO postDTO);
 	

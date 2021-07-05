@@ -64,8 +64,7 @@ public class CrudPostImpl implements CrudPost {
 		Query<Profile> query = session.createQuery("from Profile where id_profile=:idProfile");
 		query.setParameter("idProfile", postDTO.getIdProfile());
 		Profile profile = query.getSingleResult();
-		Post post = new Post(postDTO.getUrlImg(), postDTO.getDescription(), postDTO.getLocalDate().toString());
-		System.out.println(post.getDate());
+		Post post = new Post(postDTO.getUrlImg(), postDTO.getDescription(), postDTO.getDateMillis());
 		
 		post.setProfile(profile);
 		session.save(post);

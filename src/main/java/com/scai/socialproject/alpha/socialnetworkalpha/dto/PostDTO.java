@@ -1,14 +1,13 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class PostDTO {
 	private String idPost;
 	private String urlImg;
 	private String description;
-	//private String date;
-	private LocalDateTime localDate;
+	private Date date;
 	private String idProfile;
 	private ProfileDTO profile;
 	private int commentsCounter;
@@ -51,14 +50,6 @@ public class PostDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	/*public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}*/
 
 	public String getIdProfile() {
 		return idProfile;
@@ -115,13 +106,13 @@ public class PostDTO {
 	public void setLiked(boolean isLiked) {
 		this.isLiked = isLiked;
 	}
-
-	public LocalDateTime getLocalDate() {
-		return localDate;
+	
+	public Long getDateMillis() {
+		return date.getTime();
 	}
-
-	public void setLocalDate(LocalDateTime localDate) {
-		this.localDate = localDate;
+	
+	public void setDate(Long date) {
+		this.date = new Date(date);
 	}
 	
 	@Override

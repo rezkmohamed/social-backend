@@ -92,10 +92,6 @@ public class Message {
 	public Long getDateMillis() {
 		return date.getTime();
 	}
-	
-//	public Date getDate() {
-//		return date;
-//	}
 
 	public void setDate(Date date) {
 		this.date = date;

@@ -61,7 +61,6 @@ public class CrudLikeImpl implements CrudLike {
 
 		Like newLike = new Like();
 		newLike.setPost(post); newLike.setProfileLiker(profile);
-		newLike.setDate("31/03/1999");
 		session.save(newLike);
 		return DTOLikeUtils.likeToDTO(newLike);
 	}

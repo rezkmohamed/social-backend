@@ -70,7 +70,7 @@ public class ProfileServiceImpl implements ProfileService {
 		List<PostDTO> postsSorted = 
 		profile.getPosts().stream()
 		.sorted(Comparator.comparing(
-				PostDTO::getLocalDate,
+				PostDTO::getDateMillis,
 				Comparator.reverseOrder()
 				))
 		.limit(6)

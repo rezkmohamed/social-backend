@@ -1,8 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.entity;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -39,7 +38,7 @@ public class Post {
 	private String description;
 	
 	@Column(name="date")
-	private LocalDateTime date;
+	private Date date;
 	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
 			            CascadeType.REFRESH, CascadeType.DETACH},
@@ -60,18 +59,11 @@ public class Post {
 	
 	public Post() {}
 
-	public Post(String img_post, String description, String date) {
+	public Post(String img_post, String description, Long date) {
 		super();
 		this.img_post = img_post;
 		this.description = description;
-		
-		
-		int endOfString = 19;
-		date = date.substring(0, endOfString);
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
-		this.date = dateInput;
+		this.date = new Date(date);
 	}
 
 	public String getIdPost() {
@@ -98,22 +90,12 @@ public class Post {
 		this.description = description;
 	}
 
-	public String getDate() {
-		return date.toString();
+	public Long getDateMillis() {
+		return date.getTime();
 	}
 	
-	public LocalDateTime getLocalDateTime() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		
-		int endOfString = 19;
-		date = date.substring(0, endOfString);
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		LocalDateTime dateInput = LocalDateTime.parse(date, formatter);
-		this.date = dateInput;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 	public Profile getProfile() {

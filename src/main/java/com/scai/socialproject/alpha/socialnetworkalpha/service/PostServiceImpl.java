@@ -121,35 +121,10 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
 	public List<PostDTO> getHomepage(String idProfile, int startingIndex) {
-		//int lastPost = 6;
 		List<PostDTO> posts = new LinkedList<>();
 		
 		posts = postRepo.getNextPostsHomepage(idProfile, startingIndex);
 		
-		/*
-		List<FollowDTO> following = followRepo.findFollowingForProfile(idProfile);
-		for(FollowDTO follow : following) {
-			String id = follow.getIdFollowed();
-			List<PostDTO> postsProfile = postRepo.getPosts(id);
-			posts.addAll(postsProfile);
-		}
-		
-		List<PostDTO> postsSorted =
-		posts.stream()
-		.sorted(Comparator.comparing(
-				PostDTO::getLocalDate,
-				Comparator.reverseOrder()
-				))
-		.collect(Collectors.toList());
-		
-		List<PostDTO> postsRis = new LinkedList<>();
-		for(int i = startingIndex; (i < startingIndex + lastPost) && i < postsSorted.size() ; i++) {
-			postsRis.add(postsSorted.get(i));
-		}
-		
-		/**
-		 * COMMENT'S LIKE CHECK., ADJUSTING PROPIC
-		 */
 		posts.stream()
 		.forEach( p -> {
 			p.getComments().forEach( c -> {
@@ -175,7 +150,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional
-	public PostDTO savePostTest(MultipartFile img, String description, String date, String idProfile) throws IllegalStateException, IOException {
+	public PostDTO savePostTest(MultipartFile img, String description, long date, String idProfile) throws IllegalStateException, IOException {
 		String filename = img.getOriginalFilename();
 		String extension  = filename.substring(filename.lastIndexOf(".") + 1);
 

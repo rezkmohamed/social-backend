@@ -1,6 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,8 +66,8 @@ public class PostsController {
 			@RequestParam("date") String date,
 			MultipartHttpServletRequest request) throws IllegalStateException, IOException {
 		String idProfile = requestUtils.idProfileFromToken(request);
-		
-		PostDTO newPost = postService.savePostTest(file, description, date, idProfile);
+		Date d = new Date();
+		PostDTO newPost = postService.savePostTest(file, description, d.getTime(), idProfile);
 		if(newPost == null) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}

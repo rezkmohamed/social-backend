@@ -13,9 +13,6 @@ public class Like {
 	@Column(name="id_like")
 	private String id;
 	
-	@Column(name="date")
-	private String date;
-	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
                         CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name="id_post")
@@ -28,25 +25,12 @@ public class Like {
 	
 	public Like() {}
 
-	public Like(String date) {
-		super();
-		this.date = date;
-	}
-
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 
 	public Post getPost() {

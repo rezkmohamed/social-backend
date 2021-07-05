@@ -2,16 +2,14 @@ package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
 public class LikeDTO {
 	private String idLike;
-	private String date;
 	private String idPost;
 	private String idProfile;
 	
 	public LikeDTO() {}
 
-	public LikeDTO(String idLike, String date, String idPost, String idProfile) {
+	public LikeDTO(String idLike, String idPost, String idProfile) {
 		super();
 		this.idLike = idLike;
-		this.date = date;
 		this.idPost = idPost;
 		this.idProfile = idProfile;
 	}
@@ -22,14 +20,6 @@ public class LikeDTO {
 
 	public void setIdLike(String idLike) {
 		this.idLike = idLike;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 
 	public String getIdPost() {
@@ -50,6 +40,6 @@ public class LikeDTO {
 
 	@Override
 	public String toString() {
-		return "LikeDTO [idLike=" + idLike + ", date=" + date + ", idPost=" + idPost + ", idProfile=" + idProfile + "]";
+		return "LikeDTO [idLike=" + idLike + ", idPost=" + idPost + ", idProfile=" + idProfile + "]";
 	}
 }
