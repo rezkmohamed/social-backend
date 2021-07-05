@@ -55,9 +55,7 @@ public class CrudProfileImpl implements CrudProfile {
 		if(profile != null) {
 			ProfileDTO profileDTO = DTOProfileUtils.profileToDTO(profile);
 			profileDTO.setPosts(DTOPostUtils.postToDTO(profile.getPosts()));
-			//profileDTO.setFollowers(DTOFollowUtils.followToDTO(profile.getFollowers()));
 			profileDTO.setFollowersCounter(profile.getFollowers().size());
-			//profileDTO.setFollowing(DTOFollowUtils.followToDTO(profile.getFollowing()));
 			profileDTO.setFollowingCounter(profile.getFollowing().size());
 			return profileDTO;
 		}
@@ -134,15 +132,16 @@ public class CrudProfileImpl implements CrudProfile {
 
 	//OK!
 	@Override
-	public List<ProfileDTO> findFollowersProfile(String idProfile) {
+	public List<ProfileDTO> findFollowersProfile(String idProfile) throws Exception {
 		Session session = entityManager.unwrap(Session.class);
 		List<Profile> profiles = new ArrayList<>();
 		Profile profile = session.get(Profile.class, idProfile);
+		if(profile == null) {
+			throw new Exception("profile not found");
+		}
 		profile.getFollowers();
-		System.out.println("FOLLOWERS DI " + profile.getName());
 		for(Follow f : profile.getFollowers()) {
 			Profile p = f.getFollower();
-			System.out.println(p.getIdProfile());
 			profiles.add(p);
 		}
 		List<ProfileDTO> profilesDTO = DTOProfileUtils.profileToDTO(profiles, imgUtils);
@@ -152,14 +151,15 @@ public class CrudProfileImpl implements CrudProfile {
 
 	//OK!
 	@Override
-	public List<ProfileDTO> findFollowingProfile(String idProfile) {
+	public List<ProfileDTO> findFollowingProfile(String idProfile) throws Exception {
 		Session session = entityManager.unwrap(Session.class);
 		List<Profile> profiles = new ArrayList<>();
 		Profile profile = session.get(Profile.class, idProfile);
-		System.out.println("FOLLOWING DI " + profile.getName());
+		if(profile == null) {
+			throw new Exception("profile not found");
+		}
 		for(Follow f : profile.getFollowing()) {
 			Profile p = f.getFollowed();
-			System.out.println(p.getIdProfile());
 			profiles.add(p);
 		}
 

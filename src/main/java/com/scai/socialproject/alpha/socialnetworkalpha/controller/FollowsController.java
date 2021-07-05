@@ -23,33 +23,35 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 @RestController
 @RequestMapping("followers")
 public class FollowsController {
-	private FollowService followService;
-	private ProfileService profileService;
-	private RequestUtils requestUtils;
-
 	@Autowired
-	public FollowsController(FollowService followService, ProfileService profileService, RequestUtils requestUtils) {
-		this.followService = followService;
-		this.profileService = profileService;
-		this.requestUtils = requestUtils;
-	}
-	
-	//OK!
-	@GetMapping("/allfollow")
-	public List<FollowDTO> findAllFollowers(){
-		return followService.findAllFollowers();
-	}
+	private FollowService followService;
+	@Autowired
+	private ProfileService profileService;
+	@Autowired
+	private RequestUtils requestUtils;
 	
 	//OK
 	@GetMapping("/{idProfile}/followers")
-	public List<ProfileDTO> findFollowersForProfile(@PathVariable("idProfile") String idProfile){
-		return profileService.findFollowersProfile(idProfile);
+	public ResponseEntity<List<ProfileDTO>> findFollowersForProfile(@PathVariable("idProfile") String idProfile){
+		try {
+			List<ProfileDTO> response = profileService.findFollowersProfile(idProfile);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+		}
+		
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 	}
 	
 	//OK
 	@GetMapping("/{idProfile}/following")
-	public List<ProfileDTO> findFollowingForProfile(@PathVariable("idProfile") String idProfile){
-		return profileService.findFollowingProfile(idProfile);
+	public ResponseEntity<List<ProfileDTO>> findFollowingForProfile(@PathVariable("idProfile") String idProfile){
+		try {
+			List<ProfileDTO> response = profileService.findFollowingProfile(idProfile);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+		}
+		
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 	}
 	
 	//OK

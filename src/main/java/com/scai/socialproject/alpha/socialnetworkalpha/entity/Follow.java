@@ -14,9 +14,6 @@ public class Follow {
 	@Column(name="id_follow")
 	private String idFollow;
 	
-	@Column(name="date")
-	private String date;
-	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
                         CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name="id_follower")
@@ -29,13 +26,6 @@ public class Follow {
 	
 	public Follow() {}
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
 	
 	public String getIdFollow() {
 		return idFollow;
@@ -63,7 +53,7 @@ public class Follow {
 
 	@Override
 	public String toString() {
-		return "Follow [idFollow=" + idFollow + ", date=" + date + ", follower=" + follower + ", followed=" + followed
+		return "Follow [idFollow=" + idFollow + ", follower=" + follower + ", followed=" + followed
 				+ "]";
 	}
 }

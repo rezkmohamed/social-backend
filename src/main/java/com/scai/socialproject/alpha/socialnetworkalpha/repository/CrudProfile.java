@@ -15,9 +15,9 @@ public interface CrudProfile {
 	
 	public List<ProfileDTO> findProfilesLikesPost(String idPost);
 	
-	public List<ProfileDTO> findFollowersProfile(String idProfile);
+	public List<ProfileDTO> findFollowersProfile(String idProfile) throws Exception;
 	
-	public List<ProfileDTO> findFollowingProfile(String idProfile);
+	public List<ProfileDTO> findFollowingProfile(String idProfile) throws Exception;
 	
 	public List<ProfileDTO> searchProfilesByName(String profileName, int startingIndex);
 	

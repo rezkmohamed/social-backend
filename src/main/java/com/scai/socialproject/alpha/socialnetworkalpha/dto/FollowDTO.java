@@ -2,16 +2,14 @@ package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
 public class FollowDTO {
 	private String idFollow;
-	private String date;
 	private String idFollower;
 	private String idFollowed;
 	
 	public FollowDTO() {}
 
-	public FollowDTO(String idFollow, String date, String idFollower, String idFollowed) {
+	public FollowDTO(String idFollow, String idFollower, String idFollowed) {
 		super();
 		this.idFollow = idFollow;
-		this.date = date;
 		this.idFollower = idFollower;
 		this.idFollowed = idFollowed;
 	}
@@ -22,14 +20,6 @@ public class FollowDTO {
 
 	public void setIdFollow(String idFollow) {
 		this.idFollow = idFollow;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 
 	public String getIdFollower() {
@@ -50,7 +40,7 @@ public class FollowDTO {
 
 	@Override
 	public String toString() {
-		return "FollowDTO [idFollow=" + idFollow + ", date=" + date + ", idFollower=" + idFollower + ", idFollowed="
+		return "FollowDTO [idFollow=" + idFollow + ", idFollower=" + idFollower + ", idFollowed="
 				+ idFollowed + "]";
 	}
 }

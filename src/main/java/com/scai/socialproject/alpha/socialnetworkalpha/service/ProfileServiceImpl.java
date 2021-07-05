@@ -196,13 +196,13 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	@Transactional
-	public List<ProfileDTO> findFollowersProfile(String idProfile) {
+	public List<ProfileDTO> findFollowersProfile(String idProfile) throws Exception {
 		return profileRepo.findFollowersProfile(idProfile);
 	}
 
 	@Override
 	@Transactional
-	public List<ProfileDTO> findFollowingProfile(String idProfile) {
+	public List<ProfileDTO> findFollowingProfile(String idProfile) throws Exception {
 		return profileRepo.findFollowingProfile(idProfile);
 	}
 

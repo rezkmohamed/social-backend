@@ -9,7 +9,6 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 public class DTOFollowUtils {
 	private static FollowDTO DTOFromFollow(Follow follow) {
 		FollowDTO tmp = new FollowDTO(follow.getIdFollow(),
-									  follow.getDate(), 
 									  follow.getFollower().getIdProfile(), 
 									  follow.getFollowed().getIdProfile());
 		return tmp;
