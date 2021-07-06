@@ -24,6 +24,9 @@ public class Follow {
 	@JoinColumn(name="id_followed")
 	private Profile followed;
 	
+	@Column(name="isseen")
+	private boolean isSeen;
+	
 	public Follow() {}
 
 	
@@ -50,7 +53,15 @@ public class Follow {
 	public void setFollowed(Profile followed) {
 		this.followed = followed;
 	}
+	
+	public boolean isSeen() {
+		return isSeen;
+	}
 
+	public void setSeen(boolean isSeen) {
+		this.isSeen = isSeen;
+	}
+	
 	@Override
 	public String toString() {
 		return "Follow [idFollow=" + idFollow + ", follower=" + follower + ", followed=" + followed

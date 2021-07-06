@@ -13,6 +13,9 @@ public class Like {
 	@Column(name="id_like")
 	private String id;
 	
+	@Column(name="isseen")
+	private boolean isSeen;
+	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
                         CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name="id_post")
@@ -47,5 +50,13 @@ public class Like {
 
 	public void setProfileLiker(Profile profileLiker) {
 		this.profileLiker = profileLiker;
+	}
+
+	public boolean isSeen() {
+		return isSeen;
+	}
+
+	public void setSeen(boolean isSeen) {
+		this.isSeen = isSeen;
 	}
 }

@@ -24,6 +24,9 @@ public class Comment {
 	@Column(name="date")
 	private Date date;
 	
+	@Column(name="isseen")
+	private boolean isSeen;
+	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
                         CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name="id_post")
@@ -101,6 +104,14 @@ public class Comment {
 		}
 		
 		this.commentLikes.add(commentLike);
+	}
+	
+	public boolean isSeen() {
+		return isSeen;
+	}
+
+	public void setSeen(boolean isSeen) {
+		this.isSeen = isSeen;
 	}
 	
 	@Override

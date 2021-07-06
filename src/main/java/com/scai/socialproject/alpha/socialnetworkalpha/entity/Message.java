@@ -6,23 +6,6 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- * 
-	CREATE TABLE `message` (
-	  `id_message` varchar(45) NOT NULL,
-	  `id_profile_sender` varchar(45) NOT NULL,
-	  `id_profile_reciver` varchar(45) NOT NULL,
-	  `message` varchar(3000) DEFAULT NULL,
-	  `isseen` boolean,
-	  `date_message` timestamp,
-	  PRIMARY KEY (`id_message`),
-	  FOREIGN KEY (`id_profile_sender`) REFERENCES
-	  `profile` (`id_profile`) on delete cascade,
-	  FOREIGN KEY (`id_profile_reciver`) REFERENCES
-	  `profile` (`id_profile`) on delete cascade
-	);
- *
- */
 @Entity
 @Table(name="messages")
 public class Message {
