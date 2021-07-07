@@ -23,8 +23,7 @@ public class NotificationServiceImpl implements NotificationService{
 	@Override
 	@Transactional
 	public boolean setNotificationsAsSeenForProfile(String idProfile) {
-		// TODO Auto-generated method stub
-		return false;
+		return notificationRepo.setNotificationsAsSeenForProfile(idProfile);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.entity;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -12,6 +14,9 @@ public class CommentLike {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@Column(name="id_comment_like")
 	private String idCommentLike;
+	
+	@Column(name="date")
+	private Date date;
 	
 	@Column(name="isseen")
 	private boolean isSeen;
@@ -58,5 +63,13 @@ public class CommentLike {
 
 	public void setSeen(boolean isSeen) {
 		this.isSeen = isSeen;
+	}
+	
+	public Long getDateMillis() {
+		return date.getTime();
+	}
+	
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

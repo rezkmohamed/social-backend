@@ -34,7 +34,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler{
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		if(message.toString().contains("Bearer ")) {
 			String idProfile = requestUtils.idProfileFromToken(message.getPayload().toString());
-			
 			for(Map.Entry<String, WebSocketSession> entry : webSocketSessions.entrySet()) {
 				if(entry.getValue().equals(session)) {
 					String key = entry.getKey();
@@ -49,6 +48,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler{
 			String msg = message.getPayload();
 			String idProfileSession = null;
 			for(Map.Entry<String, WebSocketSession> entry : webSocketSessions.entrySet()) {
+				
 				if(entry.getValue().equals(session)) {
 					idProfileSession = entry.getKey();
 					ObjectMapper om = new ObjectMapper();

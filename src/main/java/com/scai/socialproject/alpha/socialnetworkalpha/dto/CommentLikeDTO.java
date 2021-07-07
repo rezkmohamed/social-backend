@@ -1,9 +1,12 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.util.Date;
+
 public class CommentLikeDTO {
 	private String idCommentLike;
 	private String idComment;
 	private String idProfile;
+	private Date date;
 	
 	public CommentLikeDTO() {}
 
@@ -38,6 +41,13 @@ public class CommentLikeDTO {
 		this.idProfile = idProfile;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 	@Override
 	public String toString() {

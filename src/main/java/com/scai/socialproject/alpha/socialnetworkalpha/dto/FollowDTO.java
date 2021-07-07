@@ -1,9 +1,12 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.util.Date;
+
 public class FollowDTO {
 	private String idFollow;
 	private String idFollower;
 	private String idFollowed;
+	private Date date;
 	
 	public FollowDTO() {}
 
@@ -38,6 +41,14 @@ public class FollowDTO {
 		this.idFollowed = idFollowed;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
 	@Override
 	public String toString() {
 		return "FollowDTO [idFollow=" + idFollow + ", idFollower=" + idFollower + ", idFollowed="

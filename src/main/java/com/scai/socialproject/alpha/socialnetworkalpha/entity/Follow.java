@@ -1,9 +1,10 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.entity;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
-
 
 @Entity
 @Table(name="follow")
@@ -26,6 +27,9 @@ public class Follow {
 	
 	@Column(name="isseen")
 	private boolean isSeen;
+	
+	@Column(name="date")
+	private Date date;
 	
 	public Follow() {}
 
@@ -60,6 +64,14 @@ public class Follow {
 
 	public void setSeen(boolean isSeen) {
 		this.isSeen = isSeen;
+	}
+	
+	public Long getDateMillis() {
+		return date.getTime();
+	}
+	
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 	@Override

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +28,12 @@ public class NotificationController {
 	public ResponseEntity<List<NotificationDTO>> getNewNotifications(HttpServletRequest request){
 		String idProfile = requestUtils.idProfileFromToken(request);
 		return new ResponseEntity<>(notificationService.getNotificationsForProfile(idProfile), HttpStatus.OK);
+	}
+	
+	@PutMapping("/setseen")
+	public ResponseEntity<HttpStatus> setNewNotificationsAsSeen(HttpServletRequest request){
+		String idProfile = requestUtils.idProfileFromToken(request);
+		notificationService.setNotificationsAsSeenForProfile(idProfile);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

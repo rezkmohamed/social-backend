@@ -1,9 +1,12 @@
 package com.scai.socialproject.alpha.socialnetworkalpha.dto;
 
+import java.util.Date;
+
 public class LikeDTO {
 	private String idLike;
 	private String idPost;
 	private String idProfile;
+	private Date date;
 	
 	public LikeDTO() {}
 
@@ -37,7 +40,15 @@ public class LikeDTO {
 	public void setIdProfile(String idProfile) {
 		this.idProfile = idProfile;
 	}
+	
+	public Date getDate() {
+		return date;
+	}
 
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
 	@Override
 	public String toString() {
 		return "LikeDTO [idLike=" + idLike + ", idPost=" + idPost + ", idProfile=" + idProfile + "]";

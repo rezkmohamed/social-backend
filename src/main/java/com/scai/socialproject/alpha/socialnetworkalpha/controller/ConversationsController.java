@@ -65,10 +65,11 @@ public class ConversationsController {
 	public ResponseEntity<HttpStatus> setMessagesAsSeen(@PathVariable String idConversation ,HttpServletRequest request){
 		String idFirstProfile = requestUtils.idProfileFromToken(request);
 		boolean response = messageService.setMessagesAsSeen(idConversation, idFirstProfile);
-		if(response) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		if(response) {
+//			return new ResponseEntity<>(HttpStatus.OK);
+//		}
+		return new ResponseEntity<>(HttpStatus.OK);
+
+		//return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }
