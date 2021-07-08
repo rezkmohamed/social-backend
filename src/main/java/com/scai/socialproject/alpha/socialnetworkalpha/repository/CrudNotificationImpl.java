@@ -10,10 +10,13 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.CommentLikeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
@@ -123,8 +126,20 @@ public class CrudNotificationImpl implements CrudNotification {
 
 	@Override
 	public List<NotificationDTO> getNewCommentLikesForProfile(String idProfile) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = entityManager.unwrap(Session.class);
+		Profile profile = session.get(Profile.class, idProfile);
+		ProfileDTO profileDTO = DTOProfileUtils.profileToDTO(profile);
+		List<CommentDTO> comments = commentRepo.findAllCommentsForProfile(idProfile);
+		List<String> idComments = new ArrayList<>();
+		for(CommentDTO c : comments) {
+			idComments.add(c.getIdComment());
+		}
+		Query<CommentLike> queryNewCommentLikes = session.createQuery("from CommentLike where id_comment in (:idComment) ORDER BY date DESC");
+		queryNewCommentLikes.setParameter("idComment", idComments);
+		List<CommentLike> newCommentLikes = queryNewCommentLikes.getResultList();
+		List<NotificationDTO> newCommentLikesNotification = DTONotificationUtils.DTONotificationFromCommentLike(newCommentLikes, profileDTO, imgUtils);
+		
+		return newCommentLikesNotification;
 	}
 
 	@Override
@@ -148,6 +163,19 @@ public class CrudNotificationImpl implements CrudNotification {
 		Query querySetNewCommentsAsSeen = session.createQuery("update Comment set isseen = 1 where id_post in (:idPost) AND isseen = 0");
 		querySetNewCommentsAsSeen.setParameter("idPost", idPosts);
 		querySetNewCommentsAsSeen.executeUpdate();
+		
+		
+		
+		
+		List<CommentDTO> comments = commentRepo.findAllCommentsForProfile(idProfile);
+		List<String> idComments = new ArrayList<>();
+		for(CommentDTO c : comments) {
+			idComments.add(c.getIdComment());
+		}
+		Query querySetNewCommentLikesAsSeen = session.createQuery("update CommentLike set isseen = 1 where id_comment in (:idComment) AND isseen = 0");
+		querySetNewCommentLikesAsSeen.setParameter("idComment", idComments);
+		querySetNewCommentLikesAsSeen.executeUpdate();
+		
 		if(ris > 0) {
 			return true;
 		}

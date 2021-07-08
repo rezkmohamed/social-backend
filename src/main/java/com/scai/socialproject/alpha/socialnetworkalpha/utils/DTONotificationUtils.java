@@ -8,6 +8,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationTypeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
@@ -76,6 +77,33 @@ public class DTONotificationUtils {
 		for(Comment comment : comments) {
 			NotificationDTO tmp = DTONotificationFromComment(comment, profileToNotify);
 			Post p = comment.getPost();
+			tmp.setPost(DTOPostUtils.postToDTO(p));
+			if(tmp.getProfileNotificator().getProPic() != null) {
+				try {
+					tmp.getProfileToNotify().setProPic(imgUtils.fileImgToBase64Encoding(tmp.getProfileNotificator().getProPic()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			ris.add(tmp);
+		}
+		
+		return ris;
+	}
+	
+	public static NotificationDTO DTONotificationFromCommentLike(CommentLike commentLike, ProfileDTO profileToNotify){
+		NotificationDTO ris = new NotificationDTO(DTOProfileUtils.profileToDTO(commentLike.getProfile()), profileToNotify, NotificationTypeDTO.COMMENT_LIKE,
+													commentLike.getDateMillis());
+		ris.setSeen(commentLike.isSeen());
+		
+		return ris;
+	}
+	
+	public static List<NotificationDTO> DTONotificationFromCommentLike(List<CommentLike> commentLikes, ProfileDTO profileToNotify, ImgUtils imgUtils){
+		List<NotificationDTO> ris = new ArrayList<>();
+		for(CommentLike commentLike : commentLikes) {
+			NotificationDTO tmp = DTONotificationFromCommentLike(commentLike, profileToNotify);
+			Post p = commentLike.getComment().getPost();
 			tmp.setPost(DTOPostUtils.postToDTO(p));
 			if(tmp.getProfileNotificator().getProPic() != null) {
 				try {
