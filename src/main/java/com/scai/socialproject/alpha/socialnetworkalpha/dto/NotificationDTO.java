@@ -8,6 +8,7 @@ public class NotificationDTO {
 	private NotificationTypeDTO notificationType;
 	private Date date;
 	private boolean isSeen;
+	private PostDTO post;
 	
 	public NotificationDTO() {}
 	
@@ -58,5 +59,13 @@ public class NotificationDTO {
 
 	public void setSeen(boolean isSeen) {
 		this.isSeen = isSeen;
+	}
+
+	public PostDTO getPost() {
+		return post;
+	}
+
+	public void setPost(PostDTO post) {
+		this.post = post;
 	}
 }

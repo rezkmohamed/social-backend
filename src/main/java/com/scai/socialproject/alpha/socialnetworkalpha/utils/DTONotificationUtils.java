@@ -7,8 +7,10 @@ import java.util.List;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationTypeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 
 public class DTONotificationUtils {
 	public static NotificationDTO DTONoficationFromFollow(Follow follow) {
@@ -47,6 +49,8 @@ public class DTONotificationUtils {
 		List<NotificationDTO> ris = new ArrayList<>();
 		for(Like like : likes) {
 			NotificationDTO tmp = DTONotificationFromLike(like, profileToNotify);
+			Post p = like.getPost();
+			tmp.setPost(DTOPostUtils.postToDTO(p));
 			if(tmp.getProfileNotificator().getProPic() != null) {
 				try {
 					tmp.getProfileToNotify().setProPic(imgUtils.fileImgToBase64Encoding(tmp.getProfileNotificator().getProPic()));
@@ -56,6 +60,33 @@ public class DTONotificationUtils {
 			}
 			ris.add(tmp);
 		}
+		return ris;
+	}
+	
+	public static NotificationDTO DTONotificationFromComment(Comment comment, ProfileDTO profileToNotify) {
+		NotificationDTO ris = new NotificationDTO(DTOProfileUtils.profileToDTO(comment.getWriter()),
+				profileToNotify, NotificationTypeDTO.COMMENT, comment.getDateMillis());
+		ris.setSeen(comment.isSeen());
+		
+		return ris;
+	}
+	
+	public static List<NotificationDTO> DTONotificationFromComment(List<Comment> comments, ProfileDTO profileToNotify, ImgUtils imgUtils){
+		List<NotificationDTO> ris = new ArrayList<>();
+		for(Comment comment : comments) {
+			NotificationDTO tmp = DTONotificationFromComment(comment, profileToNotify);
+			Post p = comment.getPost();
+			tmp.setPost(DTOPostUtils.postToDTO(p));
+			if(tmp.getProfileNotificator().getProPic() != null) {
+				try {
+					tmp.getProfileToNotify().setProPic(imgUtils.fileImgToBase64Encoding(tmp.getProfileNotificator().getProPic()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			ris.add(tmp);
+		}
+		
 		return ris;
 	}
 }

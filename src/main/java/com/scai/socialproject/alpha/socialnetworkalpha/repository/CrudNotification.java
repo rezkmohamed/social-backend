@@ -11,5 +11,9 @@ public interface CrudNotification {
 	
 	public List<NotificationDTO> getNewLikesNotificationForProfile(String idProfile);
 	
+	public List<NotificationDTO> getNewCommentsForProfile(String idProfile);
+	
+	public List<NotificationDTO> getNewCommentLikesForProfile(String idProfile);
+	
 	public boolean setNotificationsAsSeenForProfile(String idProfile);
 }

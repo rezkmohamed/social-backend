@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.PostDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.ProfileDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
@@ -101,6 +102,30 @@ public class CrudNotificationImpl implements CrudNotification {
 		
 		return newLikesNotification;
 	}
+	
+	@Override
+	public List<NotificationDTO> getNewCommentsForProfile(String idProfile) {
+		Session session = entityManager.unwrap(Session.class);
+		Profile profile = session.get(Profile.class, idProfile);
+		ProfileDTO profileDTO = DTOProfileUtils.profileToDTO(profile);
+		List<PostDTO> posts = postRepo.findPostsProfilePage(idProfile);
+		List<String> idPosts = new ArrayList<>();
+		for(PostDTO p : posts) {
+			idPosts.add(p.getIdPost());
+		}
+		Query<Comment> queryNewComments = session.createQuery("from Comment where id_post in (:idPost) ORDER BY date DESC");
+		queryNewComments.setParameter("idPost", idPosts);
+		List<Comment> newComments = queryNewComments.getResultList();
+		List<NotificationDTO> newCommentsNotification = DTONotificationUtils.DTONotificationFromComment(newComments, profileDTO, imgUtils);
+		
+		return newCommentsNotification;
+	}
+
+	@Override
+	public List<NotificationDTO> getNewCommentLikesForProfile(String idProfile) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public boolean setNotificationsAsSeenForProfile(String idProfile) {
@@ -108,6 +133,21 @@ public class CrudNotificationImpl implements CrudNotification {
 		Query querySetNewFollowersAsSeen = session.createQuery("update Follow set isseen = 1 where id_followed = :idProfile AND isseen = 0");
 		querySetNewFollowersAsSeen.setParameter("idProfile", idProfile);
 		int ris = querySetNewFollowersAsSeen.executeUpdate();
+		
+		List<PostDTO> posts = postRepo.findPostsProfilePage(idProfile);
+		List<String> idPosts = new ArrayList<>();
+		for(PostDTO p : posts) {
+			idPosts.add(p.getIdPost());
+		}
+		
+		Query querySetNewLikesAsSeen = session.createQuery("update Like set isseen = 1 where id_post in (:idPost) AND isseen = 0");
+		querySetNewLikesAsSeen.setParameter("idPost", idPosts);
+		querySetNewLikesAsSeen.executeUpdate();
+		
+		
+		Query querySetNewCommentsAsSeen = session.createQuery("update Comment set isseen = 1 where id_post in (:idPost) AND isseen = 0");
+		querySetNewCommentsAsSeen.setParameter("idPost", idPosts);
+		querySetNewCommentsAsSeen.executeUpdate();
 		if(ris > 0) {
 			return true;
 		}

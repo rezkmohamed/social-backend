@@ -24,6 +24,7 @@ public class NotificationServiceImpl implements NotificationService{
 		
 		ris.addAll(notificationRepo.getNewFollowersNotificationForProfile(idProfile));
 		ris.addAll(notificationRepo.getNewLikesNotificationForProfile(idProfile));
+		ris.addAll(notificationRepo.getNewCommentsForProfile(idProfile));
 		
 		return ris.stream().sorted(Comparator.comparing(NotificationDTO::getDateMillis,
 				Comparator.reverseOrder()))
