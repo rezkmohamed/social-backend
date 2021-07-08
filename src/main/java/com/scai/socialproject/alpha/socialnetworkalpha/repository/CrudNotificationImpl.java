@@ -98,8 +98,9 @@ public class CrudNotificationImpl implements CrudNotification {
 		for(PostDTO p : posts) {
 			idPosts.add(p.getIdPost());
 		}
-		Query<Like> queryNewLikes = session.createQuery("from Like where id_post in (:idPost) ORDER BY date DESC");
+		Query<Like> queryNewLikes = session.createQuery("from Like where id_post in (:idPost) AND id_profile_liker <> :idProfile ORDER BY date DESC");
 		queryNewLikes.setParameter("idPost", idPosts);
+		queryNewLikes.setParameter("idProfile", idProfile);
 		List<Like> newLikes = queryNewLikes.getResultList();
 		List<NotificationDTO> newLikesNotification = DTONotificationUtils.DTONotificationFromLike(newLikes, profileDTO, imgUtils);
 		
@@ -116,8 +117,9 @@ public class CrudNotificationImpl implements CrudNotification {
 		for(PostDTO p : posts) {
 			idPosts.add(p.getIdPost());
 		}
-		Query<Comment> queryNewComments = session.createQuery("from Comment where id_post in (:idPost) ORDER BY date DESC");
+		Query<Comment> queryNewComments = session.createQuery("from Comment where id_post in (:idPost) AND id_writer <> :idProfile ORDER BY date DESC");
 		queryNewComments.setParameter("idPost", idPosts);
+		queryNewComments.setParameter("idProfile", idProfile);
 		List<Comment> newComments = queryNewComments.getResultList();
 		List<NotificationDTO> newCommentsNotification = DTONotificationUtils.DTONotificationFromComment(newComments, profileDTO, imgUtils);
 		
@@ -134,8 +136,9 @@ public class CrudNotificationImpl implements CrudNotification {
 		for(CommentDTO c : comments) {
 			idComments.add(c.getIdComment());
 		}
-		Query<CommentLike> queryNewCommentLikes = session.createQuery("from CommentLike where id_comment in (:idComment) ORDER BY date DESC");
+		Query<CommentLike> queryNewCommentLikes = session.createQuery("from CommentLike where id_comment in (:idComment) AND id_liker <> :idProfile ORDER BY date DESC");
 		queryNewCommentLikes.setParameter("idComment", idComments);
+		queryNewCommentLikes.setParameter("idProfile", idProfile);
 		List<CommentLike> newCommentLikes = queryNewCommentLikes.getResultList();
 		List<NotificationDTO> newCommentLikesNotification = DTONotificationUtils.DTONotificationFromCommentLike(newCommentLikes, profileDTO, imgUtils);
 		
