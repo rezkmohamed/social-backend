@@ -10,18 +10,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * CREATE TABLE `post` (
-  `id_post` varchar(45) NOT NULL,
-  `img_post` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  `date` varchar(45) DEFAULT NULL,
-  `id_profile` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_post`),
-  FOREIGN KEY (`id_profile`) REFERENCES
-  `profile` (`id_profile`) ON DELETE NO ACTION ON UPDATE NO ACTION
-);
- */
 @Entity
 @Table(name="post")
 public class Post {
@@ -56,6 +44,11 @@ public class Post {
 			   cascade=CascadeType.ALL,
 			   fetch=FetchType.LAZY)
 	private List<Like> likes;
+	
+	@OneToMany(mappedBy="post",
+			   cascade=CascadeType.ALL,
+			   fetch=FetchType.LAZY)
+	private List<Notification> notifications;
 	
 	public Post() {}
 
@@ -135,5 +128,13 @@ public class Post {
 
 	public void setProfile(Profile profile) {
 		this.profile = profile;
+	}
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
 	}
 }

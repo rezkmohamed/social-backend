@@ -7,20 +7,6 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- * 
-CREATE TABLE `profile` (
-  `id_profile` varchar(45) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `nickname` varchar(45) DEFAULT NULL,
-  `bio` varchar(45) DEFAULT NULL, 
-  `profile_pic` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_profile`)
-);
- *
- */
 @Entity
 @Table(name="profile")
 public class Profile {
@@ -87,6 +73,16 @@ public class Profile {
 			   cascade=CascadeType.ALL,
 			   fetch=FetchType.LAZY)
 	private List<Conversation> conversations;
+	
+	@OneToMany(mappedBy="profileNotificator",
+			   cascade=CascadeType.ALL,
+			   fetch=FetchType.LAZY)
+	private List<Notification> notificationsSented;
+	
+	@OneToMany(mappedBy="profileToNotify",
+			   cascade=CascadeType.ALL,
+			   fetch=FetchType.LAZY)
+	private List<Notification> notificationsRecived;
 	
 	public Profile() {}
 
@@ -258,6 +254,22 @@ public class Profile {
 
 	public void setConversations(List<Conversation> conversations) {
 		this.conversations = conversations;
+	}
+	
+	public List<Notification> getNotificationsSented() {
+		return notificationsSented;
+	}
+
+	public void setNotificationsSented(List<Notification> notificationsSented) {
+		this.notificationsSented = notificationsSented;
+	}
+
+	public List<Notification> getNotificationsRecived() {
+		return notificationsRecived;
+	}
+
+	public void setNotificationsRecived(List<Notification> notificationsRecived) {
+		this.notificationsRecived = notificationsRecived;
 	}
 	
 	@Override
