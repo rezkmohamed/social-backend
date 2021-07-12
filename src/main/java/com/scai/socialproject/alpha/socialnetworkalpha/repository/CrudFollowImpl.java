@@ -6,25 +6,21 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Notification;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTOFollowUtils;
+import com.scai.socialproject.alpha.socialnetworkalpha.utils.DTONotificationUtils;
 
 import org.hibernate.query.Query;
 
 @Repository
 public class CrudFollowImpl implements CrudFollow {
-	private EntityManager entityManager;
-	
 	@Autowired
-	public CrudFollowImpl(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
+	private EntityManager entityManager;
 
 	@Override
 	public List<FollowDTO> findAllFollowers() {
@@ -109,6 +105,9 @@ public class CrudFollowImpl implements CrudFollow {
 		Follow follow = new Follow();
 		follow.setFollower(follower); follow.setFollowed(followed);
 		session.save(follow);
+		
+		Notification newNotification = DTONotificationUtils.createNewNotificationFromFollow(follow);
+		session.save(newNotification);
 		
 		return DTOFollowUtils.followToDTO(follow);
 	}

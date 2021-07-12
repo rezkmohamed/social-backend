@@ -18,9 +18,6 @@ public class Like {
 	@Column(name="date")
 	private Date date;
 	
-	@Column(name="isseen")
-	private boolean isSeen;
-	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
                         CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name="id_post")
@@ -56,14 +53,6 @@ public class Like {
 	public void setProfileLiker(Profile profileLiker) {
 		this.profileLiker = profileLiker;
 	}
-
-	public boolean isSeen() {
-		return isSeen;
-	}
-
-	public void setSeen(boolean isSeen) {
-		this.isSeen = isSeen;
-	}
 	
 	public Long getDateMillis() {
 		return date.getTime();
@@ -75,7 +64,7 @@ public class Like {
 
 	@Override
 	public String toString() {
-		return "Like [id=" + id + ", date=" + date + ", isSeen=" + isSeen + ", post=" + post + ", profileLiker="
+		return "Like [id=" + id + ", date=" + date + ", post=" + post + ", profileLiker="
 				+ profileLiker + "]";
 	}
 }

@@ -11,10 +11,11 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.Comment;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Like;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Notification;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Post;
 
 public class DTONotificationUtils {
-	public static NotificationDTO DTONoficationFromFollow(Follow follow) {
+	/*public static NotificationDTO DTONoficationFromFollow(Follow follow) {
 		NotificationDTO ris = new NotificationDTO(DTOProfileUtils.profileToDTO(follow.getFollower()),
 				DTOProfileUtils.profileToDTO(follow.getFollowed()), NotificationTypeDTO.FOLLOW, follow.getDateMillis());
 		ris.setSeen(follow.isSeen());
@@ -105,6 +106,43 @@ public class DTONotificationUtils {
 			NotificationDTO tmp = DTONotificationFromCommentLike(commentLike, profileToNotify);
 			Post p = commentLike.getComment().getPost();
 			tmp.setPost(DTOPostUtils.postToDTO(p));
+			if(tmp.getProfileNotificator().getProPic() != null) {
+				try {
+					tmp.getProfileToNotify().setProPic(imgUtils.fileImgToBase64Encoding(tmp.getProfileNotificator().getProPic()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			ris.add(tmp);
+		}
+		
+		return ris;
+	}*/
+	
+	public static Notification createNewNotificationFromFollow(Follow follow) {
+		return new Notification(follow.getFollower(), follow.getFollowed(), false, NotificationTypeDTO.FOLLOW);
+	}
+	
+	public static NotificationDTO DTONotificationFromNotification(Notification notification) {
+		NotificationDTO ris = new NotificationDTO(DTOProfileUtils.profileToDTO(notification.getProfileNotificator()),
+				DTOProfileUtils.profileToDTO(notification.getProfileToNotify()), notification.getNotificationType(), notification.getDateMillis());
+		ris.setSeen(notification.isSeen());
+		if(ris.getNotificationType() == NotificationTypeDTO.FOLLOW) {
+			return ris;
+		}
+		else {
+			ris.setPost(DTOPostUtils.postToDTO(notification.getPost()));
+			if(ris.getNotificationType() != NotificationTypeDTO.LIKE) {
+				ris.setComment(notification.getComment());
+			}
+			return ris;
+		}
+	}
+	
+	public static List<NotificationDTO> DTONotificationFromNotification(List<Notification> notifications, ImgUtils imgUtils){
+		List<NotificationDTO> ris = new ArrayList<>();
+		for(Notification n : notifications) {
+			NotificationDTO tmp = DTONotificationFromNotification(n);
 			if(tmp.getProfileNotificator().getProPic() != null) {
 				try {
 					tmp.getProfileToNotify().setProPic(imgUtils.fileImgToBase64Encoding(tmp.getProfileNotificator().getProPic()));

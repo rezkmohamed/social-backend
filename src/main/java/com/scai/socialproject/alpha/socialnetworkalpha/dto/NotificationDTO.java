@@ -9,6 +9,7 @@ public class NotificationDTO {
 	private Date date;
 	private boolean isSeen;
 	private PostDTO post;
+	private String comment;
 	
 	public NotificationDTO() {}
 	
@@ -67,5 +68,13 @@ public class NotificationDTO {
 
 	public void setPost(PostDTO post) {
 		this.post = post;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

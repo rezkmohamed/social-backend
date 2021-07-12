@@ -44,10 +44,19 @@ public class Notification {
 	
 	@Column(name="notification_type")
 	private NotificationTypeDTO notificationType;
+	
+	public Notification() {}
 
-	public Notification(Date date, boolean isSeen, NotificationTypeDTO notificationType) {
+	public Notification(boolean isSeen, NotificationTypeDTO notificationType) {
+		this.isSeen = isSeen;
+		this.notificationType = notificationType;
+	}
+
+	public Notification(Profile profileNotificator, Profile profileToNotify, boolean isSeen,
+			NotificationTypeDTO notificationType) {
 		super();
-		this.date = date;
+		this.profileNotificator = profileNotificator;
+		this.profileToNotify = profileToNotify;
 		this.isSeen = isSeen;
 		this.notificationType = notificationType;
 	}

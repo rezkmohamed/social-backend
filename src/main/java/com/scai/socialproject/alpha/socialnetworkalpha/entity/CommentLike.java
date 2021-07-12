@@ -18,9 +18,6 @@ public class CommentLike {
 	@Column(name="date")
 	private Date date;
 	
-	@Column(name="isseen")
-	private boolean isSeen;
-	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, 
                         CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name="id_comment")
@@ -55,14 +52,6 @@ public class CommentLike {
 
 	public void setProfile(Profile profile) {
 		this.profile = profile;
-	}
-
-	public boolean isSeen() {
-		return isSeen;
-	}
-
-	public void setSeen(boolean isSeen) {
-		this.isSeen = isSeen;
 	}
 	
 	public Long getDateMillis() {

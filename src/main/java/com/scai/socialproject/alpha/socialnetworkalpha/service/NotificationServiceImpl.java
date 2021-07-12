@@ -20,16 +20,17 @@ public class NotificationServiceImpl implements NotificationService{
 	@Override
 	@Transactional
 	public List<NotificationDTO> getNotificationsForProfile(String idProfile) {
-		List<NotificationDTO> ris = new LinkedList<>();
-		
-		ris.addAll(notificationRepo.getNewFollowersNotificationForProfile(idProfile));
-		ris.addAll(notificationRepo.getNewLikesNotificationForProfile(idProfile));
-		ris.addAll(notificationRepo.getNewCommentsForProfile(idProfile));
-		ris.addAll(notificationRepo.getNewCommentLikesForProfile(idProfile));
-		
-		return ris.stream().sorted(Comparator.comparing(NotificationDTO::getDateMillis,
-				Comparator.reverseOrder()))
-		   .collect(Collectors.toList());
+//		List<NotificationDTO> ris = new LinkedList<>();
+//		
+//		ris.addAll(notificationRepo.getNewFollowersNotificationForProfile(idProfile));
+//		ris.addAll(notificationRepo.getNewLikesNotificationForProfile(idProfile));
+//		ris.addAll(notificationRepo.getNewCommentsForProfile(idProfile));
+//		ris.addAll(notificationRepo.getNewCommentLikesForProfile(idProfile));
+//		
+//		return ris.stream().sorted(Comparator.comparing(NotificationDTO::getDateMillis,
+//				Comparator.reverseOrder()))
+//		   .collect(Collectors.toList());
+		return notificationRepo.getNotificationsForProfile(idProfile);
 	}
 
 	@Override

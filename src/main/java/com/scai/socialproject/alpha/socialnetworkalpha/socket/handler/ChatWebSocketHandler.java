@@ -16,7 +16,6 @@ import com.scai.socialproject.alpha.socialnetworkalpha.dto.MessageDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.service.MessageService;
 import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 
-
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler{
 	private final Map<String, WebSocketSession> webSocketSessions = new HashMap<>();

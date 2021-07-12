@@ -25,9 +25,6 @@ public class Follow {
 	@JoinColumn(name="id_followed")
 	private Profile followed;
 	
-	@Column(name="isseen")
-	private boolean isSeen;
-	
 	@Column(name="date")
 	private Date date;
 	
@@ -56,14 +53,6 @@ public class Follow {
 
 	public void setFollowed(Profile followed) {
 		this.followed = followed;
-	}
-	
-	public boolean isSeen() {
-		return isSeen;
-	}
-
-	public void setSeen(boolean isSeen) {
-		this.isSeen = isSeen;
 	}
 	
 	public Long getDateMillis() {
