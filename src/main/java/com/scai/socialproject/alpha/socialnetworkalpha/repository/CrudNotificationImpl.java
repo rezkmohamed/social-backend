@@ -153,7 +153,7 @@ public class CrudNotificationImpl implements CrudNotification {
 //		
 //		return false;
 		Session session = entityManager.unwrap(Session.class);
-		Query query = session.createQuery("update Notification where id_profile_to_notify = :idProfile AND isseen = 0");
+		Query query = session.createQuery("update Notification set isseen = 1 where id_profile_to_notify = :idProfile AND isseen = 0");
 		query.setParameter("idProfile", idProfile);
 		query.executeUpdate();
 		
@@ -169,5 +169,14 @@ public class CrudNotificationImpl implements CrudNotification {
 		List<NotificationDTO> notificationsDTO = DTONotificationUtils.DTONotificationFromNotification(notifications, imgUtils);
 		
 		return notificationsDTO;
+	}
+
+	@Override
+	public String addNewNotification(Notification notification) {
+		Session session = entityManager.unwrap(Session.class);
+		
+		
+		
+		return (String) session.save(notification);
 	}
 }

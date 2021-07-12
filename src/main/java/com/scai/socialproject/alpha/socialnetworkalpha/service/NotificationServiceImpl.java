@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.entity.Notification;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudNotification;
+import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
 
 @Service
 public class NotificationServiceImpl implements NotificationService{
 	@Autowired
 	private CrudNotification notificationRepo;
+	@Autowired
+	private CrudProfile profileRepo;
 	
 	@Override
 	@Transactional
@@ -34,9 +38,20 @@ public class NotificationServiceImpl implements NotificationService{
 	}
 
 	@Override
+	public NotificationDTO addNotification(NotificationDTO notification) {
+		Notification notif = new Notification(profileRepo.findProfile(notification.getIdProfileNotificator()),
+				profileRepo.findProfile(notification.getIdProfileToNotify()),
+				false, notification.getNotificationType());
+		if(notificationRepo.addNewNotification(notif) != null) {
+			return notification;
+		}
+		
+		return null;
+	}
+	
+	@Override
 	@Transactional
 	public boolean setNotificationsAsSeenForProfile(String idProfile) {
 		return notificationRepo.setNotificationsAsSeenForProfile(idProfile);
 	}
-
 }
