@@ -35,13 +35,14 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody User user){	
 		User get = profileService.login(user.getEmail(), user.getPass());
-		
 		if(user != null) {
+			
 			HttpHeaders headers = new HttpHeaders();
         	HashMap<String, Object> addedValues = new HashMap<String, Object>();
         	addedValues.put("idUser", get.getIdUser());
         	addedValues.put("nickname", get.getNickname());
-			String token = Jwts.builder()
+
+        	String token = Jwts.builder()
 					.addClaims(addedValues)
 					.setIssuedAt(new Date(System.currentTimeMillis()))
 					.setExpiration(new Date(System.currentTimeMillis() + 4 * 120 * 60 * 1000))

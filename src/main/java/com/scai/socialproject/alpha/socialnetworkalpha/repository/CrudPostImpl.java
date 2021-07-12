@@ -191,5 +191,14 @@ public class CrudPostImpl implements CrudPost {
 		
 		return postsDTO;
 	}
+
+
+	@Override
+	public Post findPostEntityById(String idPost) {
+		Session session = entityManager.unwrap(Session.class);
+		Post post = session.get(Post.class, idPost);
+
+		return post;
+	}
 	
 }

@@ -18,6 +18,8 @@ public interface CrudPost {
 	
 	public PostDTO findPostById(String idPost);
 	
+	public Post findPostEntityById(String idPost);
+	
 	public void savePost(Post post);
 	
 	public void savePost(PostDTO postDTO);

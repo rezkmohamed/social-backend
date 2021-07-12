@@ -32,6 +32,7 @@ public class AuthFilter extends OncePerRequestFilter {
 		}
 		
 		if (
+				"/stranger".equalsIgnoreCase(request.getRequestURI()) ||
 				"/strange".equalsIgnoreCase(request.getRequestURI()) ||
 				"/login".equalsIgnoreCase(request.getRequestURI()) ||
 				"/register".equalsIgnoreCase(request.getRequestURI()) ||

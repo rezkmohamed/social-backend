@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationDTO;
+import com.scai.socialproject.alpha.socialnetworkalpha.dto.NotificationTypeDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Notification;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudNotification;
+import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudPost;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
 
 @Service
@@ -20,28 +22,27 @@ public class NotificationServiceImpl implements NotificationService{
 	private CrudNotification notificationRepo;
 	@Autowired
 	private CrudProfile profileRepo;
+	@Autowired
+	private CrudPost postRepo;
 	
 	@Override
 	@Transactional
 	public List<NotificationDTO> getNotificationsForProfile(String idProfile) {
-//		List<NotificationDTO> ris = new LinkedList<>();
-//		
-//		ris.addAll(notificationRepo.getNewFollowersNotificationForProfile(idProfile));
-//		ris.addAll(notificationRepo.getNewLikesNotificationForProfile(idProfile));
-//		ris.addAll(notificationRepo.getNewCommentsForProfile(idProfile));
-//		ris.addAll(notificationRepo.getNewCommentLikesForProfile(idProfile));
-//		
-//		return ris.stream().sorted(Comparator.comparing(NotificationDTO::getDateMillis,
-//				Comparator.reverseOrder()))
-//		   .collect(Collectors.toList());
 		return notificationRepo.getNotificationsForProfile(idProfile);
 	}
 
 	@Override
+	@Transactional
 	public NotificationDTO addNotification(NotificationDTO notification) {
 		Notification notif = new Notification(profileRepo.findProfile(notification.getIdProfileNotificator()),
 				profileRepo.findProfile(notification.getIdProfileToNotify()),
 				false, notification.getNotificationType());
+		if(notification.getNotificationType() != NotificationTypeDTO.FOLLOW) {
+			notif.setPost(postRepo.findPostEntityById(notification.getIdPost()));
+			if(notification.getNotificationType() != NotificationTypeDTO.LIKE) {
+				notif.setComment(notification.getComment());
+			}
+		}
 		if(notificationRepo.addNewNotification(notif) != null) {
 			return notification;
 		}

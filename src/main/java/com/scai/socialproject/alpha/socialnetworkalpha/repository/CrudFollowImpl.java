@@ -106,8 +106,8 @@ public class CrudFollowImpl implements CrudFollow {
 		follow.setFollower(follower); follow.setFollowed(followed);
 		session.save(follow);
 		
-		Notification newNotification = DTONotificationUtils.createNewNotificationFromFollow(follow);
-		session.save(newNotification);
+//		Notification newNotification = DTONotificationUtils.createNewNotificationFromFollow(follow);
+//		session.save(newNotification);
 		
 		return DTOFollowUtils.followToDTO(follow);
 	}

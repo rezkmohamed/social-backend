@@ -80,7 +80,13 @@ public class CrudLikeImpl implements CrudLike {
 		Query query = session
 			.createQuery("delete from Like where id_post=:idPost and id_profile_liker=:idProfile");
 		query.setParameter("idPost", idPost); query.setParameter("idProfile", idProfile);
+		Query removeNotificationLike = session
+				.createQuery("delete from Notification where id_post = :idPost AND id_profile_notificator = :idProfile");
+		removeNotificationLike.setParameter("idPost", idPost);
+		removeNotificationLike.setParameter("idProfile", idProfile);
+		
 		if(query.executeUpdate() == 1) {
+			removeNotificationLike.executeUpdate();
 			return true;
 		}
 		return false;

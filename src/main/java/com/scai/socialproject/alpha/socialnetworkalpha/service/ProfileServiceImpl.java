@@ -227,4 +227,21 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		return false;
 	}
+
+	@Override
+	@Transactional
+	public Profile findProfileWithProPic(String idProfile) {
+		Profile ris = profileRepo.findProfile(idProfile);
+		
+		if(ris.getProPic() != null) {
+			try {
+				ris.setProPic(imgUtils.fileImgToBase64Encoding(ris.getProPic()));
+				return ris;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return ris;
+	}
 }

@@ -13,6 +13,8 @@ public class NotificationDTO {
 	private String idProfileNotificator;
 	private String idProfileToNotify;
 	private String imgProfileNotificator;
+	private String nicknameProfileNotificator;
+	private String idPost;
 	
 	public NotificationDTO() {}
 	
@@ -65,6 +67,10 @@ public class NotificationDTO {
 		this.isSeen = isSeen;
 	}
 
+	public void setIsSeen(boolean isSeen) {
+		this.isSeen = isSeen;
+	}
+	
 	public PostDTO getPost() {
 		return post;
 	}
@@ -103,5 +109,21 @@ public class NotificationDTO {
 
 	public void setImgProfileNotificator(String imgProfileNotificator) {
 		this.imgProfileNotificator = imgProfileNotificator;
+	}
+
+	public String getNicknameProfileNotificator() {
+		return nicknameProfileNotificator;
+	}
+
+	public void setNicknameProfileNotificator(String nicknameProfileNotificator) {
+		this.nicknameProfileNotificator = nicknameProfileNotificator;
+	}
+
+	public String getIdPost() {
+		return idPost;
+	}
+
+	public void setIdPost(String idPost) {
+		this.idPost = idPost;
 	}
 }

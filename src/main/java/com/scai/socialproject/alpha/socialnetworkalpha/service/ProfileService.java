@@ -27,6 +27,8 @@ public interface ProfileService {
 	
 	public Profile findProfile(String idProfile);
 	
+	public Profile findProfileWithProPic(String idProfile);
+	
 	public boolean saveProfile(Profile profile);
 	
 	public boolean updateProfile(ProfileDTO profileDTO);
