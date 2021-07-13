@@ -145,7 +145,7 @@ public class DTONotificationUtils {
 			NotificationDTO tmp = DTONotificationFromNotification(n);
 			if(tmp.getProfileNotificator().getProPic() != null) {
 				try {
-					tmp.getProfileToNotify().setProPic(imgUtils.fileImgToBase64Encoding(tmp.getProfileNotificator().getProPic()));
+					tmp.getProfileNotificator().setProPic(imgUtils.fileImgToBase64Encoding(tmp.getProfileNotificator().getProPic()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -19,6 +20,8 @@ import com.scai.socialproject.alpha.socialnetworkalpha.utils.RequestUtils;
 @Component
 public class NotificationsWebSocketHandler extends TextWebSocketHandler{
 	private final Map<String, WebSocketSession> webSocketSessionsMap = new HashMap<>();
+	@Value("${deleteCode}")
+	private String DELETE_CODE;
 	@Autowired
 	private RequestUtils requestUtils;
 	@Autowired
@@ -42,7 +45,6 @@ public class NotificationsWebSocketHandler extends TextWebSocketHandler{
 					String key = entry.getKey();
 					webSocketSessionsMap.remove(key);
 					webSocketSessionsMap.put(idProfile, session);
-					System.out.println(webSocketSessionsMap);
 					return;
 				}
 			}
@@ -56,10 +58,12 @@ public class NotificationsWebSocketHandler extends TextWebSocketHandler{
 					ObjectMapper om = new ObjectMapper();
 					NotificationDTO notificationDTO = om.readValue(notification, NotificationDTO.class);
 					notificationDTO.setIdProfileNotificator(idProfileSession);
-					NotificationDTO notificationToSend = notificationService.addNotification(notificationDTO);
-					if(notificationToSend != null) {
-						if(webSocketSessionsMap.containsKey(notificationToSend.getIdProfileToNotify())) {
-							webSocketSessionsMap.get(notificationToSend.getIdProfileToNotify()).sendMessage(message);
+					if(!notificationDTO.getNicknameProfileNotificator().equals(DELETE_CODE)) {
+						notificationDTO = notificationService.addNotification(notificationDTO);
+					}
+					if(notificationDTO != null) {
+						if(webSocketSessionsMap.containsKey(notificationDTO.getIdProfileToNotify())) {
+							webSocketSessionsMap.get(notificationDTO.getIdProfileToNotify()).sendMessage(message);
 						}
 					}
 					break;

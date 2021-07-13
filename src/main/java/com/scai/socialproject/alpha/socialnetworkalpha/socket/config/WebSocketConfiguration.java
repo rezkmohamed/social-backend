@@ -4,6 +4,8 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
+import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
 import com.scai.socialproject.alpha.socialnetworkalpha.socket.handler.ChatWebSocketHandler;
 import com.scai.socialproject.alpha.socialnetworkalpha.socket.handler.NotificationsWebSocketHandler;
@@ -14,7 +16,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableWebSocket
-public class WebSocketConfiguration implements WebSocketConfigurer {
+
+public class WebSocketConfiguration extends WebSocketTransportRegistration implements WebSocketConfigurer {
 	@Value("${chatEndpoint}")
 	private String CHAT_ENDPOINT;
 	@Value("${notificationsEndpoint}")
@@ -31,6 +34,15 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
 		.addHandler(getNotificationsWebSocketHandler(), NOTIFICATIONS_ENDPOINT)
 		.setAllowedOrigins("*");
 	}
+	
+    @Bean
+    public ServletServerContainerFactoryBean createWebSocketContainer() {
+        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+        container.setMaxTextMessageBufferSize(20 * 10000);
+        container.setMaxBinaryMessageBufferSize(3* 512 * 1024);
+        return container;
+    }
+
 	
 	@Bean
 	public WebSocketHandler getChatWebSocketHandler() {
