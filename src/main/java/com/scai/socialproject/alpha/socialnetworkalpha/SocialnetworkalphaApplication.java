@@ -21,7 +21,8 @@ public class SocialnetworkalphaApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-				.allowedOrigins("http://localhost:4200")
+				//.allowedOrigins("http://localhost:4200")
+//				.allowedOrigins("https://60eef23bed63150007123bdf--silly-bose-c6201f.netlify.app/")
 				.allowedOrigins("*")
 				.allowedMethods("*")
 				.allowedHeaders("*")
