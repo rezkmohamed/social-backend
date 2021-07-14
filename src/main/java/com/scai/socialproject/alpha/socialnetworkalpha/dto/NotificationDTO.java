@@ -9,7 +9,7 @@ public class NotificationDTO {
 	private Date date;
 	private boolean isSeen;
 	private PostDTO post;
-	private String comment;
+	private String commentMessage;
 	private String idProfileNotificator;
 	private String idProfileToNotify;
 	private String imgProfileNotificator;
@@ -79,14 +79,6 @@ public class NotificationDTO {
 		this.post = post;
 	}
 
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
 	public String getIdProfileNotificator() {
 		return idProfileNotificator;
 	}
@@ -125,5 +117,13 @@ public class NotificationDTO {
 
 	public void setIdPost(String idPost) {
 		this.idPost = idPost;
+	}
+
+	public String getCommentMessage() {
+		return commentMessage;
+	}
+
+	public void setCommentMessage(String commentMessage) {
+		this.commentMessage = commentMessage;
 	}
 }

@@ -80,12 +80,12 @@ public class FollowsController {
 	
 	//OK
 	@DeleteMapping("/unfollow/{idFollowed}")
-	public ResponseEntity<String> deleteFollowByIdFollower(@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
+	public ResponseEntity<HttpStatus> deleteFollowByIdFollower(@PathVariable("idFollowed") String idFollowed, HttpServletRequest request) {
 		String idProfileFollower = requestUtils.idProfileFromToken(request);
 		if(followService.deleteFollow(idProfileFollower, idFollowed)) {
-			return new ResponseEntity<>("OK!", HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
-		return new ResponseEntity<>("SOME ERROR JUST HAPPENED", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

@@ -12,6 +12,7 @@ import com.scai.socialproject.alpha.socialnetworkalpha.entity.CommentLike;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Profile;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudComment;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudCommentLike;
+import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudNotification;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudProfile;
 
 @Service
@@ -22,6 +23,8 @@ public class CommentLikeServiceImpl implements CommentLikeService {
 	private CrudComment commentRepo;
 	@Autowired
 	private CrudProfile profileRepo;
+	@Autowired
+	private CrudNotification notificationsRepo;
 
 
 	@Override
@@ -85,6 +88,14 @@ public class CommentLikeServiceImpl implements CommentLikeService {
 	@Override
 	@Transactional
 	public boolean deleteCommentLike(String idComment, String idProfile) {
+		CommentLike commentLike = commentLikeRepo.findCommentLikeByIdCommentAndIdProfile(idComment, idProfile);
+		/**
+		 * FIXME:
+		 * REMOVE NOTIFICATION.
+		 */
+		String idPost = commentLike.getComment().getPost().getIdPost();
+		notificationsRepo.deleteCommentLikeNotification(idProfile, idPost, commentLike.getComment().getComment());
+		
 		return commentLikeRepo.deleteCommentLikeByIdCommentAndIdProfile(idComment, idProfile);
 	}
 

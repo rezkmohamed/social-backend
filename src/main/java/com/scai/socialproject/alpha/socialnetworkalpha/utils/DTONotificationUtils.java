@@ -133,7 +133,7 @@ public class DTONotificationUtils {
 		else {
 			ris.setPost(DTOPostUtils.postToDTO(notification.getPost()));
 			if(ris.getNotificationType() != NotificationTypeDTO.LIKE) {
-				ris.setComment(notification.getComment());
+				ris.setCommentMessage(notification.getComment());
 			}
 			return ris;
 		}

@@ -40,7 +40,7 @@ public class NotificationServiceImpl implements NotificationService{
 		if(notification.getNotificationType() != NotificationTypeDTO.FOLLOW) {
 			notif.setPost(postRepo.findPostEntityById(notification.getIdPost()));
 			if(notification.getNotificationType() != NotificationTypeDTO.LIKE) {
-				notif.setComment(notification.getComment());
+				notif.setComment(notification.getCommentMessage());
 			}
 		}
 		if(notificationRepo.addNewNotification(notif) != null) {

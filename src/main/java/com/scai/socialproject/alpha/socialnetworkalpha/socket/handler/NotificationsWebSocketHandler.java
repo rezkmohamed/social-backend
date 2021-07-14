@@ -58,7 +58,8 @@ public class NotificationsWebSocketHandler extends TextWebSocketHandler{
 					ObjectMapper om = new ObjectMapper();
 					NotificationDTO notificationDTO = om.readValue(notification, NotificationDTO.class);
 					notificationDTO.setIdProfileNotificator(idProfileSession);
-					if(!notificationDTO.getNicknameProfileNotificator().equals(DELETE_CODE)) {
+					if(!notificationDTO.getNicknameProfileNotificator().equals(DELETE_CODE) &&
+							!notificationDTO.getIdProfileNotificator().equals(notificationDTO.getIdProfileToNotify())) {
 						notificationDTO = notificationService.addNotification(notificationDTO);
 					}
 					if(notificationDTO != null) {

@@ -9,11 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.scai.socialproject.alpha.socialnetworkalpha.dto.FollowDTO;
 import com.scai.socialproject.alpha.socialnetworkalpha.entity.Follow;
 import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudFollow;
+import com.scai.socialproject.alpha.socialnetworkalpha.repository.CrudNotification;
 
 @Service
 public class FollowServiceImpl implements FollowService {
 	@Autowired
 	private CrudFollow followRepo;
+	@Autowired
+	private CrudNotification notificationsRepo;
 
 	
 	@Override
@@ -55,6 +58,8 @@ public class FollowServiceImpl implements FollowService {
 	@Override
 	@Transactional
 	public boolean deleteFollow(String idFollower, String idFollowed) {
+		notificationsRepo.deleteFollowNotification(idFollower, idFollowed);
+		
 		return followRepo.deleteFollow(idFollower, idFollowed);
 	}
 
