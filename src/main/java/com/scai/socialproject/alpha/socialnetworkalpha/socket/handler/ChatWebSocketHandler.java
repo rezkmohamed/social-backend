@@ -42,6 +42,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler{
 				}
 			}
 			
+			
+			
 		}
 		else {
 			String msg = message.getPayload();
